@@ -11,9 +11,14 @@ Files: keepassxc-browser/browser-polyfill.min.js
 Copyright: 2016-2018, Mozilla Foundation
 License: MPL-2.0
 
-Files: keepasscx-browser/jquery-3.3.1.min.js,
-       keepasscx-browser/jquery-ui.min.css,
-       keepasscx-browser/jquery-ui.min.js
+Files: keepassxc-browser/fonts/*
+Copyright: 2018, Fork Awesome (https://forkawesome.github.io), with Reserved
+ Font Name Fork Awesome.
+License: OFL-1.1
+
+Files: keepassxc-browser/jquery-3.3.1.min.js
+       keepassxc-browser/jquery-ui.min.css
+       keepassxc-browser/jquery-ui.min.js
 Copyright: JS Foundation and other contributors
 License: Expat
 
@@ -22,7 +27,6 @@ Copyright: 2019, Bruno Kleinert <fuddl@debian.org>
 License: GPL-2+
 
 License: Expat
-Comment:
  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in
  the Software without restriction, including without limitation the rights to
  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
@@ -41,7 +45,6 @@ Comment:
  SOFTWARE.
 
 License: GPL-2+
-Comment:
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
@@ -60,7 +63,6 @@ Comment:
  license text.
 
 License: GPL-3+
-Comment:
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
@@ -78,11 +80,10 @@ Comment:
  license text.
 
 License: MPL-2.0
-Comment: On a Debian system see `/usr/share/common-licenses/MPL-2.0` for the
- complete license text.
+ On a Debian system see `/usr/share/common-licenses/MPL-2.0` for the complete
+ license text.
 
 License: OFL-1.1
-Comment:
  This Font Software is licensed under the SIL Open Font License, Version 1.1.
  This license is copied below, and is also available with a FAQ at:
  http://scripts.sil.org/OFL
