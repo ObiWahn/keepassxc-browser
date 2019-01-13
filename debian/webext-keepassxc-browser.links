@@ -1,4 +1,4 @@
-usr/share/webext/keepassxc-browser  usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/keepassxc-browser
+usr/share/webext/keepassxc-browser  usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/keepassxc-browser@keepassxc.org
 
 # Font files we want to re-use from the existing Debian package
 usr/share/glewlwyd/webapp/fonts/glyphicons-halflings-regular.eot   usr/share/webext/keepassxc-browser/fonts/glyphicons-halflings-regular.eot
