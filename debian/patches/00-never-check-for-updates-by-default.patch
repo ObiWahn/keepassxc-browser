@@ -1,0 +1,13 @@
+Index: keepassxc-browser/keepassxc-browser/background/page.js
+===================================================================
+--- keepassxc-browser.orig/keepassxc-browser/background/page.js	2019-01-13 06:53:51.830446461 +0100
++++ keepassxc-browser/keepassxc-browser/background/page.js	2019-01-13 20:33:32.857702899 +0100
+@@ -1,7 +1,7 @@
+ 'use strict';
+ 
+ const defaultSettings = {
+-    checkUpdateKeePassXC: 3,
++    checkUpdateKeePassXC: 0,
+     autoCompleteUsernames: true,
+     autoFillAndSend: false,
+     usePasswordGenerator: true,
