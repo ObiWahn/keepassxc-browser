@@ -1,6 +1,2 @@
 # TODO directory obtained from dpkg -L firefox-esr. Is that correct?
 /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
-
-# We don't copy upstream's copy of the font files in that directory, but place
-# symbolic links in there. That's why we have to create the directory here.
-/usr/share/webext/keepassxc-browser/fonts
