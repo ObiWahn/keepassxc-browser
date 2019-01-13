@@ -7,9 +7,10 @@ usr/share/glewlwyd/webapp/fonts/glyphicons-halflings-regular.ttf   usr/share/web
 usr/share/glewlwyd/webapp/fonts/glyphicons-halflings-regular.woff  usr/share/webext/keepassxc-browser/fonts/glyphicons-halflings-regular.woff
 usr/share/glewlwyd/webapp/fonts/glyphicons-halflings-regular.woff2 usr/share/webext/keepassxc-browser/fonts/glyphicons-halflings-regular.woff2
 
+# FIXME uncomment the links in the future
 # jquery library we want to re-use from the existing Debian package
-usr/share/javascript/jquery/jquery.min.js usr/share/webext/keepassxc-browser/jquery-3.3.1.min.js
+#usr/share/javascript/jquery/jquery.min.js usr/share/webext/keepassxc-browser/jquery-3.3.1.min.js
 
 # jquery UI libarary we want to re-user from the existing Debian package
-usr/share/javascript/jquery-ui/themes/base/jquery-ui.min.css usr/share/webext/keepassxc-browser/jquery-ui.min.css
-usr/share/javascript/jquery-ui/jquery-ui.min.js usr/share/webext/keepassxc-browser/jquery-ui.min.js 
+#usr/share/javascript/jquery-ui/themes/base/jquery-ui.min.css usr/share/webext/keepassxc-browser/jquery-ui.min.css
+#usr/share/javascript/jquery-ui/jquery-ui.min.js usr/share/webext/keepassxc-browser/jquery-ui.min.js 

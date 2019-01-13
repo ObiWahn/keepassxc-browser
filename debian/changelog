@@ -1,5 +1,6 @@
-keepassxc-browser (1.3.2-1) UNRELEASED; urgency=medium
+keepassxc-browser (1.3.2-1~local) UNRELEASED; urgency=medium
 
   * Initial release. (Closes: #XXXXXX)
+  * Version that uses embedded query code copies.
 
  -- Bruno Kleinert <fuddl@debian.org>  Sat, 12 Jan 2019 19:03:20 +0100
