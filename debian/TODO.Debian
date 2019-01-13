@@ -1,4 +1,3 @@
 There are jquery 3.3.1 libaries copies included. It's not possible to replace
-them with the packaged libraries, yet.
-
-Wait until it works with the packaged libraries.
+them with the packaged libraries, yet: Wait until it works with the packaged
+libraries.
