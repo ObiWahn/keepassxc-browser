@@ -1,0 +1,25 @@
+Source: keepassxc-browser
+Section: web
+Priority: optional
+Maintainer: Bruno Kleinert <fuddl@debian.org>
+Build-Depends: debhelper-compat (= 11)
+Standards-Version: 4.3.0
+Homepage: https://github.com/keepassxreboot/keepassxc-browser
+
+Package: webext-keepassxc-browser
+Architecture: all
+Depends:
+ ${misc:Depends},
+ firefox (>= 52) | firefox-esr (>= 52),
+ keepassxc
+Description: Extension to store web site credentials in KeePassXC
+ KeePassXC is a free/open-source password manager or safe which helps you
+ to manage your passwords in a secure way. You can put all your
+ passwords in one database, which is locked with one master key or a
+ key-disk. So you only have to remember one single master password or
+ insert the key-disk to unlock the whole database. The databases are
+ encrypted using the algorithms AES or Twofish.
+ .
+ This package contains a Web Browser extension for Firefox to connect to
+ KeePassXC. Please note that KeePassXC must be running for this extension to
+ work!
