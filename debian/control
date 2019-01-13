@@ -13,7 +13,7 @@ Depends:
  firefox (>= 52) | firefox-esr (>= 52),
  keepassxc,
  fonts-glewlwyd,
- libjs-jquery,
+ libjs-jquery (>= 3.3.1),
  libjs-jquery-ui
 Description: Extension to store web site credentials in KeePassXC
  KeePassXC is a free/open-source password manager or safe which helps you
