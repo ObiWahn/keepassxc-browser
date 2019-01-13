@@ -1,1 +1,22 @@
-keepassxc-browser usr/share/webext/
+keepassxc-browser/background usr/share/webext/keepassxc-browser/
+keepassxc-browser/browser-polyfill.min.js usr/share/webext/keepassxc-browser/
+
+# Link to font files in package fonts-glewlwyd instead
+#keepassxc-browser/fonts usr/share/webext/keepassxc-browser/
+
+keepassxc-browser/global.js usr/share/webext/keepassxc-browser/
+keepassxc-browser/icons usr/share/webext/keepassxc-browser/
+
+# TODO Link to the files provided in libjs-jquery* packages instead
+keepassxc-browser/jquery-3.3.1.min.js usr/share/webext/keepassxc-browser/
+keepassxc-browser/jquery-ui.min.css usr/share/webext/keepassxc-browser/
+keepassxc-browser/jquery-ui.min.js usr/share/webext/keepassxc-browser/
+
+keepassxc-browser/keepassxc-browser.css usr/share/webext/keepassxc-browser/
+keepassxc-browser/keepassxc-browser.js usr/share/webext/keepassxc-browser/
+keepassxc-browser/_locales usr/share/webext/keepassxc-browser/
+keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
+keepassxc-browser/options usr/share/webext/keepassxc-browser/
+keepassxc-browser/popups usr/share/webext/keepassxc-browser/
+keepassxc-browser/requests.js usr/share/webext/keepassxc-browser/
+keepassxc-browser/translate.js usr/share/webext/keepassxc-browser/
