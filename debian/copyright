@@ -22,6 +22,10 @@ Files: keepassxc-browser/jquery-3.3.1.min.js
 Copyright: JS Foundation and other contributors
 License: Expat
 
+Files: keepassxc-browser/options/bootstrap.min.js
+Copyright: 2011-2016 Twitter, Inc.
+License: Expat
+
 Files: debian/*
 Copyright: 2019, Bruno Kleinert <fuddl@debian.org>
 License: GPL-2+
