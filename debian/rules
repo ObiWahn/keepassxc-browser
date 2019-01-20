@@ -3,3 +3,7 @@
 %:
 	dh $@
 
+override_dh_fixperms:
+	dh_fixperms
+	chmod -x debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/icons/key.svg
+	chmod -x debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/manifest.json
