@@ -24,7 +24,7 @@ License: Expat
 
 Files: keepassxc-browser/options/bootstrap.min.js
        keepassxc-browser/options/bootstrap.min.css
-Copyright: 2011-2016 Twitter, Inc. (http://getbootstrap.com)
+Copyright: 2011-2016, Twitter, Inc. (http://getbootstrap.com)
 License: Expat
 Comment: These files are not included in the resulting binary package. Instead,
  they are replaced by the ones packaged in libjs-bootstrap.
