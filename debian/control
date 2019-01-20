@@ -21,4 +21,5 @@ Description: Browser extension to store web site credentials in KeePassXC
  connects to the password manager KeePassXC. See package keepassxc for its
  description.
  .
- Please note that KeePassXC must be running for this extension to work!
+ Please note that KeePassXC must not only be running, but also be configured
+ accordingly, for this extension to work!
