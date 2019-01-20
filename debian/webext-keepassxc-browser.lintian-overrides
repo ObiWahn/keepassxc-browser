@@ -1,0 +1,5 @@
+# Those code copies can not be replace by the packages, yet. See
+# /usr/share/doc/webext-keepassxc-browser/TODO.Debian for details.
+embedded-javascript-library usr/share/webext/keepassxc-browser/jquery-3.3.1.min.js please use libjs-jquery
+embedded-javascript-library usr/share/webext/keepassxc-browser/jquery-ui.min.css please use libjs-jquery-ui
+embedded-javascript-library usr/share/webext/keepassxc-browser/jquery-ui.min.js please use libjs-jquery-ui
