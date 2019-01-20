@@ -12,9 +12,9 @@ source-is-missing keepassxc-browser/jquery-ui.min.js
 # From Mozilla
 source-is-missing keepassxc-browser/browser-polyfill.min.js
 
-# Origin unclear or KeePassXC upstream
-source-is-missing keepassxc-browser/background/nacl-util.min.js
+# From TweetNaCl and TweetNaCl utils
 source-is-missing keepassxc-browser/background/nacl.min.js
+source-is-missing keepassxc-browser/background/nacl-util.min.js
 
 # From Twitter bootstrap
 source-is-missing keepassxc-browser/options/bootstrap.min.js
