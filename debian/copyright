@@ -8,7 +8,7 @@ Copyright: 2017-2019, KeePassXC team <team@keepassxc.org>
 License: GPL-3+
 
 Files: keepassxc-browser/browser-polyfill.min.js
-Copyright: 2016-2018, Mozilla Foundation
+Copyright: 2016-2018, Mozilla Foundation, https://github.com/mozilla/webextension-polyfill
 License: MPL-2.0
 
 Files: keepassxc-browser/fonts/*
