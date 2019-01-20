@@ -16,7 +16,13 @@ keepassxc-browser/keepassxc-browser.css usr/share/webext/keepassxc-browser/
 keepassxc-browser/keepassxc-browser.js usr/share/webext/keepassxc-browser/
 keepassxc-browser/_locales usr/share/webext/keepassxc-browser/
 keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
-keepassxc-browser/options usr/share/webext/keepassxc-browser/
+
+# This looks awkward because most, but not all files of the options directory
+# shall be installed. The two bootstrap.* files are to be replaced by symlinks.
+keepassxc-browser/options/h* usr/share/webext/keepassxc-browser/options/
+keepassxc-browser/options/o* usr/share/webext/keepassxc-browser/options/
+keepassxc-browser/options/s* usr/share/webext/keepassxc-browser/options/
+
 keepassxc-browser/popups usr/share/webext/keepassxc-browser/
 keepassxc-browser/requests.js usr/share/webext/keepassxc-browser/
 keepassxc-browser/translate.js usr/share/webext/keepassxc-browser/

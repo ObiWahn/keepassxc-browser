@@ -12,6 +12,7 @@ Depends:
  ${misc:Depends},
  libjs-jquery (>= 3.3.1),
  libjs-jquery-ui,
+ libjs-bootstrap,
  fonts-glewlwyd,
  keepassxc
 Recommends:
