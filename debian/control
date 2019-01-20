@@ -10,19 +10,15 @@ Package: webext-keepassxc-browser
 Architecture: all
 Depends:
  ${misc:Depends},
- firefox (>= 52) | firefox-esr (>= 52),
- keepassxc,
- fonts-glewlwyd,
  libjs-jquery (>= 3.3.1),
- libjs-jquery-ui
-Description: Extension to store web site credentials in KeePassXC
- KeePassXC is a free/open-source password manager or safe which helps you
- to manage your passwords in a secure way. You can put all your
- passwords in one database, which is locked with one master key or a
- key-disk. So you only have to remember one single master password or
- insert the key-disk to unlock the whole database. The databases are
- encrypted using the algorithms AES or Twofish.
+ libjs-jquery-ui,
+ fonts-glewlwyd,
+ keepassxc
+Recommends:
+ firefox (>= 52) | firefox-esr (>= 52) | chromium (>= 69.0.3497.100)
+Description: Browser extension to store web site credentials in KeePassXC
+ KeePassXC-Browser is a web browser extension for Firefox and Chromium that
+ connects to the password manager KeePassXC. See package keepassxc for its
+ description.
  .
- This package contains a Web Browser extension for Firefox to connect to
- KeePassXC. Please note that KeePassXC must be running for this extension to
- work!
+ Please note that KeePassXC must be running for this extension to work!
