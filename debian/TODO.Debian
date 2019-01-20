@@ -1,3 +1,32 @@
 There are jquery 3.3.1 libaries copies included. It's not possible to replace
 them with the packaged libraries, yet: Wait until it works with the packaged
 libraries.
+
+Twitter bootstrap JS library
+============================
+Replace code copies
+
+keepassxc-browser/options/bootstrap.min.js
+keepassxc-browser/options/bootstrap.min.css
+
+from http://getbootstrap.com with packaged files if/when available.
+
+TweetNaCl-(Util-)JS libraries
+=============================
+Raplace code copies
+
+keepassxc-browser/background/nacl.min.js
+keepassxc-browser/background/nacl-util.min.js
+
+from https://github.com/dchest/tweetnacl-js/ and
+https://github.com/dchest/tweetnacl-util-js/ with packaged files if/when
+available.
+
+Mozilla Chrome compatibility library
+====================================
+Replace
+
+keepassxc-browser/browser-polyfill.min.js
+
+from https://github.com/mozilla/webextension-polyfill with packaged file if/when
+available.
