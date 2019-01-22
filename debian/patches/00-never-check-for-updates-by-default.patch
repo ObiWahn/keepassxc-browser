@@ -1,3 +1,7 @@
+When users chose to install the extension via the package manager, it is safe to
+assume that they don't want to be bothered by popup messages when there is a new
+upstream release of the extension available via other update channels.
+
 Index: keepassxc-browser/keepassxc-browser/background/page.js
 ===================================================================
 --- keepassxc-browser.orig/keepassxc-browser/background/page.js	2019-01-13 06:53:51.830446461 +0100
