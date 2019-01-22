@@ -1,13 +1,12 @@
 keepassxc-browser/background usr/share/webext/keepassxc-browser/
-keepassxc-browser/browser-polyfill.min.js usr/share/webext/keepassxc-browser/
 
-# Link to font files in package fonts-glewlwyd instead
-#keepassxc-browser/fonts usr/share/webext/keepassxc-browser/
+# TODO Replace polyfill library
+keepassxc-browser/browser-polyfill.min.js usr/share/webext/keepassxc-browser/
 
 keepassxc-browser/global.js usr/share/webext/keepassxc-browser/
 keepassxc-browser/icons usr/share/webext/keepassxc-browser/
 
-# FIXME Link to the files provided in libjs-jquery* packages instead
+# TODO Link to the files provided in libjs-jquery* packages instead
 keepassxc-browser/jquery-3.3.1.min.js usr/share/webext/keepassxc-browser/
 keepassxc-browser/jquery-ui.min.css usr/share/webext/keepassxc-browser/
 keepassxc-browser/jquery-ui.min.js usr/share/webext/keepassxc-browser/
@@ -17,9 +16,13 @@ keepassxc-browser/keepassxc-browser.js usr/share/webext/keepassxc-browser/
 keepassxc-browser/_locales usr/share/webext/keepassxc-browser/
 keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
 
-# This looks awkward because most, but not all files of the options directory
-# shall be installed. The two bootstrap.* files are to be replaced by symlinks.
-keepassxc-browser/options/h* usr/share/webext/keepassxc-browser/options/
+# This looks awkward because most, but not all, files of the options directory
+# shall be installed. Both files
+#   bootstrap.min.css
+#   bootstrap.min.js
+# get replaced by symbolic links pointing equivalent files from package
+# libjs-bootstrap.
+keepassxc-browser/options/http-auth-dialog.png usr/share/webext/keepassxc-browser/options/
 keepassxc-browser/options/o* usr/share/webext/keepassxc-browser/options/
 keepassxc-browser/options/s* usr/share/webext/keepassxc-browser/options/
 

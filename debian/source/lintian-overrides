@@ -2,10 +2,10 @@
 # printing", but can still be edited. That's why I consider lintian's output a
 # false alarm.
 #
-# TODO Where possible, I will try to replace them by packaged JavaScript
-# libraries (See TODO.Debian).
+# Where possible, embedded "compressed" code copies get replaced by packaged
+# JavaScript libraries (See also TODO.Debian).
 
-# Copies of jQuery and jQuery UI
+# From jQuery and jQuery UI
 source-is-missing keepassxc-browser/jquery-3.3.1.min.js
 source-is-missing keepassxc-browser/jquery-ui.min.js
 
@@ -16,5 +16,5 @@ source-is-missing keepassxc-browser/browser-polyfill.min.js
 source-is-missing keepassxc-browser/background/nacl.min.js
 source-is-missing keepassxc-browser/background/nacl-util.min.js
 
-# From Twitter bootstrap
+# From Twitter bootstrap. Is replaced during build.
 source-is-missing keepassxc-browser/options/bootstrap.min.js
