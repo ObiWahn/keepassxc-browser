@@ -19,8 +19,6 @@ Comment: These files are not included in the resultung binary package. Instead,
  they are replaced by the ones packaged in fonts-glewlwyd.
 
 Files: keepassxc-browser/jquery-3.3.1.min.js
-       keepassxc-browser/jquery-ui.min.css
-       keepassxc-browser/jquery-ui.min.js
 Copyright: JS Foundation and other contributors
 License: Expat
 
