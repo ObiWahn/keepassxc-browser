@@ -5,6 +5,7 @@ keepassxc-browser (1.4.6-1) UNRELEASED; urgency=medium
     * Remove lintian overrides.
     * Update copyright file.
   * Added to package description what the package is for.
+  * Declare compliance with Standards version 4.4.0. No changes.
 
  -- Bruno Kleinert <fuddl@debian.org>  Sun, 14 Jul 2019 14:25:00 +0200
 
