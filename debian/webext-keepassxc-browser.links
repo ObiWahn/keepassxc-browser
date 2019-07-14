@@ -15,11 +15,6 @@ usr/share/glewlwyd/webapp/fonts/glyphicons-halflings-regular.woff2 usr/share/web
 # TODO jQuery library we want to re-use from the existing Debian package.
 #usr/share/javascript/jquery/jquery.min.js usr/share/webext/keepassxc-browser/jquery-3.3.1.min.js
 
-# TODO jQuery UI libarary we want to re-user from the existing Debian package.
-# Dependends: libjs-jquery-ui
-#usr/share/javascript/jquery-ui/themes/base/jquery-ui.min.css usr/share/webext/keepassxc-browser/jquery-ui.min.css
-#usr/share/javascript/jquery-ui/jquery-ui.min.js usr/share/webext/keepassxc-browser/jquery-ui.min.js
-
 # Re-use JavaScript files from existing Debian package.
 # Dependends: libjs-bootstrap
 usr/share/javascript/bootstrap/js/bootstrap.min.js usr/share/webext/keepassxc-browser/options/bootstrap.min.js
