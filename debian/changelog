@@ -1,6 +1,10 @@
 keepassxc-browser (1.4.6-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Upstream removed jQuery UI code copy:
+    * Remove lintian overrides.
+    * Update copyright file.
+  * Added to package description what the package is for.
 
  -- Bruno Kleinert <fuddl@debian.org>  Sun, 14 Jul 2019 14:25:00 +0200
 
