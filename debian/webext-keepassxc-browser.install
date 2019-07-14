@@ -1,18 +1,8 @@
 keepassxc-browser/background usr/share/webext/keepassxc-browser/
-
-# TODO Replace polyfill library
-keepassxc-browser/browser-polyfill.min.js usr/share/webext/keepassxc-browser/
-
-keepassxc-browser/global.js usr/share/webext/keepassxc-browser/
-keepassxc-browser/icons usr/share/webext/keepassxc-browser/
-
-# TODO Link instead to the file provided in libjs-jquery package
-keepassxc-browser/jquery-3.3.1.min.js usr/share/webext/keepassxc-browser/
-
 keepassxc-browser/content usr/share/webext/keepassxc-browser/
 keepassxc-browser/css usr/share/webext/keepassxc-browser/
+keepassxc-browser/icons usr/share/webext/keepassxc-browser/
 keepassxc-browser/_locales usr/share/webext/keepassxc-browser/
-keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
 
 # This looks awkward because most, but not all, files of the options directory
 # should be installed. Both files
@@ -25,4 +15,14 @@ keepassxc-browser/options/o* usr/share/webext/keepassxc-browser/options/
 keepassxc-browser/options/s* usr/share/webext/keepassxc-browser/options/
 
 keepassxc-browser/popups usr/share/webext/keepassxc-browser/
+
+# TODO Replace polyfill library
+keepassxc-browser/browser-polyfill.min.js usr/share/webext/keepassxc-browser/
+
+keepassxc-browser/global.js usr/share/webext/keepassxc-browser/
+
+# TODO Link instead to the file provided in libjs-jquery package
+keepassxc-browser/jquery-3.3.1.min.js usr/share/webext/keepassxc-browser/
+
+keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
 keepassxc-browser/translate.js usr/share/webext/keepassxc-browser/
