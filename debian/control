@@ -17,7 +17,7 @@ Recommends:
  firefox (>= 52) | firefox-esr (>= 52) | chromium (>= 69.0.3497.100)
 Description: Browser extension to store web site credentials in KeePassXC
  KeePassXC-Browser is a web browser extension for Firefox and Chromium that
- connects to the password manager KeePassXC. It allows to store and retrieve
+ connects to the password manager KeePassXC. It allows one to store and retrieve
  credentials for web site in/from KeePassXC. See package keepassxc for its
  description.
  .
