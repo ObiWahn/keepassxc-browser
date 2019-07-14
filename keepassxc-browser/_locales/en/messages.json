@@ -23,6 +23,10 @@
         "message": "Save credentials",
         "description": "Save credentials using the extension popup icon."
     },
+    "contextMenuShowPasswordGenerator": {
+        "message": "Show password generator",
+        "description": "Show password generator text."
+    },
     "rememberCredentialsPopup": {
         "message": "Create or modify the credentials by clicking on the extension icon.",
         "description": "Notification text when saving credentials from the context menu."
@@ -52,16 +56,16 @@
         "description": "Cannot decrypt message."
     },
     "errorMessageTimeout": {
-        "message": "Timeout or not connected to KeePassXC.",
-        "description": "Timeout or not connected to KeePassXC."
+        "message": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings.",
+        "description": "Cannot connect to KeePassXC. Check that browser integration is enabled in KeePassXC settings."
     },
     "errorMessageCanceled": {
         "message": "Action canceled or denied.",
         "description": "Action canceled or denied."
     },
     "errorMessageEncrypt": {
-        "message": "Cannot encrypt message or public key not found. Is native messaging or support for your browser enabled in KeePassXC?",
-        "description": "Cannot encrypt message or public key not found. Is native messaging or support for your browser enabled in KeePassXC?"
+        "message": "Message encryption failed. Is KeePassXC running?",
+        "description": "Message encryption failed. Is KeePassXC running?"
     },
     "errorMessageAssociate": {
         "message": "KeePassXC association failed, try again.",
@@ -95,6 +99,10 @@
         "message": "No logins found.",
         "description": "No logins found."
     },
+    "passwordGeneratorIcon": {
+        "message": "Password generator icon",
+        "description": "Alt attribute text of the password generator icon."
+    },
     "passwordGeneratorPlaceholder": {
         "message": "Generated password",
         "description": "Input field placeholder for generated password."
@@ -104,7 +112,7 @@
         "description": "Checkbox text below the password generator input field."
     },
     "passwordGeneratorBits": {
-        "message": "??? Bits",
+        "message": "$1 Bits",
         "description": "Bits of the generated password."
     },
     "passwordGeneratorTitle": {
@@ -115,6 +123,10 @@
         "message": "Generate",
         "description": "Generate button text in password generator."
     },
+    "passwordGeneratorTryAgain": {
+        "message": "Try again",
+        "description": "Generate button text in password generator when not connected."
+    },
     "passwordGeneratorCopy": {
         "message": "Copy",
         "description": "Copy button text in password generator."
@@ -124,7 +136,15 @@
         "description": "Fill and copy button text in password generator."
     },
     "passwordGeneratorErrorTooLong": {
-        "message": "Error:\nThe generated password is longer than the allowed length!\nIt has been cut to fit the length.\n\nPlease remember the new password!",
+        "message": "Error: The generated password is longer than the allowed length!",
+        "description": "A warning text shown in the password generator."
+    },
+    "passwordGeneratorErrorTooLongCut": {
+        "message": "It has been cut to fit the length.",
+        "description": "A warning text shown in the password generator."
+    },
+    "passwordGeneratorErrorTooLongRemember": {
+        "message": "Please remember the new password!",
         "description": "A warning text shown in the password generator."
     },
     "passwordGeneratorGenerateText": {
@@ -132,7 +152,11 @@
         "description": "Password icon title text."
     },
     "passwordGeneratorError": {
-        "message": "Cannot receive generated password.<br />Is KeePassXC running?",
+        "message": "Cannot receive generated password.",
+        "description": "Password generator error text when KeePassXC is closed."
+    },
+    "passwordGeneratorErrorIsRunning": {
+        "message": "Is KeePassXC running and connected?",
         "description": "Password generator error text when KeePassXC is closed."
     },
     "defineDismiss": {
@@ -142,6 +166,10 @@
     "defineSkip": {
         "message": "Skip",
         "description": "Skip button text when choosing custom login fields."
+    },
+    "defineMore": {
+        "message": "Show more",
+        "description": "More button text when choosing custom login fields."
     },
     "defineAgain": {
         "message": "Again",
@@ -179,6 +207,10 @@
         "message": "Please confirm your selection or choose more fields as <em>String fields</em>.",
         "description": "Confirm a selection text when choosing custom login fields which contains string fields."
     },
+    "defineKeyboardText": {
+        "message": "You can also use the numbers to choose the input fields from keyboard.",
+        "description": "Help text when choosing custom login fields."
+    },
     "username": {
         "message": "Username",
         "description": "General text for username."
@@ -192,27 +224,35 @@
         "description": "Shown when no username is set in the credentials."
     },
     "credentialsNoLoginsFound": {
-        "message": "Error:\nNo logins found.",
+        "message": "Error: No logins found.",
         "description": "Shown when no credentials are found for the current page."
     },
     "credentialsMultipleFound": {
-        "message": "Error:\nMore than one login was found in KeePassXC!\nPress the KeePassXC-Browser icon for more options.",
+        "message": "Error: More than one login was found in KeePassXC!",
+        "description": "Alert message when trying to fill username and/or password when multiple credentials are found."
+    },
+    "credentialsMultipleFoundSecondLine": {
+        "message": "Press the KeePassXC-Browser icon for more options.",
         "description": "Alert message when trying to fill username and/or password when multiple credentials are found."
     },
     "credentialsNoUsernameFound": {
-        "message": "Error:\nNo credentials for the given username found.",
+        "message": "Error: No credentials for the given username found.",
         "description": "Alert message when no credentials are found for the given username."
     },
+    "credentialExpired": {
+        "message": "Expired",
+        "description": "If a credential is expired, this is appended to the title label."
+    },
     "fieldsFill": {
-        "message": "Error:\nCannot find fields to fill in.",
+        "message": "Error: Cannot find fields to fill in.",
         "description": "Alert message when no fields are found to fill in."
     },
     "fieldsNoPasswordField": {
-        "message": "Error:\nUnable to find a password field.",
+        "message": "Error: Unable to find a password field.",
         "description": "Message shown when no password fields are found."
     },
     "rememberNothingChanged": {
-        "message": "Error:\nCould not detect changed credentials.",
+        "message": "Error: Could not detect changed credentials.",
         "description": "Message shown when trying to save credentials that haven't changed."
     },
     "popupTitle": {
@@ -302,6 +342,26 @@
     "popupRememberChooseCredentials": {
         "message": "Please choose the credentials you want to update.",
         "description": "A popup message shown choosing what credentials user wants to update."
+    },
+    "popupRememberChooseGroup": {
+        "message": "Please choose the group you want to add the new credentials.",
+        "description": "A popup message shown choosing what group user wants to use for new credentials."
+    },
+    "popupRememberInfoDefaultGroupNotFound": {
+        "message": "Info: Default group created in connected database.",
+        "description": "Info message shown when default group set cannot be found."
+    },
+    "popupRememberErrorCreatingNewGroup": {
+        "message": "Error: New group(s) cannot be created.",
+        "description": "Error message shown when new groups cannot be created."
+    },
+    "popupRememberErrorPasswordNotChanged": {
+        "message": "Error: Credentials not updated. The password has not been changed.",
+        "description": "Error message shown when credential password is not changed."
+    },
+    "popupRememberErrorCannotSaveCredentials": {
+        "message": "Error: Credentials cannot be saved or updated.",
+        "description": "Error message shown when credentials cannot be saved or updated."
     },
     "popupLoginText": {
         "message": "Select the login information you would like to get entered into the page.",
@@ -443,6 +503,22 @@
         "message": "Maximum (Number of) Redirects:",
         "description": "RMaximum (Number of) Redirects options text."
     },
+    "optionsLabelDefaultGroup": {
+        "message": "Default group for saving new passwords:",
+        "description": "Default group options text."
+    },
+    "optionsDefaultGroupHelpText": {
+        "message": "Separate the group with slashes, for example: Group/ChildGroup.",
+        "description": "Default group help text."
+    },
+    "optionsLabelDefaultGroupCheckboxText": {
+        "message": "Always ask where to save new credentials",
+        "description": "Default group checkbox help text."
+    },
+    "optionsLabelDefaultGroupCheckboxHelpText": {
+        "message": "When enabled, the popup shows a group listing.",
+        "description": "Default checkbox explanation help text."
+    },
     "optionsCheckboxUsePasswordGenerator": {
         "message": "Activate password generator.",
         "description": "Activate password generator checkbox text."
@@ -451,6 +527,14 @@
         "message": "Automatically retrieve credentials.",
         "description": "Automatically retrieve credentials checkbox text."
     },
+    "optionsCheckboxAutomaticReconnect": {
+        "message": "Automatically reconnect to KeePassXC.",
+        "description": "Auto-reconnect checkbox text."
+    },
+    "optionsAutomaticReconnectWarning": {
+        "message": "Warning! This feature is experimental. Use at your own risk.",
+        "description": "Auto-reconnect warning message."
+    },
     "optionsCheckboxAutoFillSingleEntry": {
         "message": "Automatically fill in single-credential entries.",
         "description": "Automatically fill-in single credential entry checkbox text."
@@ -458,6 +542,14 @@
     "optionsCheckboxAutoCompleteUsernames": {
         "message": "Activate autocomplete for username fields.",
         "description": "Activate autocomplete for username fields checkbox text."
+    },
+    "optionsCheckboxAutoSubmit": {
+        "message": "Auto-submit login forms",
+        "description": "Auto-submit checkbox text."
+    },
+    "optionsAutoSubmitHelpText": {
+        "message": "Automatically submits selected credentials. This is disabled for single entry auto-fill.",
+        "description": "Auto-submit help text."
     },
     "optionsCheckboxShowNotifications": {
         "message": "Show notifications.",
@@ -526,6 +618,10 @@
     "optionsAutoRetrieveCredentialsHelpText": {
         "message": "KeePassXC-Browser will immediately retrieve credentials when a tab is activated.",
         "description": "Auto-Retrive Credentials option help text."
+    },
+    "optionsAutomaticReconnectHelpText": {
+        "message": "Reconnects automatically to KeePassXC when it is detected.",
+        "description": "Auto-reconnect option help text."
     },
     "optionsAutoFillSingleEntryHelpText": {
         "message": "Let KeePassXC-Browser automatically fill in credentials if it receives only a single entry.",
@@ -667,6 +763,10 @@
         "message": "No saved custom login fields found.",
         "description": "Shown when no saved custom credentials are saved."
     },
+    "optionsCustomFieldsTableCaption": {
+        "message": "You can manage saved custom login fields using the table below.",
+        "description": "Table caption of Custom login fields page."
+    },
     "optionsCustomFieldsTabHelpTextFirst": {
         "message": "If KeePassXC-Browser detects the wrong login fields, you are able to specify the correct fields yourself.",
         "description": "Saved custom login fields info text, first part."
@@ -716,7 +816,7 @@
         "description": "Site preferences info text, fourth part."
     },
     "optionsSitePreferencesManualAddText": {
-        "message": "Add URL manually:",
+        "message": "Add URL manually",
         "description": "Label for adding site manually on Site preferences tab."
     },
     "optionsSitePreferencesConfirmation": {
@@ -726,6 +826,14 @@
     "optionsSitePreferencesConfirmationHelpText": {
         "message": "KeePassXC-Browser will enable all features for this site and remove username-only detection.",
         "description": "Part of confirmation text when removing site preferences."
+    },
+    "optionsSitePreferencesTableCaption": {
+        "message": "You can manage saved site preferences using the table below.",
+        "description": "Table caption of Site Preferences page."
+    },
+    "optionsSitePreferencesSelect": {
+        "message": "Option to ignore extension features for the page.",
+        "description": "Title text of select element in Site Preferences."
     },
     "optionsAboutChrome": {
         "message": "Visit KeePassXC-Browser in the Chrome Web Store.",
@@ -748,11 +856,47 @@
         "description": "About page text of KeePassXC version."
     },
     "optionsAboutContributors": {
-        "message": "Contributors:",
+        "message": "Contributors",
         "description": "About page text of contributors."
     },
     "optionsAboutLicenses": {
-        "message": "Licenses:",
+        "message": "Licenses",
         "description": "About page text of licenses."
+    },
+    "optionsAboutReportBugs": {
+        "message": "Report bugs",
+        "description": "About page text of reporting bugs."
+    },
+    "optionsAboutCreateNewIssue": {
+        "message": "Create new issue on GitHub",
+        "description": "Link text for creating a new issue."
+    },
+    "optionsAboutDebugInfo": {
+        "message": "The following debug info can be used",
+        "description": "Debug info text."
+    },
+    "optionsErrorInvalidValue": {
+        "message": "Invalid value. Please check the input.",
+        "description": "Error shown when input field has an incorrect value."
+    },
+    "optionsErrorInvalidURL": {
+        "message": "Invalid URL. Please check the input.",
+        "description": "Error shown when input field has an incorrect URL."
+    },
+    "optionsErrorValueExists": {
+        "message": "The value already exists in the list.",
+        "description": "Error shown when trying to add a duplicate value to the list."
+    },
+    "openNewTab": {
+        "message": "Opens a new tab",
+        "description": "Title attribute text."
+    },
+    "httpAuthDialog": {
+        "message": "HTTP Basic Authentication dialog",
+        "description": "Options page HTTP Basic Auth dialog text"
+    },
+    "autocompleteSubmitMessage": {
+        "message": "Your selection will be auto-submitted",
+        "description": "Message shown at the bottom of autocomplete menu."
     }
 }

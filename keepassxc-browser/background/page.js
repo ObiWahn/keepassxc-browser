@@ -6,10 +6,14 @@ const defaultSettings = {
     autoFillAndSend: false,
     usePasswordGenerator: true,
     autoFillSingleEntry: false,
+    autoSubmit: false,
     autoRetrieveCredentials: true,
     showNotifications: true,
     showLoginNotifications: true,
-    saveDomainOnly: true
+    saveDomainOnly: true,
+    autoReconnect: false,
+    defaultGroup: '',
+    defaultGroupAlwaysAsk: false
 };
 
 var page = {};
@@ -20,7 +24,7 @@ page.loginId = -1;
 
 page.initSettings = function() {
     return new Promise((resolve, reject) => {
-        browser.storage.local.get({'settings': {}}).then((item) => {
+        browser.storage.local.get({ 'settings': {} }).then((item) => {
             page.settings = item.settings;
             if (!('checkUpdateKeePassXC' in page.settings)) {
                 page.settings.checkUpdateKeePassXC = defaultSettings.checkUpdateKeePassXC;
@@ -37,6 +41,9 @@ page.initSettings = function() {
             if (!('autoFillSingleEntry' in page.settings)) {
                 page.settings.autoFillSingleEntry = defaultSettings.autoFillSingleEntry;
             }
+            if (!('autoSubmit' in page.settings)) {
+                page.settings.autoSubmit = defaultSettings.autoSubmit;
+            }
             if (!('autoRetrieveCredentials' in page.settings)) {
                 page.settings.autoRetrieveCredentials = defaultSettings.autoRetrieveCredentials;
             }
@@ -49,7 +56,16 @@ page.initSettings = function() {
             if (!('saveDomainOnly' in page.settings)) {
                 page.settings.saveDomainOnly = defaultSettings.saveDomainOnly;
             }
-            browser.storage.local.set({'settings': page.settings});
+            if (!('autoReconnect' in page.settings)) {
+                page.settings.autoReconnect = defaultSettings.autoReconnect;
+            }
+            if (!('defaultGroup' in page.settings)) {
+                page.settings.defaultGroup = defaultSettings.defaultGroup;
+            }
+            if (!('defaultGroupAlwaysAsk' in page.settings)) {
+                page.settings.defaultGroupAlwaysAsk = defaultSettings.defaultGroupAlwaysAsk;
+            }
+            browser.storage.local.set({ 'settings': page.settings });
             resolve(page.settings);
         });
     });
@@ -62,14 +78,14 @@ page.initOpenedTabs = function() {
                 page.createTabEntry(i.id);
             }
 
-            // set initial tab-ID
-            browser.tabs.query({ 'active': true, 'currentWindow': true }).then((tabs) => {
-                if (tabs.length === 0) {
+            // Set initial tab-ID
+            browser.tabs.query({ 'active': true, 'currentWindow': true }).then((currentTabs) => {
+                if (currentTabs.length === 0) {
                     resolve();
                     return; // For example: only the background devtools or a popup are opened
                 }
-                page.currentTabId = tabs[0].id;
-                browserAction.show(null, tabs[0]);
+                page.currentTabId = currentTabs[0].id;
+                browserAction.show(null, currentTabs[0]);
                 resolve();
             });
         });
@@ -84,7 +100,7 @@ page.isValidProtocol = function(url) {
 
 page.switchTab = function(callback, tab) {
     browserAction.showDefault(null, tab);
-    browser.tabs.sendMessage(tab.id, {action: 'activated_tab'}).catch((e) => {});
+    browser.tabs.sendMessage(tab.id, { action: 'activated_tab' }).catch((e) => {});
 };
 
 page.clearCredentials = function(tabId, complete) {
@@ -121,51 +137,21 @@ page.createTabEntry = function(tabId) {
 };
 
 page.removePageInformationFromNotExistingTabs = function() {
-    let rand = Math.floor(Math.random()*1001);
+    const rand = Math.floor(Math.random() * 1001);
     if (rand === 28) {
         browser.tabs.query({}).then(function(tabs) {
-            let $tabIds = [];
-            const $infoIds = Object.keys(page.tabs);
+            const tabIds = [];
+            const infoIds = Object.keys(page.tabs);
 
             for (const t of tabs) {
-                $tabIds[t.id] = true;
+                tabIds[t.id] = true;
             }
 
-            for (const i of $infoIds) {
-                if (!(i in $tabIds)) {
+            for (const i of infoIds) {
+                if (!(i in tabIds)) {
                     delete page.tabs[i];
                 }
             }
         });
-    }
-};
-
-page.debugConsole = function() {
-    if (arguments.length > 1) {
-        console.log(page.sprintf(arguments[0], arguments));
-    }
-    else {
-        console.log(arguments[0]);
-    }
-};
-
-page.sprintf = function(input, args) {
-    return input.replace(/{(\d+)}/g, (match, number) => {
-      return typeof args[number] !== 'undefined' ? (typeof args[number] === 'object' ? JSON.stringify(args[number]) : args[number]) : match;
-    });
-};
-
-page.debugDummy = function() {};
-
-page.debug = page.debugDummy;
-
-page.setDebug = function(bool) {
-    if (bool) {
-        page.debug = page.debugConsole;
-        return 'Debug mode enabled';
-    }
-    else {
-        page.debug = page.debugDummy;
-        return 'Debug mode disabled';
     }
 };
