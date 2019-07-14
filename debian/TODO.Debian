@@ -1,17 +1,14 @@
-jQuery and jQuery UI libraries
-==============================
+jQuery library
+==============
 lintian warnings:
 W: webext-keepassxc-browser: embedded-javascript-library usr/share/webext/keepassxc-browser/jquery-3.3.1.min.js please use libjs-jquery
-W: webext-keepassxc-browser: embedded-javascript-library usr/share/webext/keepassxc-browser/jquery-ui.min.css please use libjs-jquery-ui
-W: webext-keepassxc-browser: embedded-javascript-library usr/share/webext/keepassxc-browser/jquery-ui.min.js please use libjs-jquery-ui
 
-There are jQuery 3.3.1 libaries copies included. At the moment it's not possible
-to replace them with the packages in the archive, as they are too old (3.2.1-1).
+There is a jQuery 3.3.1 libary copy included. At the moment it's not possible
+to replace it with the package in the archive, as they are too old (3.2.1-1).
 I tried to replace the code copy by the packaged version, but they broke the
 extension silently.
 
-Let's wait for libjs-jquery, libjs-jquery-ui to be updated in the archive and
-try again.
+Let's wait for libjs-jquery to be updated in the archive and try again.
 
 TweetNaCl-(Util-)JS libraries
 =============================
