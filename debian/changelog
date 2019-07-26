@@ -6,6 +6,8 @@ keepassxc-browser (1.4.6-1) UNRELEASED; urgency=medium
     * Update copyright file.
   * Added to package description what the package is for.
   * Declare compliance with Standards version 4.4.0. No changes.
+  * Updated 00-never-check-for-updates-by-default.patch: Really disable update
+    checking.
 
  -- Bruno Kleinert <fuddl@debian.org>  Sun, 14 Jul 2019 14:25:00 +0200
 
