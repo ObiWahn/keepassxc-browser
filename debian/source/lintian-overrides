@@ -5,6 +5,9 @@
 # Where possible, embedded "compressed" code copies get replaced by packaged
 # JavaScript libraries (See also TODO.Debian).
 
+# From jQuery
+source-is-missing keepassxc-browser/jquery-3.3.1.min.js
+
 # From Mozilla
 source-is-missing keepassxc-browser/browser-polyfill.min.js
 
