@@ -21,6 +21,8 @@ Comment: These files are not included in the resultung binary package. Instead,
 Files: keepassxc-browser/jquery-3.3.1.min.js
 Copyright: JS Foundation and other contributors
 License: Expat
+Comment: This file is not included in the resultung binary package. Instead, it
+ is replaced by the one packaged in libjs-jquery.
 
 Files: keepassxc-browser/options/bootstrap.min.js
        keepassxc-browser/options/bootstrap.min.css

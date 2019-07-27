@@ -22,7 +22,7 @@ keepassxc-browser/browser-polyfill.min.js usr/share/webext/keepassxc-browser/
 keepassxc-browser/global.js usr/share/webext/keepassxc-browser/
 
 # TODO Link instead to the file provided in libjs-jquery package
-keepassxc-browser/jquery-3.3.1.min.js usr/share/webext/keepassxc-browser/
+#keepassxc-browser/jquery-3.3.1.min.js usr/share/webext/keepassxc-browser/
 
 keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
 keepassxc-browser/translate.js usr/share/webext/keepassxc-browser/

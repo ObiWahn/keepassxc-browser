@@ -8,6 +8,7 @@ keepassxc-browser (1.4.6-1) UNRELEASED; urgency=medium
   * Declare compliance with Standards version 4.4.0. No changes.
   * Updated 00-never-check-for-updates-by-default.patch: Really disable update
     checking.
+  * Replaced jQuery code copy. Added dependency on libjs-jquery.
 
  -- Bruno Kleinert <fuddl@debian.org>  Sun, 14 Jul 2019 14:25:00 +0200
 
