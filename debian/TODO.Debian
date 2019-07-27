@@ -1,15 +1,3 @@
-jQuery library
-==============
-lintian warnings:
-W: webext-keepassxc-browser: embedded-javascript-library usr/share/webext/keepassxc-browser/jquery-3.3.1.min.js please use libjs-jquery
-
-There is a jQuery 3.3.1 libary copy included. At the moment it's not possible
-to replace it with the package in the archive, as they are too old (3.2.1-1).
-I tried to replace the code copy by the packaged version, but they broke the
-extension silently.
-
-Let's wait for libjs-jquery to be updated in the archive and try again.
-
 TweetNaCl-(Util-)JS libraries
 =============================
 Raplace code copies
