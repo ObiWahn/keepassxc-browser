@@ -1,4 +1,4 @@
-keepassxc-browser (1.4.6-1) UNRELEASED; urgency=medium
+keepassxc-browser (1.4.7-1) UNRELEASED; urgency=medium
 
   * New upstream release.
   * Upstream removed jQuery UI code copy:
@@ -10,7 +10,7 @@ keepassxc-browser (1.4.6-1) UNRELEASED; urgency=medium
     checking.
   * Replaced jQuery code copy. Added dependency on libjs-jquery.
 
- -- Bruno Kleinert <fuddl@debian.org>  Sun, 14 Jul 2019 14:25:00 +0200
+ -- Bruno Kleinert <fuddl@debian.org>  Sun, 28 Jul 2019 18:32:41 +0200
 
 keepassxc-browser (1.3.2-1) unstable; urgency=medium
 
