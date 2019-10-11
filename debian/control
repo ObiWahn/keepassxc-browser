@@ -3,15 +3,13 @@ Section: web
 Priority: optional
 Maintainer: Bruno Kleinert <fuddl@debian.org>
 Build-Depends: debhelper-compat (= 11)
-Standards-Version: 4.4.0
+Standards-Version: 4.4.1
 Homepage: https://github.com/keepassxreboot/keepassxc-browser
 
 Package: webext-keepassxc-browser
 Architecture: all
 Depends:
  ${misc:Depends},
- libjs-bootstrap,
- libjs-jquery,
  fonts-glewlwyd,
  keepassxc
 Recommends:
