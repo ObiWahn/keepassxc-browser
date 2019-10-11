@@ -21,15 +21,11 @@ Comment: These files are not included in the resultung binary package. Instead,
 Files: keepassxc-browser/jquery-3.3.1.min.js
 Copyright: JS Foundation and other contributors
 License: Expat
-Comment: This file is not included in the resultung binary package. Instead, it
- is replaced by the one packaged in libjs-jquery.
 
 Files: keepassxc-browser/options/bootstrap.min.js
        keepassxc-browser/options/bootstrap.min.css
 Copyright: 2011-2016, Twitter, Inc. (http://getbootstrap.com)
 License: Expat
-Comment: These files are not included in the resulting binary package. Instead,
- they are replaced by the ones packaged in libjs-bootstrap.
 
 Files: keepassxc-browser/background/nacl.min.js
 Copyright: 2017-2018, TweetNaCl-js contributors, https://github.com/dchest/tweetnacl-js/
