@@ -1,22 +1,10 @@
-TweetNaCl-(Util-)JS libraries
-=============================
-Raplace code copies
-
-keepassxc-browser/background/nacl.min.js
-keepassxc-browser/background/nacl-util.min.js
-
-from https://github.com/dchest/tweetnacl-js/ and
-https://github.com/dchest/tweetnacl-util-js/ with packaged files if/when
-available.
-
-Mozilla Chrome compatibility library
-====================================
-Replace
-
-keepassxc-browser/browser-polyfill.min.js
-
-from https://github.com/mozilla/webextension-polyfill with packaged file if/when
-available.
+Replace JavaScript code copies
+==============================
+A couple of "compressed" JS files are bundled with KeePassXC-Browser. Some of
+them could in theory be replaced by symbolic links into existing packages.
+However, Firefox started to refuse to follow symbolic links, see
+https://bugs.debian.org/922944. As a result of that bug, I'm currently not
+working on a solution.
 
 Firefox caches KeePassXC-Browser pages
 ======================================
