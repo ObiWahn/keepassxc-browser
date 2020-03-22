@@ -7,3 +7,10 @@ override_dh_fixperms:
 	dh_fixperms
 	chmod -x debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/icons/key.svg
 	chmod -x debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/manifest.json
+
+override_dh_install:
+	dh_install
+	# TODO Set Built-Using in debian/control!
+	mkdir -p debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/fonts
+	install /usr/share/fonts-fork-awesome/css/fork-awesome.css debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/fonts/
+	install /usr/share/fonts-fork-awesome/fonts/forkawesome-webfont.woff2 debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/fonts/
