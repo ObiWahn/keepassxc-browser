@@ -1,19 +1,25 @@
 keepassxc-browser/background usr/share/webext/keepassxc-browser/
+debian/missing-sources/nacl.js usr/share/webext/keepassxc-browser/
+debian/missing-sources/nacl-utils.js usr/share/webext/keepassxc-browser/
+
+debian/missing-sources/bootstrap.css usr/share/webext/keepassxc-browser/bootstrap/
+debian/missing-sources/bootstrap.js usr/share/webext/keepassxc-browser/bootstrap/
+debian/missing-sources/jquer-3.4.1.js usr/share/webext/keepassxc-browser/bootstrap/
+
 keepassxc-browser/content usr/share/webext/keepassxc-browser/
 keepassxc-browser/css usr/share/webext/keepassxc-browser/
-# We skip fonts/, we symlink them.
+
+# Copy fonts-fork-awesome files. TODO Requires Built-Using in d/control!
+/usr/share/fonts-fork-awesome/css/fork-awesome.css usr/share/webext/keepassxc-browser/fonts/
+/usr/share/fonts-fork-awesome/fonts/forkawesome-webfont.woff2 usr/share/webext/keepassxc-browser/fonts/
+
 keepassxc-browser/icons usr/share/webext/keepassxc-browser/
 keepassxc-browser/_locales usr/share/webext/keepassxc-browser/
 keepassxc-browser/options usr/share/webext/keepassxc-browser/
 keepassxc-browser/popups usr/share/webext/keepassxc-browser/
 
-# TODO Replace polyfill library
-keepassxc-browser/browser-polyfill.min.js usr/share/webext/keepassxc-browser/
+debian/missing-sources/browser-polyfill.js usr/share/webext/keepassxc-browser/
 
 keepassxc-browser/global.js usr/share/webext/keepassxc-browser/
-
-# TODO Link instead to the file provided in libjs-jquery package
-keepassxc-browser/jquery-3.3.1.min.js usr/share/webext/keepassxc-browser/
-
 keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
 keepassxc-browser/translate.js usr/share/webext/keepassxc-browser/
