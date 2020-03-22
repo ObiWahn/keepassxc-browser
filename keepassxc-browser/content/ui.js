@@ -1,16 +1,42 @@
 'use strict';
 
 // jQuery style wrapper for querySelector()
-var $ = function(elem) {
+const $ = function(elem) {
     return document.querySelector(elem);
 };
 
 // Returns a string with 'px' for CSS styles
-var Pixels = function(value) {
+const Pixels = function(value) {
     return String(value) + 'px';
 };
 
-var kpxcUI = {};
+// Basic icon class
+class Icon {
+    constructor() {
+        try {
+            this.observer = new IntersectionObserver((entries) => {
+                kpxcUI.updateFromIntersectionObserver(this, entries);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    switchIcon(locked) {
+        if (!this.icon) {
+            return;
+        }
+
+        if (locked) {
+            this.icon.style.filter = 'saturate(0%)';
+        } else {
+            this.icon.style.filter = 'saturate(100%)';
+        }
+    }
+}
+
+const kpxcUI = {};
+kpxcUI.mouseDown = false;
 
 // Wrapper for creating elements
 kpxcUI.createElement = function(type, classes, attributes, textContent) {
@@ -36,6 +62,18 @@ kpxcUI.createElement = function(type, classes, attributes, textContent) {
     return element;
 };
 
+kpxcUI.monitorIconPosition = function(iconClass) {
+    // Handle icon position on resize
+    window.addEventListener('resize', function(e) {
+        kpxcUI.updateIconPosition(iconClass);
+    });
+
+    // Handle icon position on scroll
+    window.addEventListener('scroll', function(e) {
+        kpxcUI.updateIconPosition(iconClass);
+    });
+};
+
 kpxcUI.updateIconPosition = function(iconClass) {
     if (iconClass.inputField && iconClass.icon) {
         kpxcUI.setIconPosition(iconClass.icon, iconClass.inputField);
@@ -48,7 +86,11 @@ kpxcUI.setIconPosition = function(icon, field) {
     const size = Number(icon.getAttribute('size'));
 
     icon.style.top = Pixels((rect.top + document.scrollingElement.scrollTop) + offset + 1);
-    icon.style.left = Pixels((rect.left + document.scrollingElement.scrollLeft) + field.offsetWidth - size - offset);
+    if (document.dir === 'rtl') {
+        icon.style.left = Pixels((rect.left + document.scrollingElement.scrollLeft) + offset);
+    } else {
+        icon.style.left = Pixels((rect.left + document.scrollingElement.scrollLeft) + field.offsetWidth - size - offset);
+    }
 };
 
 /**
@@ -113,15 +155,36 @@ const DOMRectToArray = function(domRect) {
     return [ domRect.bottom, domRect.height, domRect.left, domRect.right, domRect.top, domRect.width, domRect.x, domRect.y ];
 };
 
+const initColorTheme = function(elem) {
+    const colorTheme = kpxc.settings['colorTheme'];
+
+    if (colorTheme === undefined || colorTheme === 'system') {
+        elem.removeAttribute('data-color-theme');
+    } else {
+        elem.setAttribute('data-color-theme', colorTheme);
+    }
+};
+
+const createStylesheet = function(file) {
+    const stylesheet = document.createElement('link');
+    stylesheet.setAttribute('rel', 'stylesheet');
+    stylesheet.setAttribute('href', browser.runtime.getURL(file));
+    return stylesheet;
+};
+
 // Enables dragging
 document.addEventListener('mousemove', function(e) {
-    if (kpxcPassword.selected === kpxcPassword.titleBar) {
-        const xPos = e.clientX - kpxcPassword.diffX;
-        const yPos = e.clientY - kpxcPassword.diffY;
+    if (!kpxcUI.mouseDown) {
+        return;
+    }
 
-        if (kpxcPassword.selected !== null) {
-            kpxcPassword.dialog.style.left = Pixels(xPos);
-            kpxcPassword.dialog.style.top = Pixels(yPos);
+    if (kpxcPasswordDialog.selected === kpxcPasswordDialog.titleBar) {
+        const xPos = e.clientX - kpxcPasswordDialog.diffX;
+        const yPos = e.clientY - kpxcPasswordDialog.diffY;
+
+        if (kpxcPasswordDialog.selected !== null) {
+            kpxcPasswordDialog.dialog.style.left = Pixels(xPos);
+            kpxcPasswordDialog.dialog.style.top = Pixels(yPos);
         }
     }
 
@@ -136,9 +199,14 @@ document.addEventListener('mousemove', function(e) {
     }
 });
 
+document.addEventListener('mousedown', function() {
+    kpxcUI.mouseDown = true;
+});
+
 document.addEventListener('mouseup', function() {
-    kpxcPassword.selected = null;
+    kpxcPasswordDialog.selected = null;
     kpxcDefine.selected = null;
+    kpxcUI.mouseDown = false;
 });
 
 HTMLDivElement.prototype.appendMultiple = function(...args) {
@@ -149,4 +217,17 @@ HTMLDivElement.prototype.appendMultiple = function(...args) {
 
 Element.prototype.getLowerCaseAttribute = function(attr) {
     return this.getAttribute(attr) ? this.getAttribute(attr).toLowerCase() : undefined;
+};
+
+Element.prototype._attachShadow = Element.prototype.attachShadow;
+Element.prototype.attachShadow = function () {
+    return this._attachShadow({ mode: 'closed' });
+};
+
+Object.prototype.shadowSelector = function(value) {
+    return this.shadowRoot ? this.shadowRoot.querySelector(value) : undefined;
+};
+
+Object.prototype.shadowSelectorAll = function(value) {
+    return this.shadowRoot ? this.shadowRoot.querySelectorAll(value) : undefined;
 };

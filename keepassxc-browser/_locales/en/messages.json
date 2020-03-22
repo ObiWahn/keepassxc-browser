@@ -167,6 +167,14 @@
         "message": "Username field icon",
         "description": "Username field icon text."
     },
+    "totpFieldText": {
+        "message": "Fill TOTP from KeePassXC",
+        "description": "OTP field icon hover text."
+    },
+    "totpFieldIcon": {
+        "message": "TOTP field icon",
+        "description": "OTP field icon text."
+    },
     "defineDismiss": {
         "message": "Dismiss",
         "description": "Dismiss button text when choosing custom login fields."
@@ -272,7 +280,7 @@
         "description": "Popup Settings button text."
     },
     "popupChooseCredentialsText": {
-        "message": "Choose custom login fields for this page",
+        "message": "Choose custom login fields",
         "description": "Popup credential choosing button text."
     },
     "popupConnectButton": {
@@ -304,7 +312,7 @@
         "description": "A text shown above error message in the popup."
     },
     "popupUpdateAvailable": {
-        "message": "You use an old version of KeePassXC.",
+        "message": "You are using an old version of KeePassXC.",
         "description": "Popup warning message about old version of KeePassXC."
     },
     "popupDownloadNewVersion": {
@@ -531,9 +539,17 @@
         "message": "Cancel",
         "description": "Cancel button text when removing database key or custom login fields."
     },
-     "optionsButtonReset": {
+    "optionsButtonReset": {
         "message": "Reset",
         "description": "Reset button text for keyboard shortcuts."
+    },
+    "optionsButtonImport": {
+        "message": "Import settings",
+        "description": "Import settings button text."
+    },
+    "optionsButtonExport": {
+        "message": "Export settings",
+        "description": "Export settings button text."
     },
     "optionsLabelDefaultGroup": {
         "message": "Default group for saving new passwords:",
@@ -559,6 +575,18 @@
         "message": "Activate username field icons.",
         "description": "Activate username field icons textbox text."
     },
+    "optionsUseObserver": {
+        "message": "Use dynamic input field detection.",
+        "description": "Use dynamic input field detection checkbox text."
+    },
+    "optionsUseObserverHelpText": {
+        "message": "Useful with pages that use popups or dynamic dialogs. Disable the feature to reduce CPU load on slower machines. When disabled credentials can be only inserted using keyboard shortcuts, the context menu or the extension popup.",
+        "description": "Use dynamic input field detection help text."
+    },
+    "optionsCheckboxOTPIcons": {
+        "message": "Activate 2FA/OTP field icons.",
+        "description": "Activate OTP field icons textbox text."
+    },
     "optionsCheckboxAutoRetrieveCredentials": {
         "message": "Automatically retrieve credentials.",
         "description": "Automatically retrieve credentials checkbox text."
@@ -579,6 +607,10 @@
         "message": "Activate autocomplete for username fields.",
         "description": "Activate autocomplete for username fields checkbox text."
     },
+    "optionsCheckboxShowGroupNameInAutocomplete": {
+        "message": "Display the group name in autocomplete list when credentials are from different groups.",
+        "description": "Show group name in autocomplete checkbox text."
+    },
     "optionsCheckboxAutoSubmit": {
         "message": "Auto-submit login forms",
         "description": "Auto-submit checkbox text."
@@ -598,6 +630,14 @@
     "optionsCheckboxShowLoginNotifications": {
         "message": "Show a banner on the page when new credentials can be saved to the database.",
         "description": "Show login notifications checkbox text."
+    },
+    "optionsRedirectAllowance": {
+        "message": "Number of allowed redirects: $1",
+        "description": "Redirect allowance range input text."
+    },
+    "optionsRedirectAllowanceHelpText": {
+        "message": "How many redirects are allowed until the banner disappears. Default value is 1. Maximum is infinite.",
+        "description": "Redirect allowance help text."
     },
     "optionsCheckboxAutoFillAndSend": {
         "message": "Automatically fill in HTTP Basic Auth dialogs and submit them.",
@@ -623,6 +663,26 @@
         "message": "never",
         "description": "Radio button text."
     },
+    "optionsThemeSelectionHeader": {
+        "message": "Color theme",
+        "description": "Theme selection header text."
+    },
+    "optionsThemeSelection": {
+        "message": "Select color theme",
+        "description": "Theme selection title text."
+    },
+    "optionsThemeSystem": {
+        "message": "System",
+        "description": "System theme text."
+    },
+    "optionsThemeDark": {
+        "message": "Dark",
+        "description": "Dark theme text."
+    },
+    "optionsThemeLight": {
+        "message": "Light",
+        "description": "Light theme text."
+    },
     "optionsKeyboardShortcutsHeader": {
         "message": "Keyboard shortcuts",
         "description": "Keyboard shortcut header text."
@@ -638,6 +698,10 @@
     "optionsShowLoginFormIconHelpText": {
         "message": "Adds an icon to username fields for filling credentials with a single mouse click.",
         "description": "Username field icon option help text."
+    },
+    "optionsShowOTPIconHelpText": {
+        "message": "Adds an icon to input fields that are recognized as OTP/2FA.",
+        "description": "OTP field icon option help text."
     },
     "optionsAutoRetrieveCredentialsHelpText": {
         "message": "KeePassXC-Browser will immediately retrieve credentials when a tab is activated.",
@@ -659,12 +723,20 @@
         "message": "Show a dropdown list containing available credentials for all username fields on a page.",
         "description": "Autocomplete Usernames option help text."
     },
+    "optionsShowGroupNameInAutocompleteHelpText": {
+        "message": "When credentials are returned from different groups, the group name will be shown.",
+        "description": "Show group name in autocomplete help text."
+    },
     "optionsShowNotificationsHelpText": {
         "message": "Show notifications for errors and when user interaction is required.",
         "description": "Show notifications option help text."
     },
     "optionsSaveDomainOnlyHelpText": {
         "message": "When saving new credentials, save only the domain instead of full URL.",
+        "description": "Save domain only option help text."
+    },
+    "optionsSaveDomainOnlyCustomLoginHelpText": {
+        "message": "When saving new custom login fields, save only the domain instead of full URL.",
         "description": "Save domain only option help text."
     },
     "optionsAutoFillAndSendHelpText": {
@@ -691,6 +763,10 @@
         "message": "Latest available version of KeePassXC: $1",
         "description": "Settings page info text about the latest KeePassXC version."
     },
+    "optionsKeePassXCVersionRequired": {
+        "message": "Requires KeePassXC version: $1",
+        "description": "KeePassXC version requirement text."
+    },
     "optionsDefault": {
         "message": "Default: $1",
         "description": "Default setting text."
@@ -715,6 +791,18 @@
         "message": "Error: Shortcut for $1 has not been changed!",
         "description": "Error message for changing keyboard shortcuts."
     },
+    "optionsImportExportSettings": {
+        "message": "Import/Export settings",
+        "description": "Settings page header text for import/export."
+    },
+    "optionsImportSettingsDialogTitle": {
+        "message": "Import settings from external file?",
+        "description": "Import settings confirmation dialog title text."
+    },
+    "optionsImportSettingsDialogText": {
+        "message": "Current settings will be overridden. Do you really want to import the settings file?",
+        "description": "Import settings confirmation dialog help text."
+    },
     "optionsConnectedDatabasesText": {
         "message": "The following KeePassXC databases are connected to KeePassXC-Browser.",
         "description": "Info text about connected databases."
@@ -728,7 +816,7 @@
         "description": "Confirmation text when removing database from the list."
     },
     "optionsDatabasesRemoveIdentifierConfirmFirst": {
-        "message": "Do you really want to remove the following identifier from the database list?",
+        "message": "Do you really want to remove the following identifier from the database list: $1",
         "description": "Confirmation text when removing database from the list."
     },
     "optionsDatabasesRemoveIdentifierConfirmSecond": {
@@ -788,7 +876,7 @@
         "description": "Shown when no saved custom credentials are saved."
     },
     "optionsCustomFieldsTableCaption": {
-        "message": "You can manage saved custom login fields using the table below.",
+        "message": "You can manage saved custom login fields using the table above.",
         "description": "Table caption of Custom login fields page."
     },
     "optionsCustomFieldsTabHelpTextFirst": {
@@ -843,6 +931,10 @@
         "message": "Add URL manually",
         "description": "Label for adding site manually on Site preferences tab."
     },
+    "optionsSitePreferencesManualAddHelp": {
+        "message": "The URL must start with either <code>https://</code>, <code>http://</code>, or <code>ftp://</code> and must be at least 10 characters long.",
+        "description": "Help text for adding site manually on Site preferences tab."
+    },
     "optionsSitePreferencesConfirmation": {
         "message": "Do you really want to remove the specified site from the list: $1",
         "description": "Confirmation text when removing site from site preferences."
@@ -852,7 +944,7 @@
         "description": "Part of confirmation text when removing site preferences."
     },
     "optionsSitePreferencesTableCaption": {
-        "message": "You can manage saved site preferences using the table below.",
+        "message": "You can manage saved site preferences using the table above.",
         "description": "Table caption of Site Preferences page."
     },
     "optionsSitePreferencesSelect": {
@@ -910,6 +1002,30 @@
     "optionsErrorValueExists": {
         "message": "The value already exists in the list.",
         "description": "Error shown when trying to add a duplicate value to the list."
+    },
+    "optionsUserInterfaceTitle": {
+      "message": "User interface",
+      "description": "User interface title in settings page"
+    },
+    "optionsFillingCredentialsTitle": {
+      "message": "Filling credentials",
+      "description": "Filling credentials title in settings page"
+    },
+    "optionsSavingCredentialsTitle": {
+      "message": "Saving credentials",
+      "description": "Saving credentials title in settings page"
+    },
+    "optionsUpdatesTitle": {
+      "message": "Updates",
+      "description": "Updates title in settings page"
+    },
+    "optionsAdvancedSettingsTitle": {
+      "message": "Advanced settings",
+      "description": "Advanced settings title in settings page"
+    },
+    "optionsExtensionTitle": {
+      "message": "Extension",
+      "description": "Extension title in settings page"
     },
     "openNewTab": {
         "message": "Opens a new tab",
