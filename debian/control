@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Bruno Kleinert <fuddl@debian.org>
 Build-Depends: debhelper-compat (= 11), fonts-fork-awesome
-Standards-Version: 4.4.1
+Standards-Version: 4.5.0
 Homepage: https://github.com/keepassxreboot/keepassxc-browser
 
 Package: webext-keepassxc-browser
