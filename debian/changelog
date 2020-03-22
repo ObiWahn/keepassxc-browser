@@ -1,4 +1,4 @@
-keepassxc-browser (1.6.0-1) unstable; urgency=medium
+keepassxc-browser (1.6.0+repack-1) unstable; urgency=medium
 
   * Initial release. (Closes: #919190)
 
