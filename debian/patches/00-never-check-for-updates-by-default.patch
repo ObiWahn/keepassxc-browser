@@ -4,14 +4,14 @@ upstream release of the extension available via other update channels.
 
 Index: keepassxc-browser/keepassxc-browser/background/page.js
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/background/page.js	2019-10-11 12:52:57.052284865 +0800
-+++ keepassxc-browser/keepassxc-browser/background/page.js	2019-10-11 12:52:57.044284890 +0800
-@@ -1,7 +1,7 @@
- 'use strict';
- 
- const defaultSettings = {
+--- keepassxc-browser.orig/keepassxc-browser/background/page.js	2020-03-22 12:01:18.135639337 +0100
++++ keepassxc-browser/keepassxc-browser/background/page.js	2020-03-22 12:01:30.659423658 +0100
+@@ -8,7 +8,7 @@
+     autoReconnect: false,
+     autoRetrieveCredentials: true,
+     autoSubmit: false,
 -    checkUpdateKeePassXC: 3,
-+    checkUpdateKeePassXC: '0',
-     autoCompleteUsernames: true,
-     autoFillAndSend: false,
-     usePasswordGeneratorIcons: false,
++    checkUpdateKeePassXC: 0,
+     colorTheme: 'system',
+     defaultGroup: '',
+     defaultGroupAlwaysAsk: false,
