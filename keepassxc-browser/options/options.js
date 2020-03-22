@@ -17,6 +17,7 @@ $(async function() {
         options.initCustomCredentialFields();
         options.initSitePreferences();
         options.initAbout();
+        options.initTheme();
     } catch (err) {
         console.log('Error loading options page: ' + err);
     }
@@ -25,12 +26,12 @@ $(async function() {
 var options = options || {};
 
 options.initMenu = function() {
-    $('.navbar:first ul.nav:first li a').click(function(e) {
+    $('.sidebar:first ul.nav:first li a').click(function(e) {
         e.preventDefault();
-        $('.navbar:first ul.nav:first li').removeClass('active');
+        $('.sidebar:first ul.nav:first li').removeClass('active');
         $(this).parent('li').addClass('active');
         $('div.tab').hide();
-        $('div.tab#tab-' + $(this).attr('href').substring(1)).fadeIn();
+        $('div.tab#tab-' + $(this).attr('href').substring(1)).removeClass('d-none').fadeIn();
     });
 
     $('div.tab:first').show();
@@ -76,6 +77,18 @@ options.saveKeyRing = async function() {
 };
 
 options.initGeneralSettings = function() {
+    if (options.settings['colorTheme'] === undefined) {
+        $('#tab-general-settings select#colorTheme').val('system');
+    } else {
+        $('#tab-general-settings select#colorTheme').val(options.settings['colorTheme']);
+    }
+
+    $('#tab-general-settings select:first').change(async function() {
+        options.settings['colorTheme'] = $(this).val();
+        await options.saveSettingsPromise();
+        location.reload();
+    });
+
     $('#tab-general-settings input[type=checkbox]').each(function() {
         $(this).attr('checked', options.settings[$(this).attr('name')]);
         if ($(this).attr('name') === 'defaultGroupAlwaysAsk' && $(this).attr('checked')) {
@@ -84,6 +97,10 @@ options.initGeneralSettings = function() {
             $('#defaultGroupButtonReset').prop('disabled', true);
         }
     });
+
+    $('#tab-general-settings input[type=range]').val(options.settings['redirectAllowance']);
+    $('#redirectAllowanceLabel').text(tr('optionsRedirectAllowance',
+        options.settings['redirectAllowance'] === 11 ? 'Infinite' : String(options.settings['redirectAllowance'])));
 
     $('#tab-general-settings input[type=checkbox]').change(function() {
         const name = $(this).attr('name');
@@ -111,13 +128,25 @@ options.initGeneralSettings = function() {
     $('#tab-general-settings input#defaultGroup').val(options.settings['defaultGroup']);
 
     $('#tab-general-settings input[type=radio]').each(function() {
-        if ($(this).val() === options.settings[$(this).attr('name')]) {
+        if ($(this).val() === String(options.settings[$(this).attr('name')])) {
             $(this).attr('checked', options.settings[$(this).attr('name')]);
         }
     });
 
     $('#tab-general-settings input[type=radio]').change(function() {
         options.settings[$(this).attr('name')] = Number($(this).val());
+        options.saveSettings();
+    });
+
+    // Change label text dynamically with the range input
+    $('#tab-general-settings input[type=range]').on('propertychange input', function(e) {
+        const currentValue = e.target.valueAsNumber === 11 ? 'Infinite' : e.target.value;
+        $('#redirectAllowanceLabel').text(tr('optionsRedirectAllowance', currentValue));
+    });
+
+    // Only save the setting when mouse is released from the range input
+    $('#tab-general-settings input[type=range]').change(function(e) {
+        options.settings['redirectAllowance'] = e.target.valueAsNumber;
         options.saveSettings();
     });
 
@@ -135,7 +164,7 @@ options.initGeneralSettings = function() {
 
     browser.commands.getAll().then(function(commands) {
         commands.forEach(function(command) {
-            let shortcut = document.getElementById(`${command.name}-shortcut`);
+            const shortcut = document.getElementById(`${command.name}-shortcut`);
             if (!shortcut) {
                 return;
             }
@@ -144,8 +173,9 @@ options.initGeneralSettings = function() {
     });
 
     $('#configureCommands').click(function() {
+        const scheme = isEdge() ? 'edge' : 'chrome';
         browser.tabs.create({
-            url: isFirefox() ? browser.runtime.getURL('options/shortcuts.html') : 'chrome://extensions/configureCommands'
+            url: isFirefox() ? browser.runtime.getURL('options/shortcuts.html') : `${scheme}://extensions/shortcuts`
         });
     });
 
@@ -162,6 +192,69 @@ options.initGeneralSettings = function() {
         options.settings['defaultGroup'] = '';
         options.saveSettings();
     });
+
+    let temporarySettings;
+    $('#dialogImportSettings').modal({ keyboard: true, show: false, backdrop: true });
+    $('#importSettingsButton').click(function() {
+        var link = document.createElement('input');
+        link.setAttribute('type', 'file');
+        link.onchange = function(e) {
+            const reader = new FileReader();
+
+            if (e.target.files.length > 0) {
+                reader.readAsText(e.target.files[0]);
+            }
+
+            reader.onloadend = function(ev) {
+                try {
+                    const contents = JSON.parse(ev.target.result);
+
+                    // A quick check that this is the KeePassXC-Browser settings file
+                    if (contents['checkUpdateKeePassXC'] === undefined
+                        || contents['autoCompleteUsernames'] === undefined
+                        || contents['autoFillAndSend'] === undefined) {
+                        console.log('Error: Not a KeePassXC-Browser settings file.');
+                        return;
+                    }
+
+                    // Verify the import
+                    temporarySettings = contents;
+                    $('#dialogImportSettings').data('hash', $(this).closest('tr').data('hash'));
+                    $('#dialogImportSettings .modal-body:first span:first').text($(this).closest('tr').children('td:first').text());
+                    $('#dialogImportSettings').modal('show');
+                    $('#dialogImportSettings').on('shown.bs.modal', () => {
+                        $('#dialogImportSettings').find('[autofocus]').focus();
+                    });
+                } catch (err) {
+                    console.log('Error loading JSON settings file.');
+                }
+            };
+        };
+
+        link.click();
+    });
+
+    $('#exportSettingsButton').click(function() {
+        const link = document.createElement('a');
+        const file = new Blob([ JSON.stringify(options.settings) ], { type: 'application/json' });
+        link.href = URL.createObjectURL(file);
+        link.download = 'keepassxc-browser_settings.json';
+        link.click();
+    });
+
+    $('#dialogImportSettings .modal-footer:first button.yes:first').click(function(e) {
+        $('#dialogImportSettings').modal('hide');
+
+        if (temporarySettings) {
+            options.settings = temporarySettings;
+            options.saveSettings();
+        }
+    });
+
+    $('#copyVersionToClipboard').on('click', function () {
+        const copyText = document.getElementById('versionInfo').innerText;
+        navigator.clipboard.writeText(copyText);
+    })
 };
 
 options.showKeePassXCVersions = function(response) {
@@ -187,14 +280,14 @@ options.initConnectedDatabases = function() {
     $('#tab-connected-databases tr.clone:first button.delete:first').click(function(e) {
         e.preventDefault();
         $('#dialogDeleteConnectedDatabase').data('hash', $(this).closest('tr').data('hash'));
-        $('#dialogDeleteConnectedDatabase .modal-body:first span:first').text($(this).closest('tr').children('td:first').text());
+        $('#dialogDeleteConnectedDatabase .modal-body:first strong:first').text($(this).closest('tr').children('td:first').text());
         $('#dialogDeleteConnectedDatabase').modal('show');
         $('#dialogDeleteConnectedDatabase').on('shown.bs.modal', () => {
             $('#dialogDeleteConnectedDatabase').find('[autofocus]').focus();
         });
     });
 
-    $('#dialogDeleteConnectedDatabase .modal-footer:first button.yes:first').click(function(e) {
+    $('#dialogDeleteConnectedDatabase .modal-footer:first button.yes:first').click(async function(e) {
         $('#dialogDeleteConnectedDatabase').modal('hide');
 
         const hash = $('#dialogDeleteConnectedDatabase').data('hash');
@@ -202,6 +295,12 @@ options.initConnectedDatabases = function() {
 
         delete options.keyRing[hash];
         options.saveKeyRing();
+        hashList = options.keyRing;
+
+        // Force reconnect so the extension will disconnect the current database
+        await browser.runtime.sendMessage({ action: 'reconnect' }).catch(err => {
+            console.log(err);
+        });
 
         if ($('#tab-connected-databases table tbody:first tr').length > 2) {
             $('#tab-connected-databases table tbody:first tr.empty:first').hide();
@@ -213,9 +312,10 @@ options.initConnectedDatabases = function() {
     $('#tab-connected-databases tr.clone:first .dropdown-menu:first').width('230px');
 
     const trClone = $('#tab-connected-databases table tr.clone:first').clone(true);
-    trClone.removeClass('clone');
+    trClone.removeClass('clone d-none');
 
     const addHashToTable = function(hash) {
+        $('#tab-connected-databases table tbody:first tr.empty:first').hide();
         const tr = trClone.clone(true);
         tr.data('hash', hash);
         tr.attr('id', 'tr-cd-' + hash);
@@ -229,9 +329,9 @@ options.initConnectedDatabases = function() {
         const date = (options.keyRing[hash].created) ? new Date(options.keyRing[hash].created).toLocaleDateString() : 'unknown';
         tr.children('td:eq(3)').text(date);
         $('#tab-connected-databases table tbody:first').append(tr);
-    }
+    };
 
-    const hashList = options.keyRing;
+    let hashList = options.keyRing;
     for (const hash in hashList) {
         addHashToTable(hash);
     }
@@ -248,6 +348,14 @@ options.initConnectedDatabases = function() {
         if (result === AssociatedAction.NEW_ASSOCIATION) {
             // Update the connection list with the added hash
             options.keyRing = await browser.runtime.sendMessage({ action: 'load_keyring' });
+
+            // This one is the first hash added
+            if (Object.keys(options.keyRing).length === 1) {
+                addHashToTable(Object.keys(options.keyRing)[0]);
+                hashList = options.keyRing;
+                return;
+            }
+
             for (const hash in hashList) {
                 const newHash = Object.keys(options.keyRing).find(h => h !== hash);
                 addHashToTable(newHash);
@@ -287,7 +395,7 @@ options.initCustomCredentialFields = function() {
     });
 
     const trClone = $('#tab-custom-fields table tr.clone:first').clone(true);
-    trClone.removeClass('clone');
+    trClone.removeClass('clone d-none');
     let counter = 1;
     for (const url in options.settings['defined-custom-fields']) {
         const tr = trClone.clone(true);
@@ -343,6 +451,10 @@ options.initSitePreferences = function() {
         options.saveSettings();
     });
 
+    $('.was-validated').submit(function(e) {
+        e.preventDefault();
+    });
+
     $('#manualUrl').keyup(function(event) {
         if (event.key === 'Enter') {
             $('#sitePreferencesManualAdd').click();
@@ -381,7 +493,7 @@ options.initSitePreferences = function() {
 
             const newValue = options.settings['sitePreferences'].length + 1;
             const trClone = $('#tab-site-preferences table tr.clone:first').clone(true);
-            trClone.removeClass('clone');
+            trClone.removeClass('clone d-none');
 
             const tr = trClone.clone(true);
             tr.data('url', value);
@@ -419,7 +531,7 @@ options.initSitePreferences = function() {
     });
 
     const trClone = $('#tab-site-preferences table tr.clone:first').clone(true);
-    trClone.removeClass('clone');
+    trClone.removeClass('clone d-none');
     let counter = 1;
     if (options.settings['sitePreferences']) {
         for (const site of options.settings['sitePreferences']) {
@@ -455,15 +567,22 @@ options.initAbout = function() {
     }
 };
 
+options.initTheme = function() {
+    if (options.settings['colorTheme'] === undefined) {
+        document.body.removeAttribute('data-color-theme');
+    } else {
+        document.body.setAttribute('data-color-theme', options.settings['colorTheme']);
+    }
+};
+
 options.createWarning = function(elem, text) {
     const banner = document.createElement('div');
-    banner.classList.add('alert', 'alert-dismissible', 'alert-danger', 'fade', 'in');
-    banner.style.position = 'absolute';
-    banner.style.left = Pixels(elem.offsetLeft);
-    banner.style.top = Pixels(elem.offsetTop + elem.offsetHeight);
-    banner.style.padding = '0px';
-    banner.style.width = '300px';
+    banner.classList.add('alert', 'alert-dismissible', 'alert-danger', 'mt-2');
+    banner.style.position = 'relative';
+    banner.style.marginBottom = '0px';
+    banner.style.width = '100%';
     banner.textContent = text;
+    banner.setAttribute('role', 'alert');
     elem.parentElement.append(banner);
 
     // Destroy the warning after five seconds
@@ -475,6 +594,11 @@ options.createWarning = function(elem, text) {
 const getBrowserId = function() {
     if (navigator.userAgent.indexOf('Firefox') > -1) {
         return 'Mozilla Firefox ' + navigator.userAgent.substr(navigator.userAgent.lastIndexOf('/') + 1);
+    } else if (navigator.userAgent.indexOf('Edg') > -1) {
+        let startPos = navigator.userAgent.indexOf('Edg');
+        startPos = navigator.userAgent.indexOf('/', startPos) + 1;
+        const version = navigator.userAgent.substring(startPos);
+        return 'Microsoft Edge ' + version;
     } else if (navigator.userAgent.indexOf('Chrome') > -1) {
         let startPos = navigator.userAgent.indexOf('Chrome');
         startPos = navigator.userAgent.indexOf('/', startPos) + 1;

@@ -86,7 +86,7 @@ browser.storage.local.get({ 'latestKeePassXC': { 'version': '', 'lastChecked': n
     keepass.keyRing = item.keyRing;
 });
 
-keepass.sendNativeMessage = function(request, enableTimeout = false) {
+keepass.sendNativeMessage = function(request, enableTimeout = false, timeoutValue) {
     return new Promise((resolve, reject) => {
         let timeout;
         const requestAction = request.action;
@@ -106,6 +106,7 @@ keepass.sendNativeMessage = function(request, enableTimeout = false) {
         })(ev, requestAction);
         ev.addListener(listener);
 
+        const messageTimeout = timeoutValue || keepass.messageTimeout;
 
         // Handle timeouts
         if (enableTimeout) {
@@ -118,7 +119,7 @@ keepass.sendNativeMessage = function(request, enableTimeout = false) {
                 keepass.isKeePassXCAvailable = false;
                 ev.removeListener(listener.handler);
                 resolve(errorMessage);
-            }, keepass.messageTimeout);
+            }, messageTimeout);
         }
 
         // Send the request
@@ -254,7 +255,7 @@ keepass.retrieveCredentials = async function(tab, args = []) {
             keepass.setcurrentKeePassXCVersion(parsed.version);
 
             if (keepass.verifyResponse(parsed, incrementedNonce)) {
-                entries = parsed.entries;
+                entries = removeDuplicateEntries(parsed.entries);
                 keepass.updateLastUsed(keepass.databaseHash);
                 if (entries.length === 0) {
                     // Questionmark-icon is not triggered, so we have to trigger for the normal symbol
@@ -532,7 +533,7 @@ keepass.getDatabaseHash = async function(tab, args = []) {
                 keepass.setcurrentKeePassXCVersion(parsed.version);
                 keepass.databaseHash = parsed.hash || '';
 
-                if (oldDatabaseHash && oldDatabaseHash != keepass.databaseHash) {
+                if (oldDatabaseHash && oldDatabaseHash !== keepass.databaseHash) {
                     keepass.associated.value = false;
                     keepass.associated.hash = null;
                 }
@@ -571,7 +572,7 @@ keepass.getDatabaseHash = async function(tab, args = []) {
     }
 };
 
-keepass.changePublicKeys = async function(tab, enableTimeout = false) {
+keepass.changePublicKeys = async function(tab, enableTimeout = false, connectionTimeout) {
     if (!keepass.isConnected) {
         keepass.handleError(tab, kpErrors.TIMEOUT_OR_NOT_CONNECTED);
         return false;
@@ -590,19 +591,19 @@ keepass.changePublicKeys = async function(tab, enableTimeout = false) {
     };
 
     try {
-        const response = await keepass.sendNativeMessage(request, enableTimeout);
+        const response = await keepass.sendNativeMessage(request, enableTimeout, connectionTimeout);
         keepass.setcurrentKeePassXCVersion(response.version);
 
         if (!keepass.verifyKeyResponse(response, key, incrementedNonce)) {
             if (tab && page.tabs[tab.id]) {
                 keepass.handleError(tab, kpErrors.KEY_CHANGE_FAILED);
-                return false;
             }
-        } else {
-            keepass.isKeePassXCAvailable = true;
-            console.log('Server public key: ' + nacl.util.encodeBase64(keepass.serverPublicKey));
+
+            return false;
         }
 
+        keepass.isKeePassXCAvailable = true;
+        console.log('Server public key: ' + nacl.util.encodeBase64(keepass.serverPublicKey));
         return true;
     } catch (err) {
         console.log('changePublicKeys failed: ', err);
@@ -838,6 +839,8 @@ keepass.saveKey = function(hash, id, key) {
         keepass.keyRing[hash].id = id;
         keepass.keyRing[hash].key = key;
         keepass.keyRing[hash].hash = hash;
+        keepass.keyRing[hash].created = new Date().valueOf();
+        keepass.keyRing[hash].lastUsed = new Date().valueOf();
     }
     browser.storage.local.set({ 'keyRing': keepass.keyRing });
 };
@@ -848,9 +851,10 @@ keepass.updateLastUsed = function(hash) {
         browser.storage.local.set({ 'keyRing': keepass.keyRing });
     }
 };
+
 // Update the databaseHash from legacy hash
 keepass.updateDatabaseHash = function(oldHash, newHash) {
-    if (!oldHash || !newHash) {
+    if (!oldHash || !newHash || oldHash === newHash) {
         return;
     }
 
@@ -880,9 +884,11 @@ keepass.keePassXCUpdateAvailable = function() {
         if (daysSinceLastCheck >= page.settings.checkUpdateKeePassXC) {
             keepass.checkForNewKeePassXCVersion();
         }
+
+        return keepass.compareVersion(keepass.currentKeePassXC, keepass.latestKeePassXC.version, false);
     }
 
-    return keepass.compareVersion(keepass.currentKeePassXC, keepass.latestKeePassXC.version, false);
+    return false;
 };
 
 keepass.checkForNewKeePassXCVersion = function() {
@@ -987,17 +993,15 @@ keepass.verifyKeyResponse = function(response, key, nonce) {
         return false;
     }
 
-    let reply = false;
     if (!keepass.checkNonceLength(response.nonce)) {
         console.log('Error: Invalid nonce length');
         return false;
     }
 
-    reply = (response.nonce === nonce);
-
-    if (response.publicKey) {
+    const reply = (response.nonce === nonce);
+    if (response.publicKey && reply) {
         keepass.serverPublicKey = nacl.util.decodeBase64(response.publicKey);
-        reply = true;
+        return true;
     }
 
     return reply;
@@ -1107,8 +1111,8 @@ keepass.decrypt = function(input, nonce) {
 
 keepass.enableAutomaticReconnect = function() {
     // Disable for Windows if KeePassXC is older than 2.3.4
-    if (!page.settings.autoReconnect ||
-        (navigator.platform.toLowerCase().includes('win') && !keepass.compareVersion('2.3.4', keepass.currentKeePassXC))) {
+    if (!page.settings.autoReconnect
+        || (navigator.platform.toLowerCase().includes('win') && !keepass.compareVersion('2.3.4', keepass.currentKeePassXC))) {
         return;
     }
 
@@ -1126,24 +1130,27 @@ keepass.disableAutomaticReconnect = function() {
     keepass.reconnectLoop = null;
 };
 
-keepass.reconnect = function(tab) {
-    return new Promise(async (resolve) => {
-        keepass.connectToNative();
-        keepass.generateNewKeyPair();
-        await keepass.changePublicKeys(tab, true).catch((e) => {
-            resolve(false);
-        });
-
-        const hash = await keepass.getDatabaseHash(tab);
-        if (hash !== '' && tab && page.tabs[tab.id]) {
-            delete page.tabs[tab.id].errorMessage;
-        }
-
-        await keepass.testAssociation();
-        await keepass.isConfigured();
-        keepass.updateDatabaseHashToContent();
-        resolve(true);
+keepass.reconnect = async function(tab, connectionTimeout) {
+    keepass.connectToNative();
+    keepass.generateNewKeyPair();
+    const keyChangeResult = await keepass.changePublicKeys(tab, true, connectionTimeout).catch((e) => {
+        return false;
     });
+
+    // Change public keys timeout
+    if (!keyChangeResult) {
+        return false;
+    }
+
+    const hash = await keepass.getDatabaseHash(tab);
+    if (hash !== '' && tab && page.tabs[tab.id]) {
+        delete page.tabs[tab.id].errorMessage;
+    }
+
+    await keepass.testAssociation();
+    await keepass.isConfigured();
+    keepass.updateDatabaseHashToContent();
+    return true;
 };
 
 keepass.updatePopup = function(iconType) {
@@ -1156,6 +1163,8 @@ keepass.updatePopup = function(iconType) {
 
 // Updates the database hashes to content script
 keepass.updateDatabase = async function() {
+    keepass.associated.value = false;
+    keepass.associated.hash = null;
     await keepass.testAssociation(null);
     const configured = await keepass.isConfigured();
     keepass.updatePopup(configured ? 'normal' : 'cross');
@@ -1207,4 +1216,18 @@ keepass.buildRequest = function(action, encrypted, nonce, clientID, triggerUnloc
 
 keepass.getIsKeePassXCAvailable = async function() {
     return keepass.isKeePassXCAvailable;
+};
+
+const removeDuplicateEntries = function(arr) {
+    const newArray = [];
+
+    for (const a of arr) {
+        if (newArray.some(i => i.uuid === a.uuid)) {
+            continue;
+        }
+
+        newArray.push(a);
+    }
+
+    return newArray;
 };

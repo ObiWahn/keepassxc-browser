@@ -113,9 +113,9 @@ kpxcEvent.onPopStack = function(tab) {
     return Promise.resolve();
 };
 
-kpxcEvent.onGetTabInformation = function(tab) {
+kpxcEvent.onGetTabInformation = async function(tab) {
     const id = tab.id || page.currentTabId;
-    return Promise.resolve(page.tabs[id]);
+    return page.tabs[id];
 };
 
 kpxcEvent.onGetConnectedDatabase = function() {
@@ -131,7 +131,7 @@ kpxcEvent.onGetKeePassXCVersions = async function(tab) {
         return { 'current': keepass.currentKeePassXC, 'latest': keepass.latestKeePassXC.version };
     }
 
-    return Promise.resolve({ 'current': keepass.currentKeePassXC, 'latest': keepass.latestKeePassXC.version });
+    return { 'current': keepass.currentKeePassXC, 'latest': keepass.latestKeePassXC.version };
 };
 
 kpxcEvent.onCheckUpdateKeePassXC = async function() {
@@ -158,11 +158,7 @@ kpxcEvent.onLoginPopup = function(tab, logins) {
     };
 
     browserAction.stackUnshift(stackData, tab.id);
-
-    if (logins.length > 0) {
-        page.tabs[tab.id].loginList = logins[0];
-    }
-
+    page.tabs[tab.id].loginList = logins;
     browserAction.show(tab);
     return Promise.resolve();
 };
@@ -170,7 +166,7 @@ kpxcEvent.onLoginPopup = function(tab, logins) {
 kpxcEvent.initHttpAuth = function() {
     httpAuth.init();
     return Promise.resolve();
-}
+};
 
 kpxcEvent.onHTTPAuthPopup = function(tab, data) {
     const stackData = {
@@ -204,8 +200,8 @@ kpxcEvent.pageClearLogins = function(tab, alreadyCalled) {
     return Promise.resolve();
 };
 
-kpxcEvent.pageGetLoginId = function() {
-    return Promise.resolve(page.loginId);
+kpxcEvent.pageGetLoginId = async function() {
+    return page.loginId;
 };
 
 kpxcEvent.pageSetLoginId = function(tab, loginId) {
@@ -216,10 +212,10 @@ kpxcEvent.pageSetLoginId = function(tab, loginId) {
 kpxcEvent.pageClearSubmitted = function() {
     page.clearSubmittedCredentials();
     return Promise.resolve();
-}
+};
 
-kpxcEvent.pageGetSubmitted = function() {
-    return Promise.resolve(page.submittedCredentials);
+kpxcEvent.pageGetSubmitted = async function() {
+    return page.submittedCredentials;
 };
 
 kpxcEvent.pageSetSubmitted = function(tab, args = []) {
@@ -228,8 +224,25 @@ kpxcEvent.pageSetSubmitted = function(tab, args = []) {
     return Promise.resolve();
 };
 
-kpxcEvent.onUsernameFieldDetected = function(tab, args = []) {
-    page.usernameFieldDetected = args[0];
+kpxcEvent.onUsernameFieldDetected = function(tab, detected) {
+    page.usernameFieldDetected = detected;
+};
+
+kpxcEvent.passwordGetFilled = async function() {
+    return page.passwordFilled;
+};
+
+kpxcEvent.passwordSetFilled = function(tab, state) {
+    page.passwordFilled = state;
+    return Promise.resolve();
+};
+
+kpxcEvent.getColorTheme = async function(tab) {
+    return page.settings.colorTheme;
+};
+
+kpxcEvent.pageGetRedirectCount = async function() {
+    return page.redirectCount;
 };
 
 // All methods named in this object have to be declared BEFORE this!
@@ -242,6 +255,7 @@ kpxcEvent.messageHandlers = {
     'enable_automatic_reconnect': keepass.enableAutomaticReconnect,
     'disable_automatic_reconnect': keepass.disableAutomaticReconnect,
     'generate_password': keepass.generatePassword,
+    'get_color_theme': kpxcEvent.getColorTheme,
     'get_connected_database': kpxcEvent.onGetConnectedDatabase,
     'get_database_hash': keepass.getDatabaseHash,
     'get_database_groups': keepass.getDatabaseGroups,
@@ -256,9 +270,12 @@ kpxcEvent.messageHandlers = {
     'page_clear_logins': kpxcEvent.pageClearLogins,
     'page_clear_submitted': kpxcEvent.pageClearSubmitted,
     'page_get_login_id': kpxcEvent.pageGetLoginId,
+    'page_get_redirect_count': kpxcEvent.pageGetRedirectCount,
     'page_get_submitted': kpxcEvent.pageGetSubmitted,
     'page_set_login_id': kpxcEvent.pageSetLoginId,
     'page_set_submitted': kpxcEvent.pageSetSubmitted,
+    'password_get_filled': kpxcEvent.passwordGetFilled,
+    'password_set_filled': kpxcEvent.passwordSetFilled,
     'pop_stack': kpxcEvent.onPopStack,
     'popup_login': kpxcEvent.onLoginPopup,
     'popup_multiple-fields': kpxcEvent.onMultipleFieldsPopup,

@@ -51,6 +51,8 @@ const sendMessageToTab = async function(message) {
 };
 
 $(async () => {
+    await initColorTheme();
+
     $('#connect-button').click(async () => {
         await browser.runtime.sendMessage({
             action: 'associate'
@@ -59,7 +61,7 @@ $(async () => {
     });
 
     $('#reconnect-button').click(async () => {
-        await browser.runtime.sendMessage({ 
+        await browser.runtime.sendMessage({
             action: 'associate'
         });
         close();

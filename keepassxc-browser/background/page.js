@@ -1,26 +1,33 @@
 'use strict';
 
 const defaultSettings = {
-    checkUpdateKeePassXC: 3,
     autoCompleteUsernames: true,
+    showGroupNameInAutocomplete: true,
     autoFillAndSend: false,
-    usePasswordGeneratorIcons: false,
     autoFillSingleEntry: false,
-    autoSubmit: false,
-    autoRetrieveCredentials: true,
-    showNotifications: true,
-    showLoginNotifications: true,
-    showLoginFormIcon: true,
-    saveDomainOnly: true,
     autoReconnect: false,
+    autoRetrieveCredentials: true,
+    autoSubmit: false,
+    checkUpdateKeePassXC: 3,
+    colorTheme: 'system',
     defaultGroup: '',
-    defaultGroupAlwaysAsk: false
+    defaultGroupAlwaysAsk: false,
+    redirectAllowance: 1,
+    saveDomainOnly: true,
+    showLoginFormIcon: true,
+    showLoginNotifications: true,
+    showNotifications: true,
+    showOTPIcon: true,
+    useObserver: true,
+    usePasswordGeneratorIcons: false
 };
 
 var page = {};
 page.blockedTabs = [];
 page.currentTabId = -1;
 page.loginId = -1;
+page.passwordFilled = false;
+page.redirectCount = 0;
 page.submitted = false;
 page.submittedCredentials = {};
 page.tabs = [];
@@ -31,47 +38,84 @@ page.initSettings = async function() {
         const item = await browser.storage.local.get({ 'settings': {} });
         page.settings = item.settings;
 
-        if (!('checkUpdateKeePassXC' in page.settings)) {
-            page.settings.checkUpdateKeePassXC = defaultSettings.checkUpdateKeePassXC;
-        }
         if (!('autoCompleteUsernames' in page.settings)) {
             page.settings.autoCompleteUsernames = defaultSettings.autoCompleteUsernames;
         }
+
+        if (!('showGroupNameInAutocomplete' in page.settings)) {
+            page.settings.showGroupNameInAutocomplete = defaultSettings.showGroupNameInAutocomplete;
+        }
+
         if (!('autoFillAndSend' in page.settings)) {
             page.settings.autoFillAndSend = defaultSettings.autoFillAndSend;
         }
-        if (!('usePasswordGeneratorIcons' in page.settings)) {
-            page.settings.usePasswordGeneratorIcons = defaultSettings.usePasswordGeneratorIcons;
-        }
+
         if (!('autoFillSingleEntry' in page.settings)) {
             page.settings.autoFillSingleEntry = defaultSettings.autoFillSingleEntry;
         }
-        if (!('autoSubmit' in page.settings)) {
-            page.settings.autoSubmit = defaultSettings.autoSubmit;
-        }
-        if (!('autoRetrieveCredentials' in page.settings)) {
-            page.settings.autoRetrieveCredentials = defaultSettings.autoRetrieveCredentials;
-        }
-        if (!('showNotifications' in page.settings)) {
-            page.settings.showNotifications = defaultSettings.showNotifications;
-        }
-        if (!('showLoginNotifications' in page.settings)) {
-            page.settings.showLoginNotifications = defaultSettings.showLoginNotifications;
-        }
-        if (!('showLoginFormIcon' in page.settings)) {
-            page.settings.showLoginFormIcon = defaultSettings.showLoginFormIcon;
-        }
-        if (!('saveDomainOnly' in page.settings)) {
-            page.settings.saveDomainOnly = defaultSettings.saveDomainOnly;
-        }
+
         if (!('autoReconnect' in page.settings)) {
             page.settings.autoReconnect = defaultSettings.autoReconnect;
         }
+
+        if (!('autoRetrieveCredentials' in page.settings)) {
+            page.settings.autoRetrieveCredentials = defaultSettings.autoRetrieveCredentials;
+        }
+
+        if (!('autoSubmit' in page.settings)) {
+            page.settings.autoSubmit = defaultSettings.autoSubmit;
+        }
+
+        if (!('checkUpdateKeePassXC' in page.settings)) {
+            page.settings.checkUpdateKeePassXC = defaultSettings.checkUpdateKeePassXC;
+        }
+
+        if (!('colorTheme' in page.settings)) {
+            page.settings.colorTheme = defaultSettings.colorTheme;
+        }
+
         if (!('defaultGroup' in page.settings)) {
             page.settings.defaultGroup = defaultSettings.defaultGroup;
         }
+
         if (!('defaultGroupAlwaysAsk' in page.settings)) {
             page.settings.defaultGroupAlwaysAsk = defaultSettings.defaultGroupAlwaysAsk;
+        }
+
+        if (!('redirectAllowance' in page.settings)) {
+            page.settings.redirectAllowance = defaultSettings.redirectAllowance;
+        }
+
+        if (!('saveDomainOnly' in page.settings)) {
+            page.settings.saveDomainOnly = defaultSettings.saveDomainOnly;
+        }
+
+        if (!('showLoginFormIcon' in page.settings)) {
+            page.settings.showLoginFormIcon = defaultSettings.showLoginFormIcon;
+        }
+
+        if (!('showLoginNotifications' in page.settings)) {
+            page.settings.showLoginNotifications = defaultSettings.showLoginNotifications;
+        }
+
+        if (!('showNotifications' in page.settings)) {
+            page.settings.showNotifications = defaultSettings.showNotifications;
+        }
+
+        if (!('showOTPIcon' in page.settings)) {
+            page.settings.showOTPIcon = defaultSettings.showOTPIcon;
+        }
+
+        if (!('usePasswordGeneratorIcons' in page.settings)) {
+            page.settings.usePasswordGeneratorIcons = defaultSettings.usePasswordGeneratorIcons;
+        }
+
+        if (!('useObserver' in page.settings)) {
+            page.settings.useObserver = defaultSettings.useObserver;
+        }
+
+        if (!('usePasswordGeneratorIcons' in page.settings)) {
+            page.settings.usePasswordGeneratorIcons = defaultSettings.usePasswordGeneratorIcons;
         }
 
         await browser.storage.local.set({ 'settings': page.settings });
@@ -103,12 +147,6 @@ page.initOpenedTabs = async function() {
     }
 };
 
-page.isValidProtocol = function(url) {
-    let protocol = url.substring(0, url.indexOf(':'));
-    protocol = protocol.toLowerCase();
-    return !(url.indexOf('.') === -1 || (protocol !== 'http' && protocol !== 'https' && protocol !== 'ftp' && protocol !== 'sftp'));
-};
-
 page.switchTab = function(tab) {
     browserAction.showDefault(tab);
     browser.tabs.sendMessage(tab.id, { action: 'activated_tab' }).catch((e) => {});
@@ -120,6 +158,7 @@ page.clearCredentials = function(tabId, complete) {
     }
 
     page.usernameFieldDetected = false;
+    page.passwordFilled = false;
     page.tabs[tabId].credentials = [];
     delete page.tabs[tabId].credentials;
 
@@ -138,6 +177,7 @@ page.clearLogins = function(tabId) {
     }
 
     page.tabs[tabId].loginList = [];
+    page.passwordFilled = false;
 };
 
 page.setSubmittedCredentials = function(submitted, username, password, url, oldCredentials) {
