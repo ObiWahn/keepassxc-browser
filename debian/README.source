@@ -1,7 +1,7 @@
 Files removed from upstream release
 ###################################
 
-Found minified files (fdfind -gH '*.min.*'):
+These files are removed from the upstream distribution tarball:
 
 background/nacl-util.min.js
 background/nacl.min.js
@@ -11,13 +11,13 @@ bootstrap/jquery-3.4.1.min.js
 browser-polyfill.min.js
 fonts/fork-awesome.min.css
 
-Use debian/fetch-missing-sources.sh to download and also document files that
-upstream missed to include human-readable source files with the distributed
-releases.
+Human-readable replacements are located in debian/missing-sources/.
 
-Instead of minifying files in debian/missing-sources/, I decided to install the
-human-readable files with the web extension and patch the including files
-instead. Rationale: Since I'm not experienced with web technologies and this
-packages is about to go throught NEW, I want to have as little optimization go
-into the resulting package as possible. In case of performance issues, or
-avoidable extra effort to maintain this, this can be changed later.
+To update the replacements, adapt and run debian/fetch-missing-sources.sh.
+
+I decided to install human-readable files with the web extension and patch files
+that include them instead.
+Rationale: Since I'm not experienced with web software and this package is about
+to go throught NEW, I want to have as little optimization as possible in the
+resulting binary package. In case of performance issues, or avoidable extra
+maintainer effort, this can be changed later.

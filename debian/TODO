@@ -1,4 +1,4 @@
-Firefox caches KeePassXC-Browser pages
+Firefox caches KeePassXC-Browser files
 ======================================
 Find either a workaround or solution to stop Firefox from caching parts of the
 extension after upgrades. To reproduce:
@@ -8,4 +8,4 @@ extension after upgrades. To reproduce:
   4. Start Firefox
   5. Go to KeePassXC-Browser settings
 => Still shows previous version of KeePassXC-Browser
-Current workaround: rm -rf $HOME/.cache/mozilla/
+Current ugly workaround: rm -rf $HOME/.cache/mozilla/
