@@ -24,7 +24,7 @@ Files: debian/missing-sources/nacl.js
 Copyright: 2017-2020, TweetNaCl-js contributors, https://github.com/dchest/tweetnacl-js/
 License: public-domain
 
-Files: keepassxc-browser/background/nacl-util.min.js
+Files: debian/missing-sources/nacl-util.js
 Copyright: 2017-2020, TweetNaCl-Util-js contributors, https://github.com/dchest/tweetnacl-util-js/
 License: public-domain
 
