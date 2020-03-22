@@ -8,6 +8,7 @@ Homepage: https://github.com/keepassxreboot/keepassxc-browser
 
 Package: webext-keepassxc-browser
 Architecture: all
+Built-Using: ${my:Built-Using}
 Depends:
  ${misc:Depends},
  keepassxc
