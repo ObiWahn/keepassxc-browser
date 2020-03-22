@@ -1,11 +1,3 @@
-Replace JavaScript code copies
-==============================
-A couple of "compressed" JS files are bundled with KeePassXC-Browser. Some of
-them could in theory be replaced by symbolic links into existing packages.
-However, Firefox started to refuse to follow symbolic links, see
-https://bugs.debian.org/922944. As a result of that bug, I'm currently not
-working on a solution.
-
 Firefox caches KeePassXC-Browser pages
 ======================================
 Find either a workaround or solution to stop Firefox from caching parts of the
