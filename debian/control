@@ -2,7 +2,12 @@ Source: keepassxc-browser
 Section: web
 Priority: optional
 Maintainer: Bruno Kleinert <fuddl@debian.org>
-Build-Depends: debhelper-compat (= 12), fonts-fork-awesome, node-tweetnacl, libjs-bootstrap4, node-jquery
+Build-Depends:
+ debhelper-compat (= 12),
+ fonts-fork-awesome,
+ libjs-bootstrap4,
+ node-jquery,
+ node-tweetnacl
 Standards-Version: 4.5.0
 Homepage: https://github.com/keepassxreboot/keepassxc-browser
 
@@ -14,11 +19,10 @@ Depends:
  keepassxc
 Recommends:
  firefox (>= 67) | firefox-esr (>= 67) | chromium (>= 69.0.3497.100)
-Description: Browser extension to store web site credentials in KeePassXC
+Description: Browser extension to load/save web site credentials in KeePassXC
  KeePassXC-Browser is a web browser extension for Firefox and Chromium that
- connects to the password manager KeePassXC. It allows one to store and retrieve
- credentials for web site in/from KeePassXC. See package keepassxc for its
- description.
+ allows users to easily load and save credentials for web sites from/in
+ databases of the KeePassXC password manager.
  .
- Please note that KeePassXC must not only be running, but also be configured
- accordingly for this extension to work!
+ To use this extension, users must make sure to run KeePassXC and to configure
+ it accordingly in Tools→Settings→Browser Integration! 
