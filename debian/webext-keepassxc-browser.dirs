@@ -3,3 +3,5 @@
 
 # Since we removed fonts from the upstream release, we replace it ourself
 /usr/share/webext/keepassxc-browser/fonts
+/usr/share/webext/keepassxc-browser/bootstrap
+/usr/share/webext/keepassxc-browser/background
