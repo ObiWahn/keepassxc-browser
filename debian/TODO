@@ -9,3 +9,14 @@ extension after upgrades. To reproduce:
   5. Go to KeePassXC-Browser settings
 => Still shows previous version of KeePassXC-Browser
 Current ugly workaround: rm -rf $HOME/.cache/mozilla/
+
+Switch to Built-Using
+=====================
+It is not perfect, but still better to replace the manually gathered code copies
+above by copies from existing Debian packages and indicate them by the
+Built-Using field in debian/control.
+
+Candidates:
+  - TweetNacl (node-tweetnacl)
+  - Bootstrap (libjs-bootstrap4)
+  - jQuery (libjs-jquery)
