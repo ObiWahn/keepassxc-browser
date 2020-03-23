@@ -1,2 +1,5 @@
+# In .links we create a link to help Firefox find the web extension
 /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+
+# Since we removed fonts from the upstream release, we replace it ourself
 /usr/share/webext/keepassxc-browser/fonts

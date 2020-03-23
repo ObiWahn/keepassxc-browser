@@ -1,21 +1,20 @@
-keepassxc-browser/background usr/share/webext/keepassxc-browser/
-debian/missing-sources/nacl.js usr/share/webext/keepassxc-browser/background/
+keepassxc-browser/background        usr/share/webext/keepassxc-browser/
+debian/missing-sources/nacl.js      usr/share/webext/keepassxc-browser/background/
 debian/missing-sources/nacl-util.js usr/share/webext/keepassxc-browser/background/
 
-debian/missing-sources/bootstrap.css usr/share/webext/keepassxc-browser/bootstrap/
-debian/missing-sources/bootstrap.js usr/share/webext/keepassxc-browser/bootstrap/
+debian/missing-sources/bootstrap.css   usr/share/webext/keepassxc-browser/bootstrap/
+debian/missing-sources/bootstrap.js    usr/share/webext/keepassxc-browser/bootstrap/
 debian/missing-sources/jquery-3.4.1.js usr/share/webext/keepassxc-browser/bootstrap/
 
 keepassxc-browser/content usr/share/webext/keepassxc-browser/
-keepassxc-browser/css usr/share/webext/keepassxc-browser/
+keepassxc-browser/css     usr/share/webext/keepassxc-browser/
 
-keepassxc-browser/icons usr/share/webext/keepassxc-browser/
+keepassxc-browser/icons    usr/share/webext/keepassxc-browser/
 keepassxc-browser/_locales usr/share/webext/keepassxc-browser/
-keepassxc-browser/options usr/share/webext/keepassxc-browser/
-keepassxc-browser/popups usr/share/webext/keepassxc-browser/
+keepassxc-browser/options  usr/share/webext/keepassxc-browser/
+keepassxc-browser/popups   usr/share/webext/keepassxc-browser/
 
 debian/missing-sources/browser-polyfill.js usr/share/webext/keepassxc-browser/
-
-keepassxc-browser/global.js usr/share/webext/keepassxc-browser/
-keepassxc-browser/manifest.json usr/share/webext/keepassxc-browser/
-keepassxc-browser/translate.js usr/share/webext/keepassxc-browser/
+keepassxc-browser/global.js                usr/share/webext/keepassxc-browser/
+keepassxc-browser/manifest.json            usr/share/webext/keepassxc-browser/
+keepassxc-browser/translate.js             usr/share/webext/keepassxc-browser/
