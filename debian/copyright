@@ -11,19 +11,6 @@ Files: debian/missing-sources/browser-polyfill.js
 Copyright: 2016-2019, Mozilla Foundation, https://github.com/mozilla/webextension-polyfill
 License: MPL-2.0
 
-Files: debian/missing-sources/jquery-3.4.1.js
-Copyright: JS Foundation and other contributors
-License: Expat
-
-Files: debian/missing-sources/bootstrap.js
-       debian/missing-sources/bootstrap.css
-Copyright: 2011-2019, Twitter, Inc. (http://getbootstrap.com)
-License: Expat
-
-Files: debian/missing-sources/nacl.js
-Copyright: 2017-2020, TweetNaCl-js contributors, https://github.com/dchest/tweetnacl-js/
-License: public-domain
-
 Files: debian/missing-sources/nacl-util.js
 Copyright: 2017-2020, TweetNaCl-Util-js contributors, https://github.com/dchest/tweetnacl-util-js/
 License: public-domain

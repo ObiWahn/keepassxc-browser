@@ -4,8 +4,8 @@ upstream release of the extension available via other update channels.
 
 Index: keepassxc-browser/keepassxc-browser/background/page.js
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/background/page.js	2020-03-22 12:01:18.135639337 +0100
-+++ keepassxc-browser/keepassxc-browser/background/page.js	2020-03-22 12:01:30.659423658 +0100
+--- keepassxc-browser.orig/keepassxc-browser/background/page.js	2020-03-23 12:26:58.921173577 +0100
++++ keepassxc-browser/keepassxc-browser/background/page.js	2020-03-23 12:26:58.921173577 +0100
 @@ -8,7 +8,7 @@
      autoReconnect: false,
      autoRetrieveCredentials: true,

@@ -2,7 +2,7 @@ Source: keepassxc-browser
 Section: web
 Priority: optional
 Maintainer: Bruno Kleinert <fuddl@debian.org>
-Build-Depends: debhelper-compat (= 12), fonts-fork-awesome, node-tweetnacl, libjs-bootstrap4
+Build-Depends: debhelper-compat (= 12), fonts-fork-awesome, node-tweetnacl, libjs-bootstrap4, node-jquery
 Standards-Version: 4.5.0
 Homepage: https://github.com/keepassxreboot/keepassxc-browser
 

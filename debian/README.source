@@ -11,11 +11,12 @@ bootstrap/jquery-3.4.1.min.js
 browser-polyfill.min.js
 fonts/fork-awesome.min.css
 
-Human-readable replacements are located in debian/missing-sources/.
+Human-readable replacements are located in debian/missing-sources/ where they
+cannot be copied from existing Debian packages at build time.
 
 To update the replacements, adapt and run debian/fetch-missing-sources.sh.
 
-I decided to install human-readable files with the web extension and patch files
+I decided to install human-readable files in the binary package and patch files
 that include them instead.
 Rationale: Since I'm not experienced with web software and this package is about
 to go throught NEW, I want to have as little optimization as possible in the
