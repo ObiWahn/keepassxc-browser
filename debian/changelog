@@ -2,4 +2,4 @@ keepassxc-browser (1.6.1+repack-1) unstable; urgency=medium
 
   * Initial release. (Closes: #919190)
 
- -- Bruno Kleinert <fuddl@debian.org>  Mon, 23 Mar 2020 12:55:42 +0100
+ -- Bruno Kleinert <fuddl@debian.org>  Thu, 26 Mar 2020 18:36:28 +0100
