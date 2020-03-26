@@ -1,24 +1,27 @@
 Files removed from upstream release
 ###################################
 
-These files are removed from the upstream distribution tarball:
+These files were removed from the upstream distribution:
 
-background/nacl-util.min.js
-background/nacl.min.js
-bootstrap/bootstrap.min.css
-bootstrap/bootstrap.min.js
-bootstrap/jquery-3.4.1.min.js
-browser-polyfill.min.js
-fonts/fork-awesome.min.css
 
-Human-readable replacements are located in debian/missing-sources/ where they
-cannot be copied from existing Debian packages at build time.
+Upstream                        | Replacement (file or packagename)
+=======================================================================
+background/nacl-util.min.js     | d/missing-sources/nacl-utils.js
+background/nacl.min.js          | node-tweetnacl
+bootstrap/bootstrap.min.css     | libjs-bootstrap4
+bootstrap/bootstrap.min.js      | libjs-bootstrap4
+bootstrap/jquery-3.4.1.min.js   | node-jquery
+browser-polyfill.min.js         | d/missing-sources/browser-polyfill.js
+fonts/fork-awesome.min.css      | fonts-fork-awesome
+fonts/forkawesome-webfont.woff2 | fonts-fork-awesome
 
-To update the replacements, adapt and run debian/fetch-missing-sources.sh.
+To update replacement files in debian/missing-sources/, adapt and run
+debian/fetch-missing-sources.sh.
 
 I decided to install human-readable files in the binary package and patch files
 that include them instead.
-Rationale: Since I'm not experienced with web software and this package is about
-to go throught NEW, I want to have as little optimization as possible in the
-resulting binary package. In case of performance issues, or avoidable extra
-maintainer effort, this can be changed later.
+Rationale: Since I am not experienced with web software and this package is
+about to go through the NEW packages queue, I want to have as little
+optimization as possible. In case of performance issues, or avoidable extra
+maintainer effort, or if it simply turns out it is safe to include optimized
+files, I am fine to change this later at any time.
