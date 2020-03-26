@@ -1,2 +1,4 @@
+# Those copies are intentional as Firefox does not follow symbolic links outside
+# extensions' directories.
 embedded-javascript-library usr/share/webext/keepassxc-browser/bootstrap/bootstrap.js please use libjs-bootstrap
 embedded-javascript-library usr/share/webext/keepassxc-browser/bootstrap/jquery.js please use libjs-jquery
