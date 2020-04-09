@@ -1,8 +1,8 @@
-keepassxc-browser (1.6.2+repack-1) UNRELEASED; urgency=medium
+keepassxc-browser (1.6.2+repack-1) unstable; urgency=medium
 
   * New upstream release
 
- -- Bruno Kleinert <fuddl@debian.org>  Sun, 29 Mar 2020 08:34:39 +0200
+ -- Bruno Kleinert <fuddl@debian.org>  Thu, 09 Apr 2020 13:16:55 +0200
 
 keepassxc-browser (1.6.1+repack-1) unstable; urgency=medium
 
