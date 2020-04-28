@@ -245,6 +245,22 @@ kpxcFields.prepareId = function(id) {
     return (id + '').replace(kpxcFields.rcssescape, kpxcFields.fcssescape);
 };
 
+/**
+ * Returns the first parent element satifying the {@code predicate} mapped by {@code resultFn} or else {@code defaultVal}.
+ * @param {HTMLElement} element     The start element (excluded, starting with the parents)
+ * @param {function} predicate      Matcher for the element to find, type (HTMLElement) => boolean
+ * @param {function} resultFn       Callback function of type (HTMLElement) => {*} called for the first matching element
+ * @param {fun} defaultValFn        Fallback return value supplier, if no element matching the predicate can be found
+ */
+kpxcFields.traverseParents = function(element, predicate, resultFn = () => true, defaultValFn = () => false) {
+    for (let f = element.parentElement; f !== null; f = f.parentElement) {
+        if (predicate(f)) {
+            return resultFn(f);
+        }
+    }
+    return defaultValFn();
+};
+
 // Checks if input field is a search field. Attributes or form action containing 'search', or parent element holding
 // role="search" will be identified as a search field.
 kpxcFields.isSearchField = function(target) {
@@ -285,7 +301,10 @@ kpxcFields.isSearchField = function(target) {
 };
 
 kpxcFields.isVisible = function(field) {
-    const rect = field.getBoundingClientRect();
+    // Check for parent opacity
+    if (kpxcFields.traverseParents(field, f => f.style.opacity === '0')) {
+        return false;
+    }
 
     // Check CSS visibility
     const fieldStyle = getComputedStyle(field);
@@ -294,6 +313,7 @@ kpxcFields.isVisible = function(field) {
     }
 
     // Check element position and size
+    const rect = field.getBoundingClientRect();
     if (rect.x < 0 || rect.y < 0 || rect.width < 8 || rect.height < 8) {
         return false;
     }
@@ -593,6 +613,11 @@ kpxcFields.useDefinedCredentialFields = function() {
     if (kpxc.settings['defined-custom-fields'] && kpxc.settings['defined-custom-fields'][location]) {
         const creds = kpxc.settings['defined-custom-fields'][location];
 
+        // Handle custom TOTP field
+        if (_f(creds.totp)) {
+            kpxcTOTPIcons.newIcon(_f(creds.totp), _databaseClosed);
+        }
+
         let found = _f(creds.username) || _f(creds.password);
         for (const i of creds.fields) {
             if (_fs(i)) {
@@ -680,8 +705,17 @@ kpxcObserverHelper.getInputs = function(target) {
     return inputs;
 };
 
+// Gets of generates an ID for the element
 kpxcObserverHelper.getId = function(target) {
-    return target.classList.length === 0 ? target.id : target.classList;
+    if (target.classList.length > 0) {
+        return target.classlist;
+    }
+
+    if (target.id !== '') {
+        return target.id;
+    }
+
+    return `kpxc${target.clientTop}${target.clientLeft}${target.clientWidth}${target.clientHeight}`;
 };
 
 kpxcObserverHelper.ignoredElement = function(target) {
@@ -833,8 +867,11 @@ kpxc.initObserver = function() {
         }
 
         for (const mut of mutations) {
-            // Skip text nodes
-            if (mut.target.nodeType === Node.TEXT_NODE) {
+            // Skip text nodes and base HTML element
+            if (mut.target.nodeType === Node.TEXT_NODE
+                || mut.target.nodeName === 'HTML'
+                || mut.target.nodeName === 'LINK'
+                || mut.target.nodeName === 'HEAD') {
                 continue;
             }
 
@@ -843,8 +880,9 @@ kpxc.initObserver = function() {
 
             // Handle attributes only if CSS display is modified
             if (mut.type === 'attributes') {
-                // Check if some class is changed that folds a form or input field(s)
-                if (mut.attributeName === 'class' && mut.target.querySelectorAll('form input').length > 0) {
+                // Check if some class is changed that holds a form or input field(s). Ignore large forms.
+                const formInput = mut.target.querySelector('form input');
+                if (mut.attributeName === 'class' && formInput !== null && formInput.form.length < 20) {
                     kpxc.initCredentialFields(true);
                     continue;
                 }
