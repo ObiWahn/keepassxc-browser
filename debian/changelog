@@ -1,3 +1,9 @@
+keepassxc-browser (1.6.3+repack-2) unstable; urgency=medium
+
+  * Added field Rules-Requires-Root: no to debian/control
+
+ -- Bruno Kleinert <fuddl@debian.org>  Wed, 29 Apr 2020 10:16:14 +0200
+
 keepassxc-browser (1.6.3+repack-1) unstable; urgency=medium
 
   * New upstream release

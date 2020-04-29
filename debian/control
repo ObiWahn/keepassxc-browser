@@ -10,6 +10,7 @@ Build-Depends:
  node-tweetnacl
 Standards-Version: 4.5.0
 Homepage: https://github.com/keepassxreboot/keepassxc-browser
+Rules-Requires-Root: no
 
 Package: webext-keepassxc-browser
 Architecture: all
