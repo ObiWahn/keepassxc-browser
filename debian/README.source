@@ -6,6 +6,8 @@ distribution (see Files-Excluded field in debian/copyright):
 
 Upstream                        | Replacement (file or packagename)
 =======================================================================
+.github/                        | -
+.tx/                            | -
 background/nacl-util.min.js     | d/missing-sources/nacl-utils.js
 background/nacl.min.js          | node-tweetnacl
 bootstrap/bootstrap.min.css     | libjs-bootstrap4
