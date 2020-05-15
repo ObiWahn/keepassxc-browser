@@ -7,8 +7,9 @@ keepassxc-browser (1.6.3+repack1-1) unstable; urgency=medium
   * Added oversionmangle option to debian/watch and documented in
     debian/README.source how the package is to be updated to a new upstream
     release.
+  * Updated path from which jquery.js is installed.
 
- -- Bruno Kleinert <fuddl@debian.org>  Fri, 15 May 2020 11:50:16 +0200
+ -- Bruno Kleinert <fuddl@debian.org>  Fri, 15 May 2020 12:15:34 +0200
 
 keepassxc-browser (1.6.3+repack-2) unstable; urgency=medium
 
