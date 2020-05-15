@@ -1,3 +1,12 @@
+keepassxc-browser (1.6.3+repack-3) unstable; urgency=medium
+
+  * Added Files-Excluded field to debian/copyright.
+  * Added oversionmangle option to debian/watch and documented in
+    debian/README.source how the package is to be updated to a new upstream
+    release.
+
+ -- Bruno Kleinert <fuddl@debian.org>  Fri, 15 May 2020 11:45:48 +0200
+
 keepassxc-browser (1.6.3+repack-2) unstable; urgency=medium
 
   * Added field Rules-Requires-Root: no to debian/control

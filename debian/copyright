@@ -2,6 +2,16 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: KeePassXC-Browser
 Upstream-Contact: Janek Bevendorff <team@keepassxc.org>
 Source: https://github.com/keepassxreboot/keepassxc-browser.git
+Files-Excluded: .github
+  .tx
+  keepassxc-browser/background/nacl-util.min.js
+  keepassxc-browser/background/nacl.min.js
+  keepassxc-browser/bootstrap/bootstrap.min.css
+  keepassxc-browser/bootstrap/bootstrap.min.js
+  keepassxc-browser/bootstrap/jquery-3.4.1.min.js
+  keepassxc-browser/browser-polyfill.min.js
+  keepassxc-browser/fonts/fork-awesome.min.css
+  keepassxc-browser/fonts/forkawesome-webfont.woff2
 
 Files: *
 Copyright: 2017-2020, KeePassXC team <team@keepassxc.org>

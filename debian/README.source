@@ -1,8 +1,8 @@
 Files removed from upstream release
 ###################################
 
-These files were removed from the upstream distribution:
-
+For the Debian package the following files are removed from the upstream
+distribution (see Files-Excluded field in debian/copyright):
 
 Upstream                        | Replacement (file or packagename)
 =======================================================================
@@ -15,7 +15,10 @@ browser-polyfill.min.js         | d/missing-sources/browser-polyfill.js
 fonts/fork-awesome.min.css      | fonts-fork-awesome
 fonts/forkawesome-webfont.woff2 | fonts-fork-awesome
 
-To update replacement files in debian/missing-sources/, adapt and run
+NOTE: The above list is to be kept in sync with Files-Excluded in
+debian/copyright! Rationale: The above list also documents replacements.
+
+To download replacement files to debian/missing-sources/, adapt and run
 debian/fetch-missing-sources.sh.
 
 I decided to install human-readable files in the binary package and patch files
@@ -25,3 +28,10 @@ about to go through the NEW packages queue, I want to have as little
 optimization as possible. In case of performance issues, or avoidable extra
 maintainer effort, or if it simply turns out it is safe to include optimized
 files, I am fine to change this later at any time.
+
+Updating the package with new upstream release
+##############################################
+1. Use uscan to download the latest upstream release
+2. Check in the repacked orig.tar.xz that no font files and no *.min.* files are
+   included.
+3. Update debian/changelog, build, etc.
