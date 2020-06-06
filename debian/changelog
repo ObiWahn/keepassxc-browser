@@ -1,3 +1,12 @@
+keepassxc-browser (1.6.3+repack1-2) unstable; urgency=medium
+
+  * Fixed 'Cannot connect to keepassxc from chromium'. Added key 'key' to
+    keepassxc-browser/manifest.json to make the extension identify itself from
+    within the Chromium browser to KeePassXC with a permitted identifier.
+    Documented in debian/README.source how to obtain they key. (Closes: #962246)
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sat, 06 Jun 2020 07:36:23 +0200
+
 keepassxc-browser (1.6.3+repack1-1) unstable; urgency=medium
 
   * Added Files-Excluded field to debian/copyright.

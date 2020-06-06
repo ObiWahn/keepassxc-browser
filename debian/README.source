@@ -37,3 +37,25 @@ Updating the package with new upstream release
 2. Check in the repacked orig.tar.xz that no font files and no *.min.* files are
    included.
 3. Update debian/changelog, build, etc.
+
+Obtain extension key from Chromium extensions repository
+########################################################
+When the extension is executed in Chromium it uses the key 'key' in
+keepassxc-browser/manifest.json to compute its identity it reports to KeePassXC,
+which keeps an compiled-in whitelist for permitted IDs.
+
+This key is generated once when an extension is uploaded to the Chromium
+extensions repository for the first time and added automatically to
+manifest.json.
+
+We add this key to keepassxc-browser/manifest.json by
+debian/patches/chromium-extension-key.patch. The value must be obtained manually
+by the maintainer with these steps:
+1. Deinstall webext-keepassxc-browser
+2. Start Chromium
+3. Install the KeePassXC-Browser extension with Chromium
+4. The key is the value of the key 'key' in
+   $HOME/.config/chromium/Extensions/<ID>/<VERSION>/manifest.json
+
+See also:
+https://stackoverflow.com/questions/21497781/how-to-change-chrome-packaged-app-id-or-why-do-we-need-key-field-in-the-manifest
