@@ -1,6 +1,9 @@
 keepassxc-browser (1.7.0+repack1-1) unstable; urgency=medium
 
   * New upstream release
+  * Refreshed patches
+  * Corrected file order in debian/copyright to increasing path depth order.
+    Thanks to lintian pointing this out!
 
  -- Bruno Kleinert <fuddl@debian.org>  Wed, 02 Sep 2020 10:01:22 +0200
 

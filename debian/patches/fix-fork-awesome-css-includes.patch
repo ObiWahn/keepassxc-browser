@@ -1,7 +1,7 @@
 Index: keepassxc-browser/keepassxc-browser/options/options.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/options.html	2020-03-23 12:30:46.673628848 +0100
-+++ keepassxc-browser/keepassxc-browser/options/options.html	2020-03-23 12:30:46.305634575 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/options.html	2020-09-02 10:12:43.869249967 +0200
++++ keepassxc-browser/keepassxc-browser/options/options.html	2020-09-02 10:12:43.865250033 +0200
 @@ -6,7 +6,7 @@
      <meta name="viewport" content="width=device-width,initial-scale=1">
      <link rel="stylesheet" href="../css/colors.css" />
@@ -13,8 +13,8 @@ Index: keepassxc-browser/keepassxc-browser/options/options.html
      <link rel="icon" type="image/png" href="../icons/keepassxc_64x64.png" sizes="64x64">
 Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2020-03-23 12:30:46.673628848 +0100
-+++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2020-03-23 12:30:46.305634575 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2020-09-02 10:12:43.869249967 +0200
++++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2020-09-02 10:12:43.865250033 +0200
 @@ -5,7 +5,7 @@
      <meta charset="UTF-8">
      <link rel="stylesheet" href="../css/colors.css" />
@@ -26,8 +26,8 @@ Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
      <link rel="icon" type="image/png" href="../icons/keepassxc_64x64.png" sizes="64x64">
 Index: keepassxc-browser/keepassxc-browser/popups/popup.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2020-03-23 12:30:46.673628848 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup.html	2020-03-23 12:30:46.669628912 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2020-09-02 10:12:43.869249967 +0200
++++ keepassxc-browser/keepassxc-browser/popups/popup.html	2020-09-02 10:12:43.865250033 +0200
 @@ -6,7 +6,7 @@
      <link rel="stylesheet" href="../css/colors.css" />
      <link rel="stylesheet" href="popup.css" />
@@ -39,8 +39,8 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup.html
      <script src="../bootstrap/jquery.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2020-03-23 12:30:46.673628848 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2020-03-23 12:30:46.669628912 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2020-09-02 10:12:43.869249967 +0200
++++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2020-09-02 10:12:43.865250033 +0200
 @@ -6,7 +6,7 @@
      <link rel="stylesheet" href="../css/colors.css" />
      <link rel="stylesheet" href="popup.css" />
@@ -52,21 +52,8 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
      <script src="../bootstrap/jquery.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_login.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2020-03-23 12:30:46.673628848 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2020-03-23 12:30:46.669628912 +0100
-@@ -6,7 +6,7 @@
-     <link rel="stylesheet" href="../css/colors.css" />
-     <link rel="stylesheet" href="popup.css" />
-     <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
--    <link rel="stylesheet" href="../fonts/fork-awesome.min.css" />
-+    <link rel="stylesheet" href="../fonts/fork-awesome.css" />
-     <script src="../browser-polyfill.js"></script>
-     <script src="../global.js"></script>
-     <script src="../bootstrap/jquery.js"></script>
-Index: keepassxc-browser/keepassxc-browser/popups/popup_multiple-fields.html
-===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_multiple-fields.html	2020-03-23 12:30:46.673628848 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_multiple-fields.html	2020-03-23 12:30:46.669628912 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2020-09-02 10:12:43.869249967 +0200
++++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2020-09-02 10:12:43.865250033 +0200
 @@ -6,7 +6,7 @@
      <link rel="stylesheet" href="../css/colors.css" />
      <link rel="stylesheet" href="popup.css" />

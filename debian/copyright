@@ -17,6 +17,10 @@ Files: *
 Copyright: 2017-2020, KeePassXC team <team@keepassxc.org>
 License: GPL-3
 
+Files: debian/*
+Copyright: 2018-2020, Bruno Kleinert <fuddl@debian.org>
+License: GPL-3
+
 Files: debian/missing-sources/browser-polyfill.js
 Copyright: 2016-2019, Mozilla Foundation, https://github.com/mozilla/webextension-polyfill
 License: MPL-2.0
@@ -24,10 +28,6 @@ License: MPL-2.0
 Files: debian/missing-sources/nacl-util.js
 Copyright: 2017-2020, TweetNaCl-Util-js contributors, https://github.com/dchest/tweetnacl-util-js/
 License: public-domain
-
-Files: debian/*
-Copyright: 2018-2020, Bruno Kleinert <fuddl@debian.org>
-License: GPL-3
 
 License: Expat
  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in
