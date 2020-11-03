@@ -1,7 +1,9 @@
 'use strict';
 
-const ignoreRegex = /(zip|postal).*code/i;
+const ignoreRegex = /(act|bank|coupon|postal|user|zip).*code|comment|author/i;
 const ignoredTypes = [ 'email', 'password', 'username' ];
+const MIN_INPUT_LENGTH = 6;
+const MAX_INPUT_LENGTH = 10;
 
 const acceptedOTPFields = [
     '2fa',
@@ -55,10 +57,8 @@ kpxcTOTPIcons.isValid = function(field, forced) {
         if (ignoredTypes.some(t => t === field.type)
             || field.offsetWidth < MINIMUM_INPUT_FIELD_WIDTH
             || field.size < 2
-            || (field.maxLength > 0 && (field.maxLength < 6 || field.maxLength > 8))
+            || (field.maxLength > 0 && (field.maxLength < MIN_INPUT_LENGTH || field.maxLength > MAX_INPUT_LENGTH))
             || ignoredTypes.some(t => t === field.autocomplete)
-            || field.getAttribute('kpxc-totp-field') === 'true'
-            || (field.hasAttribute('kpxc-defined') && field.getAttribute('kpxc-defined') !== 'totp')
             || field.id.match(ignoreRegex)
             || field.name.match(ignoreRegex)
             || field.readOnly) {
@@ -75,10 +75,7 @@ kpxcTOTPIcons.isValid = function(field, forced) {
 
 class TOTPFieldIcon extends Icon {
     constructor(field, databaseState = DatabaseState.DISCONNECTED, forced = false) {
-        super();
-        this.icon = null;
-        this.inputField = null;
-        this.databaseState = databaseState;
+        super(field, databaseState);
 
         this.initField(field, forced);
         kpxcUI.monitorIconPosition(this);
@@ -127,7 +124,7 @@ TOTPFieldIcon.prototype.createIcon = function(field) {
         kpxc.fillFromTOTP(field);
     });
 
-    kpxcUI.setIconPosition(icon, field);
+    kpxcUI.setIconPosition(icon, field, this.rtl);
     this.icon = icon;
 
     const styleSheet = document.createElement('link');

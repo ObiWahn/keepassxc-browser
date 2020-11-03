@@ -134,7 +134,7 @@ kpxcIcons.switchIcons = function() {
  * Identifies form submits and password changes.
  */
 const kpxcForm = {};
-kpxcForm.formButtonQuery = 'button[type=\'button\'], button[type=\'submit\'], input[type=\'button\'], button:not([type]), div[role=\'button\']';
+kpxcForm.formButtonQuery = 'button[type=\'button\'], button[type=\'submit\'], input[type=\'button\'], input[type=\'submit\'], button:not([type]), div[role=\'button\']';
 kpxcForm.savedForms = [];
 
 // Returns true if form has been already saved
@@ -156,6 +156,19 @@ kpxcForm.getCredentialFieldsFromForm = function(form) {
 // Get the form submit button instead if action URL is same as the page itself
 kpxcForm.getFormSubmitButton = function(form) {
     const action = kpxc.submitUrl || form.action;
+
+    // Special handling for accounts.google.com. The submit button is outside the form.
+    if (form.action.startsWith(kpxcSites.googleUrl)) {
+        const findDiv = $('#identifierNext, #passwordNext');
+        if (!findDiv) {
+            return undefined;
+        }
+
+        const buttons = findDiv.getElementsByTagName('button');
+        kpxcSites.savedForm = form;
+        return buttons.length > 0 ? buttons[0] : undefined;
+    }
+
     if (action.includes(document.location.origin + document.location.pathname)) {
         for (const i of form.elements) {
             if (i.type === 'submit') {
@@ -164,16 +177,17 @@ kpxcForm.getFormSubmitButton = function(form) {
         }
     }
 
-    // Try to find another button. Select the first one.
+    // Try to find another button. Select the last one.
+    // TODO: Possibly change this behavior to select the last one for only certain sites.
     const buttons = Array.from(form.querySelectorAll(kpxcForm.formButtonQuery));
     if (buttons.length > 0) {
-        return buttons[0];
+        return buttons[buttons.length - 1];
     }
 
     // Try to find similar buttons outside the form which are added via 'form' property
     for (const e of form.elements) {
         if ((e.nodeName === 'BUTTON' && (e.type === 'button' || e.type === 'submit' || e.type === ''))
-            || (e.nodeName === 'INPUT' && e.type === 'button')) {
+            || (e.nodeName === 'INPUT' && (e.type === 'button' || e.type === 'submit'))) {
             return e;
         }
     }
@@ -207,7 +221,8 @@ kpxcForm.getNewPassword = function(passwordInputs = []) {
 
 // Initializes form and attaches the submit button to our own callback
 kpxcForm.init = function(form, credentialFields) {
-    if (!kpxcForm.formIdentified(form) && (credentialFields.password || credentialFields.username)) {
+    if (!kpxcForm.formIdentified(form) && (credentialFields.password || credentialFields.username)
+        || form.action.startsWith(kpxcSites.googlePasswordFormUrl)) {
         kpxcForm.saveForm(form, credentialFields);
         form.addEventListener('submit', kpxcForm.onSubmit);
 
@@ -231,7 +246,13 @@ kpxcForm.onSubmit = async function(e) {
     };
 
     // Traverse parents if the form is not found.
-    const form = this.nodeName === 'FORM' ? this : kpxcFields.traverseParents(this, searchForm, searchForm, () => null);
+    let form = this.nodeName === 'FORM' ? this : kpxcFields.traverseParents(this, searchForm, searchForm, () => null);
+
+    // Check for extra forms from sites.js
+    if (!form) {
+        form = kpxcSites.savedForm;
+    }
+
     if (!form) {
         return;
     }
@@ -261,7 +282,9 @@ kpxcForm.onSubmit = async function(e) {
     }
 
     await kpxc.setPasswordFilled(true);
-    await sendMessage('page_set_submitted', [ true, usernameValue, passwordValue, trimURL(window.top.location.href), kpxc.credentials ]);
+
+    const url = trimURL(kpxc.settings.saveDomainOnlyNewCreds ? window.top.location.origin : window.top.location.href);
+    await sendMessage('page_set_submitted', [ true, usernameValue, passwordValue, url, kpxc.credentials ]);
 
     // Show the banner if the page does not reload
     kpxc.rememberCredentials(usernameValue, passwordValue);
@@ -597,11 +620,9 @@ kpxc.submitUrl = null;
 kpxc.url = null;
 
 // Add page to Site Preferences with Username-only detection enabled. Set from the popup
-kpxc.addToSitePreferences = async function(sites) {
-    kpxc.initSitePreferences();
-
+kpxc.addToSitePreferences = async function() {
     // Returns a predefined URL for certain sites
-    let site = kpxcSites.definedURL(trimURL(window.top.location.href));
+    let site = trimURL(window.top.location.href);
 
     // Check if the site already exists -> update the current settings
     let siteExists = false;
@@ -693,8 +714,23 @@ kpxc.detectDatabaseChange = async function(response) {
 
 // Fill requested from the context menu. Active element is used for combination detection
 kpxc.fillInFromActiveElement = async function(passOnly = false) {
+    if (kpxc.credentials.length === 0) {
+        return;
+    }
+
     const el = document.activeElement;
-    if (el.nodeName !== 'INPUT' || kpxc.credentials.length === 0) {
+    if (el.nodeName !== 'INPUT') {
+        // No active input element selected -> fill the first combination found
+        if (kpxc.combinations.length > 0) {
+            kpxc.fillInCredentials(kpxc.combinations[0], kpxc.credentials[0].login, kpxc.credentials[0].uuid, passOnly);
+
+            // Focus to the input field
+            const field = passOnly ? kpxc.combinations[0].password : kpxc.combinations[0].username;
+            if (field) {
+                field.focus();
+            }
+        }
+
         return;
     } else if (kpxc.credentials.length > 1 && kpxc.combinations.length > 0 && kpxc.settings.autoCompleteUsernames) {
         kpxcAutocomplete.showList(el);
@@ -925,8 +961,6 @@ kpxc.getSite = function(sites) {
     }
 
     let site = trimURL(sites[0]);
-    kpxc.initSitePreferences();
-
     if (slashNeededForUrl(site)) {
         site += '/';
     }
@@ -1121,17 +1155,6 @@ kpxc.initLoginPopup = function() {
     sendMessage('popup_login', usernames);
 };
 
-// Delete previously created Object if it exists. It will be replaced by an Array
-kpxc.initSitePreferences = function() {
-    if (kpxc.settings['sitePreferences'] !== undefined && kpxc.settings['sitePreferences'].constructor === Object) {
-        delete kpxc.settings['sitePreferences'];
-    }
-
-    if (!kpxc.settings['sitePreferences']) {
-        kpxc.settings['sitePreferences'] = [];
-    }
-};
-
 kpxc.passwordFilled = async function() {
     return await sendMessage('password_get_filled');
 };
@@ -1186,12 +1209,9 @@ kpxc.rememberCredentials = async function(usernameValue, passwordValue, urlValue
     }
 
     const getUrl = function() {
-        let url = kpxc.settings.saveDomainOnlyNewCreds ? document.location.origin : document.location.href;
-        if (url.indexOf('?') > 0) {
-            url = url.substring(0, url.indexOf('?'));
-            if (url.length < document.location.origin.length) {
-                url = document.location.origin;
-            }
+        let url = trimURL(kpxc.settings.saveDomainOnlyNewCreds ? document.location.origin : document.location.href);
+        if (url.length < document.location.origin.length) {
+            url = document.location.origin;
         }
 
         return url;
@@ -1329,8 +1349,6 @@ kpxc.setValueWithChange = function(field, value) {
 
 // Returns true if site is ignored
 kpxc.siteIgnored = async function(condition) {
-    kpxc.initSitePreferences();
-
     if (kpxc.settings.sitePreferences) {
         let currentLocation;
         try {
@@ -1349,6 +1367,15 @@ kpxc.siteIgnored = async function(condition) {
                 }
 
                 kpxc.singleInputEnabledForPage = site.usernameOnly;
+            }
+        }
+
+        // Check for predefined sites
+        if (kpxc.settings.usePredefinedSites) {
+            for (const url of PREDEFINED_SITELIST) {
+                if (siteMatch(url, currentLocation) || url === currentLocation) {
+                    kpxc.singleInputEnabledForPage = true;
+                }
             }
         }
     }
@@ -1576,7 +1603,8 @@ kpxcObserverHelper.ignoredElement = function(target) {
 // Ignores all nodes that doesn't contain elements
 // Also ignore few Youtube-specific custom nodeNames
 kpxcObserverHelper.ignoredNode = function(target) {
-    if (kpxcObserverHelper.ignoredNodeTypes.some(e => e === target.nodeType)
+    if (!target
+        ||kpxcObserverHelper.ignoredNodeTypes.some(e => e === target.nodeType)
         || kpxcObserverHelper.ignoredNodeNames.some(e => e === target.nodeName)
         || target.nodeName.startsWith('YTMUSIC')
         || target.nodeName.startsWith('YT-')) {
@@ -1616,7 +1644,7 @@ kpxcObserverHelper.initObserver = async function() {
             } else if (mut.type === 'attributes' && mut.attributeName === 'class') {
                 // Only accept targets with forms
                 const forms = mut.target.nodeName === 'FORM' ? mut.target : mut.target.getElementsByTagName('form');
-                if (forms.length === 0) {
+                if (forms.length === 0 && !kpxcSites.exceptionFound(mut.target.classList)) {
                     continue;
                 }
 
@@ -1635,7 +1663,9 @@ kpxcObserverHelper.initObserver = async function() {
         }
     });
 
-    kpxc.observer.observe(document.body, kpxcObserverHelper.observerConfig);
+    if (document.body) {
+        kpxc.observer.observe(document.body, kpxcObserverHelper.observerConfig);
+    }
 };
 
 MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
