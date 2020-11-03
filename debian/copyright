@@ -9,7 +9,7 @@ Files-Excluded: .github
   keepassxc-browser/bootstrap/bootstrap.min.css
   keepassxc-browser/bootstrap/bootstrap.min.js
   keepassxc-browser/bootstrap/jquery-3.4.1.min.js
-  keepassxc-browser/browser-polyfill.min.js
+  keepassxc-browser/common/browser-polyfill.min.js
   keepassxc-browser/fonts/fork-awesome.min.css
   keepassxc-browser/fonts/forkawesome-webfont.woff2
 

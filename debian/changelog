@@ -1,3 +1,19 @@
+keepassxc-browser (1.7.2+repack1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Added keepassxc-browser/common/browser-polyfill.min.js to excluded files in
+    debian/copyright
+  * Adjusted installation paths in debian/webext-keepassxc-browser.install
+  * Refreshed patches
+    * fix-nacl-includes.patch
+    * fix-jquery-includes.patch
+    * fix-fork-awesome-css-includes.patch
+    * fix-browser-polyfill-includex.patch
+    * fix-bootstrap-includes.patch
+    * chromium-extension-key.patch
+
+ -- Bruno Kleinert <fuddl@debian.org>  Tue, 03 Nov 2020 13:17:31 +0100
+
 keepassxc-browser (1.7.1+repack1-1) unstable; urgency=medium
 
   * New upstream release
