@@ -4,18 +4,18 @@ Files removed from upstream release
 For the Debian package the following files are removed from the upstream
 distribution (see Files-Excluded field in debian/copyright):
 
-Upstream                        | Replacement (file or packagename)
+Upstream                                          | Replacement (file or packagename)
 =======================================================================
-.github/                        | -
-.tx/                            | -
-background/nacl-util.min.js     | d/missing-sources/nacl-utils.js
-background/nacl.min.js          | node-tweetnacl
-bootstrap/bootstrap.min.css     | libjs-bootstrap4
-bootstrap/bootstrap.min.js      | libjs-bootstrap4
-bootstrap/jquery-3.4.1.min.js   | node-jquery
-browser-polyfill.min.js         | d/missing-sources/browser-polyfill.js
-fonts/fork-awesome.min.css      | fonts-fork-awesome
-fonts/forkawesome-webfont.woff2 | fonts-fork-awesome
+.github/                                          | -
+.tx/                                              | -
+keepassxc-browser/background/nacl-util.min.js     | d/missing-sources/nacl-utils.js
+keepassxc-browser/background/nacl.min.js          | node-tweetnacl
+keepassxc-browser/bootstrap/bootstrap.min.css     | libjs-bootstrap4
+keepassxc-browser/bootstrap/bootstrap.min.js      | libjs-bootstrap4
+keepassxc-browser/bootstrap/jquery-3.4.1.min.js   | node-jquery
+keepassxc-browser/common/browser-polyfill.min.js  | d/missing-sources/browser-polyfill.js
+keepassxc-browser/fonts/fork-awesome.min.css      | fonts-fork-awesome
+keepassxc-browser/fonts/forkawesome-webfont.woff2 | fonts-fork-awesome
 
 NOTE: The above list is to be kept in sync with Files-Excluded in
 debian/copyright! Rationale: The above list also documents replacements.

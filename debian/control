@@ -8,7 +8,7 @@ Build-Depends:
  libjs-bootstrap4,
  node-jquery,
  node-tweetnacl
-Standards-Version: 4.5.0
+Standards-Version: 4.5.1
 Homepage: https://github.com/keepassxreboot/keepassxc-browser
 Rules-Requires-Root: no
 

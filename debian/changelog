@@ -1,3 +1,11 @@
+keepassxc-browser (1.7.3+repack1-2) unstable; urgency=medium
+
+  * In 1.7.2+repack1-1 the Files-Excluded list was updated, but the replaced
+    files table in README.source wasn't. Updated the table accordingly.
+  * Updated standards version to 4.5.1 without changes.
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sat, 21 Nov 2020 17:42:48 +0100
+
 keepassxc-browser (1.7.3+repack1-1) unstable; urgency=medium
 
   * New upstream release
