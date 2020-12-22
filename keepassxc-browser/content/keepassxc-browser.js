@@ -134,7 +134,7 @@ kpxcIcons.switchIcons = function() {
  * Identifies form submits and password changes.
  */
 const kpxcForm = {};
-kpxcForm.formButtonQuery = 'button[type=\'button\'], button[type=\'submit\'], input[type=\'button\'], input[type=\'submit\'], button:not([type]), div[role=\'button\']';
+kpxcForm.formButtonQuery = 'button[type=button], button[type=submit], input[type=button], input[type=submit], button:not([type]), div[role=button]';
 kpxcForm.savedForms = [];
 
 // Returns true if form has been already saved
@@ -155,6 +155,10 @@ kpxcForm.getCredentialFieldsFromForm = function(form) {
 
 // Get the form submit button instead if action URL is same as the page itself
 kpxcForm.getFormSubmitButton = function(form) {
+    if (!form.action || typeof form.action !== 'string') {
+        return;
+    }
+
     const action = kpxc.submitUrl || form.action;
 
     // Special handling for accounts.google.com. The submit button is outside the form.
@@ -221,6 +225,10 @@ kpxcForm.getNewPassword = function(passwordInputs = []) {
 
 // Initializes form and attaches the submit button to our own callback
 kpxcForm.init = function(form, credentialFields) {
+    if (!form.action || typeof form.action !== 'string') {
+        return;
+    }
+
     if (!kpxcForm.formIdentified(form) && (credentialFields.password || credentialFields.username)
         || form.action.startsWith(kpxcSites.googlePasswordFormUrl)) {
         kpxcForm.saveForm(form, credentialFields);
@@ -370,7 +378,7 @@ kpxcFields.getAllPageInputs = async function(previousInputs = []) {
             continue;
         }
 
-        if (kpxcFields.isVisible(input) && !kpxcFields.isSearchField(input) && kpxcFields.isAutocompleteAppropriate(input)) {
+        if (kpxcFields.isVisible(input) && kpxcFields.isAutocompleteAppropriate(input)) {
             fields.push(input);
         }
     }
@@ -483,16 +491,18 @@ kpxcFields.isVisible = function(elem) {
     const rect = elem.getBoundingClientRect();
     if (rect.x < 0
         || rect.y < 0
-        || rect.width < 8
+        || rect.width < MIN_INPUT_FIELD_WIDTH_PX
         || rect.x > Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth)
         || rect.y > Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight)
-        || rect.height < 8) {
+        || rect.height < MIN_INPUT_FIELD_WIDTH_PX) {
         return false;
     }
 
     // Check CSS visibility
     const elemStyle = getComputedStyle(elem);
-    if (elemStyle.visibility && (elemStyle.visibility === 'hidden' || elemStyle.visibility === 'collapse')) {
+    if (elemStyle.visibility && (elemStyle.visibility === 'hidden' || elemStyle.visibility === 'collapse')
+        || parseInt(elemStyle.width, 10) <= MIN_INPUT_FIELD_WIDTH_PX
+        || parseInt(elemStyle.height, 10) <= MIN_INPUT_FIELD_WIDTH_PX) {
         return false;
     }
 
@@ -547,7 +557,7 @@ kpxcFields.useCustomLoginFields = async function() {
 
     // Get all input fields from the page without any extra filters
     const inputFields = [];
-    document.body.querySelectorAll('input, select').forEach(e => {
+    document.body.querySelectorAll('input, select, textarea').forEach(e => {
         if (e.type !== 'hidden' && !e.disabled) {
             inputFields.push(e);
         }
@@ -712,32 +722,56 @@ kpxc.detectDatabaseChange = async function(response) {
     }
 };
 
+// Fill selected attribute from the context menu
+kpxc.fillAttributeToActiveElementWith = async function(attr) {
+    const el = document.activeElement;
+    if (el.nodeName !== 'INPUT' || kpxc.credentials.length === 0) {
+        return;
+    }
+
+    const value = Object.values(attr);
+    if (!value || value.length === 0) {
+        return;
+    }
+
+    kpxc.setValue(el, value[0]);
+};
+
 // Fill requested from the context menu. Active element is used for combination detection
 kpxc.fillInFromActiveElement = async function(passOnly = false) {
     if (kpxc.credentials.length === 0) {
         return;
     }
 
-    const el = document.activeElement;
-    if (el.nodeName !== 'INPUT') {
-        // No active input element selected -> fill the first combination found
-        if (kpxc.combinations.length > 0) {
-            kpxc.fillInCredentials(kpxc.combinations[0], kpxc.credentials[0].login, kpxc.credentials[0].uuid, passOnly);
-
-            // Focus to the input field
-            const field = passOnly ? kpxc.combinations[0].password : kpxc.combinations[0].username;
-            if (field) {
-                field.focus();
-            }
+    if (kpxc.combinations.length > 0 && kpxc.settings.autoCompleteUsernames) {
+        const combination = passOnly
+            ? kpxc.combinations.find(c => c.password)
+            : kpxc.combinations.find(c => c.username);
+        if (!combination) {
+            return;
         }
 
-        return;
-    } else if (kpxc.credentials.length > 1 && kpxc.combinations.length > 0 && kpxc.settings.autoCompleteUsernames) {
-        kpxcAutocomplete.showList(el);
-        return;
+        const field = passOnly ? combination.password : combination.username;
+        if (!field) {
+            return;
+        }
+
+        // set focus to the input field
+        field.focus();
+
+        if (kpxc.credentials.length > 1) {
+            // More than one credential -> show autocomplete list
+            kpxcAutocomplete.showList(field);
+            return
+        } else {
+            // Just one credential -> fill the first combination found
+            kpxc.fillInCredentials(combination, kpxc.credentials[0].login, kpxc.credentials[0].uuid, passOnly);
+            return;
+        }
     }
 
     // No previous combinations detected. Create a new one from active element
+    const el = document.activeElement;
     let combination;
     if (kpxc.combinations.length === 0) {
         combination = await kpxc.createCombination(el);
@@ -794,15 +828,7 @@ kpxc.fillFromTOTP = async function(target) {
 
     if (index >= 0 && kpxc.credentials[index]) {
         // Check the value from StringFields
-        if (kpxc.credentials[index].stringFields && kpxc.credentials[index].stringFields.length > 0) {
-            const stringFields = kpxc.credentials[index].stringFields;
-            for (const s of stringFields) {
-                const val = s['KPH: {TOTP}'];
-                if (val) {
-                    kpxc.setValue(el, val);
-                }
-            }
-        } else if (kpxc.credentials[index].totp && kpxc.credentials[index].totp.length > 0) {
+        if (kpxc.credentials[index].totp && kpxc.credentials[index].totp.length > 0) {
             // Retrieve a new TOTP value
             const totp = await sendMessage('get_totp', [ kpxc.credentials[index].uuid, kpxc.credentials[index].totp ]);
             if (!totp) {
@@ -811,6 +837,14 @@ kpxc.fillFromTOTP = async function(target) {
             }
 
             kpxc.setValue(el, totp);
+        } else if (kpxc.credentials[index].stringFields && kpxc.credentials[index].stringFields.length > 0) {
+            const stringFields = kpxc.credentials[index].stringFields;
+            for (const s of stringFields) {
+                const val = s['KPH: {TOTP}'];
+                if (val) {
+                    kpxc.setValue(el, val);
+                }
+            }
         }
     }
 };
@@ -1117,9 +1151,12 @@ kpxc.initLoginPopup = function() {
     }
 
     const getLoginText = function(credential, withGroup) {
+        const name = credential.name.length < MAX_AUTOCOMPLETE_NAME_LEN
+                   ? credential.name
+                   : credential.name.substr(0, MAX_AUTOCOMPLETE_NAME_LEN) + '…';
         const group = (withGroup && credential.group) ? `[${credential.group}] ` : '';
         const visibleLogin = (credential.login.length > 0) ? credential.login : tr('credentialsNoUsername');
-        const text = `${group}${credential.name} (${visibleLogin})`;
+        const text = `${group}${name} (${visibleLogin})`;
 
         if (credential.expired && credential.expired === 'true') {
             return `${text} [${tr('credentialExpired')}]`;
@@ -1282,6 +1319,12 @@ kpxc.retrieveCredentialsCallback = async function(credentials) {
     if (credentials && credentials.length > 0) {
         kpxc.credentials = credentials;
         await kpxc.prepareCredentials();
+    }
+
+    // Update fill_attribute context menu if String Fields are available
+    const stringFieldsFound = credentials.some(e => e.stringFields && e.stringFields.length > 0);
+    if (stringFieldsFound) {
+        await sendMessage('update_context_menu', credentials);
     }
 
     // Retrieve submitted credentials if available
@@ -1519,7 +1562,8 @@ kpxcObserverHelper.getInputs = function(target, ignoreVisibility = false) {
     // Only include input fields that match with kpxcObserverHelper.inputTypes
     const inputs = [];
     for (const field of inputFields) {
-        if (!ignoreVisibility && !kpxcFields.isVisible(field)) {
+        if ((!ignoreVisibility && !kpxcFields.isVisible(field))
+            || kpxcFields.isSearchField(field)) {
             continue;
         }
 
@@ -1680,6 +1724,11 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 const initContentScript = async function() {
     try {
         const settings = await sendMessage('load_settings');
+        if (!settings) {
+            console.log('Error: Cannot load extension settings');
+            return;
+        }
+
         kpxc.settings = settings;
 
         if (await kpxc.siteIgnored()) {
@@ -1753,6 +1802,9 @@ browser.runtime.onMessage.addListener(async function(req, sender) {
         } else if (req.action === 'fill_totp') {
             await kpxc.receiveCredentialsIfNecessary();
             kpxc.fillFromTOTP();
+        } else if (req.action === 'fill_attribute' && req.args) {
+            await kpxc.receiveCredentialsIfNecessary();
+            kpxc.fillAttributeToActiveElementWith(req.args);
         } else if (req.action === 'ignore_site') {
             kpxc.ignoreSite(req.args);
         } else if (req.action === 'redetect_fields') {
