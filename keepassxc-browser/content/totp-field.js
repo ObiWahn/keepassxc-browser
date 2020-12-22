@@ -2,14 +2,13 @@
 
 const ignoreRegex = /(bank|coupon|postal|user|zip).*code|comment|author/i;
 const ignoredTypes = [ 'email', 'password', 'username' ];
-const MIN_INPUT_LENGTH = 6;
-const MAX_INPUT_LENGTH = 10;
 
 const acceptedOTPFields = [
     '2fa',
     'auth',
     'challenge',
     'code',
+    'idvpin',
     'mfa',
     'otp',
     'token',
@@ -55,9 +54,9 @@ kpxcTOTPIcons.isValid = function(field, forced) {
 
     if (!forced) {
         if (ignoredTypes.some(t => t === field.type)
-            || field.offsetWidth < MINIMUM_INPUT_FIELD_WIDTH
+            || field.offsetWidth < MIN_INPUT_FIELD_OFFSET_WIDTH
             || field.size < 2
-            || (field.maxLength > 0 && (field.maxLength < MIN_INPUT_LENGTH || field.maxLength > MAX_INPUT_LENGTH))
+            || (field.maxLength > 0 && (field.maxLength < MIN_TOTP_INPUT_LENGTH || field.maxLength > kpxcSites.expectedTOTPMaxLength()))
             || ignoredTypes.some(t => t === field.autocomplete)
             || field.id.match(ignoreRegex)
             || field.name.match(ignoreRegex)
