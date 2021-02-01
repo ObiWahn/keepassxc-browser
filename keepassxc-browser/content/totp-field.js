@@ -1,6 +1,6 @@
 'use strict';
 
-const ignoreRegex = /(bank|coupon|postal|user|zip).*code|comment|author/i;
+const ignoreRegex = /(bank|coupon|postal|user|zip).*code|comment|author|error/i;
 const ignoredTypes = [ 'email', 'password', 'username' ];
 
 const acceptedOTPFields = [
@@ -12,6 +12,7 @@ const acceptedOTPFields = [
     'mfa',
     'otp',
     'token',
+    'twofa',
     'twofactor'
 ];
 
@@ -60,6 +61,7 @@ kpxcTOTPIcons.isValid = function(field, forced) {
             || ignoredTypes.some(t => t === field.autocomplete)
             || field.id.match(ignoreRegex)
             || field.name.match(ignoreRegex)
+            || field.placeholder.match(ignoreRegex)
             || field.readOnly) {
             return false;
         }
