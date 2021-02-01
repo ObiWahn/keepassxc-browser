@@ -1,3 +1,9 @@
+keepassxc-browser (1.7.5+repack1-1) experimental; urgency=medium
+
+  * New upstream release
+
+ -- Bruno Kleinert <fuddl@debian.org>  Mon, 01 Feb 2021 18:49:48 +0100
+
 keepassxc-browser (1.7.4+repack1-2) unstable; urgency=medium
 
   * Added version control system fields to debian/control
