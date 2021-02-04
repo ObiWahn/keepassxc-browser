@@ -1,8 +1,8 @@
-keepassxc-browser (1.7.5+repack1-2) UNRELEASED; urgency=medium
+keepassxc-browser (1.7.5+repack1-2) experimental; urgency=medium
 
   * Updated upstream sources and packaging copyright years
 
- -- Bruno Kleinert <fuddl@debian.org>  Thu, 04 Feb 2021 05:27:27 +0100
+ -- Bruno Kleinert <fuddl@debian.org>  Thu, 04 Feb 2021 06:05:38 +0100
 
 keepassxc-browser (1.7.5+repack1-1) experimental; urgency=medium
 
