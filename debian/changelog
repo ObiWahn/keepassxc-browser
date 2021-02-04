@@ -1,6 +1,7 @@
 keepassxc-browser (1.7.6+repack1-1) experimental; urgency=medium
 
   * New upstream release
+  * Refreshed chromium-extension-key.patch
 
  -- Bruno Kleinert <fuddl@debian.org>  Thu, 04 Feb 2021 06:36:18 +0100
 
