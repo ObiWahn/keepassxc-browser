@@ -14,11 +14,11 @@ Files-Excluded: .github
   keepassxc-browser/fonts/forkawesome-webfont.woff2
 
 Files: *
-Copyright: 2017-2020, KeePassXC team <team@keepassxc.org>
+Copyright: 2017-2021, KeePassXC team <team@keepassxc.org>
 License: GPL-3
 
 Files: debian/*
-Copyright: 2018-2020, Bruno Kleinert <fuddl@debian.org>
+Copyright: 2018-2021, Bruno Kleinert <fuddl@debian.org>
 License: GPL-3
 
 Files: debian/missing-sources/browser-polyfill.js
