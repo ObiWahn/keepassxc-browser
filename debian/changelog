@@ -1,3 +1,19 @@
+keepassxc-browser (1.7.7+repack1-1) experimental; urgency=medium
+
+  * New upstream release
+  * Refreshed debian/patches/00-never-check-for-updates-by-default.patch
+  * Refreshed debian/patches/chromium-extension-key.patch
+  * Made debian/fetch-missing-sources.sh download version 0.7.0 of
+    browser-polyfill.js
+  * Updated debian/missing-sources/browser-polyfill.js to version 0.7.0 as
+    upstream updated to that version. Updated copyright years accordingly in
+    debian/copyright
+  * Removed superfluous Expat license from debian/copyright thanks to lintian.
+    The accordingly licensed code copies were replaced by a dependency on
+    libjs-bootstrap4
+
+ -- Bruno Kleinert <fuddl@debian.org>  Fri, 02 Apr 2021 04:52:28 +0200
+
 keepassxc-browser (1.7.6+repack1-1) experimental; urgency=medium
 
   * New upstream release
