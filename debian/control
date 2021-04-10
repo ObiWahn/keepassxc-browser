@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Bruno Kleinert <fuddl@debian.org>
 Build-Depends:
- debhelper-compat (= 12),
+ debhelper-compat (= 13),
  fonts-fork-awesome,
  libjs-bootstrap4,
  node-jquery,
