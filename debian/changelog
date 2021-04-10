@@ -1,4 +1,4 @@
-keepassxc-browser (1.7.8+repack1-1) unstable; urgency=medium
+keepassxc-browser (1.7.8+repack1-1) experimental; urgency=medium
 
   * New upstream release
   * Bumped debhelper-compat to 13 in debian/control
