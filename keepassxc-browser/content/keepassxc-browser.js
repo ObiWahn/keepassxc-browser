@@ -300,7 +300,9 @@ kpxcForm.onSubmit = async function(e) {
         return;
     }
 
-    await kpxc.setPasswordFilled(true);
+    if (passwordField) {
+        await kpxc.setPasswordFilled(true);
+    }
 
     const url = trimURL(kpxc.settings.saveDomainOnlyNewCreds ? window.top.location.origin : window.top.location.href);
     await sendMessage('page_set_submitted', [ true, usernameValue, passwordValue, url, kpxc.credentials ]);
@@ -407,8 +409,10 @@ kpxcFields.getSegmentedTOTPFields = function(inputs, combinations) {
     };
 
     const form = inputs.length > 0 ? inputs[0].form : undefined;
-    if (form && (acceptedOTPFields.some(f => form.className.includes(f) || form.id.includes(f) || form.name.includes(f))
-        || form.length === 6)) {
+    if (form && (acceptedOTPFields.some(f => (form.className && form.className.includes(f))
+        || (form.id && typeof(form.id) === 'string' && form.id.includes(f))
+        || (form.name && typeof(form.name) === 'string' && form.name.includes(f))
+        || form.length === 6))) {
         // Use the form's elements
         addTotpFieldsToCombination(form.elements);
     } else if (inputs.length === 6 && inputs.every(i => i.inputMode === 'numeric' && i.pattern.includes('0-9'))) {
@@ -941,7 +945,13 @@ kpxc.fillFromPopup = async function(id, uuid) {
     }
 
     await sendMessage('page_set_login_id', id);
-    kpxc.fillInCredentials(kpxc.combinations[0], kpxc.credentials[id].login, uuid);
+    const selectedCredentials = kpxc.credentials.find(c => c.uuid === uuid);
+    if (!selectedCredentials) {
+        console.log('Error: Uuid not found: ', uuid);
+        return;
+    }
+
+    kpxc.fillInCredentials(kpxc.combinations[0], selectedCredentials.login, uuid);
     kpxcUserAutocomplete.closeList();
 };
 
@@ -1062,6 +1072,7 @@ kpxc.fillInCredentials = async function(combination, predefinedUsername, uuid, p
     // Find the correct credentials
     const selectedCredentials = kpxc.credentials.find(c => c.uuid === uuid);
     if (!selectedCredentials) {
+        console.log('Error: Uuid not found: ', uuid);
         return;
     }
 
