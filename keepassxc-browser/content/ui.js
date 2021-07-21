@@ -4,6 +4,8 @@ const MIN_TOTP_INPUT_LENGTH = 6;
 const MAX_TOTP_INPUT_LENGTH = 10;
 const MIN_INPUT_FIELD_WIDTH_PX = 8;
 const MIN_INPUT_FIELD_OFFSET_WIDTH = 60;
+const MIN_OPACITY = 0.7;
+const MAX_OPACITY = 1;
 
 const DatabaseState = {
     DISCONNECTED: 0,
@@ -125,10 +127,12 @@ kpxcUI.setIconPosition = function(icon, field, rtl = false, segmented = false) {
         left += size + 10;
     }
 
-    icon.style.top = Pixels(top + document.scrollingElement.scrollTop + offset + 1);
+    const scrollTop = document.scrollingElement ? document.scrollingElement.scrollTop : 0;
+    const scrollLeft = document.scrollingElement ? document.scrollingElement.scrollLeft : 0;
+    icon.style.top = Pixels(top + scrollTop + offset + 1);
     icon.style.left = rtl
-                    ? Pixels((left + document.scrollingElement.scrollLeft) + offset)
-                    : Pixels(left + document.scrollingElement.scrollLeft + field.offsetWidth - size - offset);
+                    ? Pixels((left + scrollLeft) + offset)
+                    : Pixels(left + scrollLeft + field.offsetWidth - size - offset);
 };
 
 kpxcUI.deleteHiddenIcons = function(iconList, attr) {
