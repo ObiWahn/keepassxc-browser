@@ -1,4 +1,4 @@
-keepassxc-browser (1.7.9.1+repack1-1) unstable; urgency=medium
+keepassxc-browser (1.7.9.1+repack1-1) experimental; urgency=medium
 
   * New upstream release
 
