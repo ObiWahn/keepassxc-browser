@@ -37,7 +37,8 @@ const kpActions = {
     DATABASE_UNLOCKED: 'database-unlocked',
     GET_DATABASE_GROUPS: 'get-database-groups',
     CREATE_NEW_GROUP: 'create-new-group',
-    GET_TOTP: 'get-totp'
+    GET_TOTP: 'get-totp',
+    REQUEST_AUTOTYPE: 'request-autotype'
 };
 
 const kpErrors = {
@@ -325,7 +326,7 @@ keepass.generatePassword = async function(tab) {
             return [];
         }
 
-        let passwords = [];
+        let password;
         const kpAction = kpActions.GENERATE_PASSWORD;
         const [ nonce, incrementedNonce ] = keepass.getNonces();
 
@@ -348,22 +349,18 @@ keepass.generatePassword = async function(tab) {
             keepass.setcurrentKeePassXCVersion(parsed.version);
 
             if (keepass.verifyResponse(parsed, incrementedNonce)) {
-                if (parsed.entries) {
-                    passwords = parsed.entries;
-                    keepass.updateLastUsed(keepass.databaseHash);
-                } else {
-                    console.log('No entries returned. Is KeePassXC up-to-date?');
-                }
+                password = parsed.entries ?? parsed.password;
+                keepass.updateLastUsed(keepass.databaseHash);
             } else {
                 console.log('GeneratePassword rejected');
             }
 
-            return passwords;
+            return password;
         } else if (response.error && response.errorCode) {
             keepass.handleError(tab, response.errorCode, response.error);
         }
 
-        return passwords;
+        return password;
     } catch (err) {
         console.log('generatePassword failed: ', err);
         return [];
@@ -852,6 +849,50 @@ keepass.getTotp = async function(tab, args = []) {
     }
 };
 
+keepass.requestAutotype = async function(tab, args = []) {
+    if (!keepass.isConnected) {
+        keepass.handleError(tab, kpErrors.TIMEOUT_OR_NOT_CONNECTED);
+        return false;
+    }
+
+    const kpAction = kpActions.REQUEST_AUTOTYPE;
+    const [ nonce, incrementedNonce ] = keepass.getNonces();
+    const search = getTopLevelDomainFromUrl(args[0]);
+
+    const messageData = {
+        action: kpAction,
+        search: search
+    };
+
+    const request = keepass.buildRequest(kpAction, keepass.encrypt(messageData, nonce), nonce, keepass.clientID);
+
+    try {
+        const response = await keepass.sendNativeMessage(request);
+        if (response.message && response.nonce) {
+            const res = keepass.decrypt(response.message, response.nonce);
+            if (!res) {
+                keepass.handleError(tab, kpErrors.CANNOT_DECRYPT_MESSAGE);
+                return false;
+            }
+
+            const message = nacl.util.encodeUTF8(res);
+            const parsed = JSON.parse(message);
+
+            if (keepass.verifyResponse(parsed, incrementedNonce)) {
+                return true;
+            }
+        } else if (response.error && response.errorCode) {
+            keepass.handleError(tab, response.errorCode, response.error);
+        }
+
+        return false;
+    } catch (err) {
+        console.log('requestAutotype failed: ', err);
+        return false;
+    }
+};
+
+
 keepass.generateNewKeyPair = function() {
     keepass.keyPair = nacl.box.keyPair();
     //console.log(nacl.util.encodeBase64(keepass.keyPair.publicKey) + ' ' + nacl.util.encodeBase64(keepass.keyPair.secretKey));
@@ -955,7 +996,7 @@ keepass.setcurrentKeePassXCVersion = function(version) {
 };
 
 keepass.keePassXCUpdateAvailable = function() {
-    if (page.settings.checkUpdateKeePassXC && page.settings.checkUpdateKeePassXC > 0) {
+    if (page.settings.checkUpdateKeePassXC && page.settings.checkUpdateKeePassXC != CHECK_UPDATE_NEVER) {
         const lastChecked = (keepass.latestKeePassXC.lastChecked) ? new Date(keepass.latestKeePassXC.lastChecked) : new Date(1986, 11, 21);
         const daysSinceLastCheck = Math.floor(((new Date()).getTime() - lastChecked.getTime()) / 86400000);
         if (daysSinceLastCheck >= page.settings.checkUpdateKeePassXC) {
@@ -1271,6 +1312,12 @@ keepass.updateDatabaseHashToContent = async function() {
 keepass.compareVersion = function(minimum, current, canBeEqual = true) {
     if (!minimum || !current) {
         return false;
+    }
+
+    // Handle snapshot builds as stable version
+    const snapshot = '-snapshot';
+    if (current.endsWith(snapshot)) {
+        current = current.slice(0, -snapshot.length);
     }
 
     const min = minimum.split('.', 3).map(s => s.padStart(4, '0')).join('.');

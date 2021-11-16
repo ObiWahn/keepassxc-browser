@@ -12,6 +12,12 @@ const SORT_BY_USERNAME = 'sortByUsername';
 const SORT_BY_GROUP_AND_TITLE = 'sortByGroupAndTitle';
 const SORT_BY_GROUP_AND_USERNAME = 'sortByGroupAndUsername';
 
+// Update check intervals
+const CHECK_UPDATE_NEVER = 0;
+const CHECK_UPDATE_THREE_DAYS = 3;
+const CHECK_UPDATE_ONE_WEEK = 7;
+const CHECK_UPDATE_ONE_MONTH = 30;
+
 const schemeSegment = '(\\*|http|https|ws|wss|ftp)';
 const hostSegment = '(\\*|(?:\\*\\.)?(?:[^/*]+))?';
 const pathSegment = '(.*)';
@@ -132,6 +138,19 @@ const siteMatch = function(site, url) {
 const slashNeededForUrl = function(pattern) {
     const matchPattern = new RegExp(`^${schemeSegment}://${hostSegment}$`);
     return matchPattern.exec(pattern);
+};
+
+// Returns the top level domain, e.g. https://another.example.co.uk -> example.co.uk
+// This is done because a top level domain will probably give better matches with Auto-Type than a full hostname.
+const getTopLevelDomainFromUrl = function(hostname) {
+    const domainRegex = new RegExp(/(\w+).(com|net|org|edu|co)*(.\w+)$/g);
+    const domainMatch = domainRegex.exec(hostname);
+
+    if (domainMatch) {
+        return domainMatch[0];
+    }
+
+    return hostname;
 };
 
 function tr(key, params) {

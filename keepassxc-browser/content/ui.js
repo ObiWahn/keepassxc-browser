@@ -7,6 +7,9 @@ const MIN_INPUT_FIELD_OFFSET_WIDTH = 60;
 const MIN_OPACITY = 0.7;
 const MAX_OPACITY = 1;
 
+let notificationWrapper;
+let notificationTimeout;
+
 const DatabaseState = {
     DISCONNECTED: 0,
     LOCKED: 1,
@@ -207,7 +210,7 @@ kpxcUI.createNotification = function(type, message) {
         return;
     }
 
-    const banner = kpxcUI.createElement('div', 'kpxc-notification kpxc-notification-' + type, {});
+    const notification = kpxcUI.createElement('div', 'kpxc-notification kpxc-notification-' + type, {});
     type = type.charAt(0).toUpperCase() + type.slice(1) + '!';
 
     const className = (isFirefox() ? 'kpxc-banner-icon-moz' : 'kpxc-banner-icon');
@@ -215,17 +218,31 @@ kpxcUI.createNotification = function(type, message) {
     const label = kpxcUI.createElement('span', 'kpxc-label', {}, type);
     const msg = kpxcUI.createElement('span', '', {}, message);
 
-    banner.addEventListener('click', function() {
-        document.body.removeChild(banner);
+    notification.addEventListener('click', function() {
+        if (notificationWrapper && window.parent.document.body.contains(notificationWrapper)) {
+            window.parent.document.body.removeChild(notificationWrapper);
+            notificationWrapper = undefined;
+        }
     });
 
-    banner.appendMultiple(icon, label, msg);
-    document.body.appendChild(banner);
+    notification.appendMultiple(icon, label, msg);
+
+    const styleSheet = createStylesheet('css/notification.css');
+    notificationWrapper = notificationWrapper || document.createElement('div');
+    this.shadowRoot = notificationWrapper.attachShadow({ mode: 'closed' });
+    this.shadowRoot.append(styleSheet);
+    this.shadowRoot.append(notification);
+    document.body.append(notificationWrapper);
+
+    if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+    }
 
     // Destroy the banner after five seconds
-    setTimeout(() => {
-        if ($('.kpxc-notification')) {
-            document.body.removeChild(banner);
+    notificationTimeout = setTimeout(() => {
+        if (notificationWrapper && window.parent.document.body.contains(notificationWrapper)) {
+            window.parent.document.body.removeChild(notificationWrapper);
+            notificationWrapper = undefined;
         }
     }, 5000);
 };
@@ -257,6 +274,8 @@ document.addEventListener('mousemove', function(e) {
         return;
     }
 
+    e.stopPropagation();
+
     if (kpxcPasswordDialog.selected === kpxcPasswordDialog.titleBar) {
         const xPos = e.clientX - kpxcPasswordDialog.diffX;
         const yPos = e.clientY - kpxcPasswordDialog.diffY;
@@ -271,7 +290,7 @@ document.addEventListener('mousemove', function(e) {
         const xPos = e.clientX - kpxcDefine.diffX;
         const yPos = e.clientY - kpxcDefine.diffY;
 
-        if (kpxcDefine.selected !== null) {
+        if (kpxcDefine.selected && kpxcDefine.dialog) {
             kpxcDefine.dialog.style.left = Pixels(xPos);
             kpxcDefine.dialog.style.top = Pixels(yPos);
         }
@@ -283,6 +302,7 @@ document.addEventListener('mousedown', function(e) {
         return;
     }
 
+    e.stopPropagation();
     kpxcUI.mouseDown = true;
 });
 
@@ -291,6 +311,7 @@ document.addEventListener('mouseup', function(e) {
         return;
     }
 
+    e.stopPropagation();
     kpxcPasswordDialog.selected = null;
     kpxcDefine.selected = null;
     kpxcUI.mouseDown = false;

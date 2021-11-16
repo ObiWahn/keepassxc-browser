@@ -15,7 +15,12 @@ const acceptedOTPFields = [
     'token',
     'twofa',
     'two-factor',
-    'twofactor'
+    'twofactor',
+    'verification_pin'
+];
+
+const acceptedParents = [
+    '.mfa-verify',
 ];
 
 var kpxcTOTPIcons = {};
@@ -42,8 +47,12 @@ kpxcTOTPIcons.isAcceptedTOTPField = function(field) {
 
     // Checks if the field id, name or placeholder includes some of the acceptedOTPFields but not any from ignoredTypes
     if (autocomplete === 'one-time-code'
-        || (acceptedOTPFields.some(f => (id && id.includes(f)) || (name && name.includes(f) || placeholder && placeholder.includes(f))))
+        || (acceptedOTPFields.some(f => (id && id.includes(f)) || (name && name.includes(f) || placeholder && placeholder.includes(f))) || acceptedParents.some(s => field.closest(s)))
             && !ignoredTypes.some(f => (id && id.includes(f)) || (name && name.includes(f) || placeholder && placeholder.includes(f)))) {
+        return true;
+    }
+
+    if (kpxcSites.totpExceptionFound(field)) {
         return true;
     }
 
@@ -122,19 +131,20 @@ TOTPFieldIcon.prototype.createIcon = function(field, segmented = false) {
             return;
         }
 
-        e.preventDefault();
+        e.stopPropagation();
         await kpxc.receiveCredentialsIfNecessary();
         kpxc.fillFromTOTP(field);
     });
 
+    icon.addEventListener('mousedown', ev => ev.stopPropagation());
+    icon.addEventListener('mouseup', ev => ev.stopPropagation());
+
     kpxcUI.setIconPosition(icon, field, this.rtl, segmented);
     this.icon = icon;
 
-    const styleSheet = document.createElement('link');
-    styleSheet.setAttribute('rel', 'stylesheet');
-    styleSheet.setAttribute('href', browser.runtime.getURL('css/totp.css'));
-
+    const styleSheet = createStylesheet('css/totp.css');
     const wrapper = document.createElement('div');
+
     this.shadowRoot = wrapper.attachShadow({ mode: 'closed' });
     this.shadowRoot.append(styleSheet);
     this.shadowRoot.append(icon);
