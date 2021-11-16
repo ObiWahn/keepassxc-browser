@@ -1,4 +1,3 @@
-00-never-check-for-updates-by-default.patch
 fix-nacl-includes.patch
 fix-bootstrap-includes.patch
 fix-jquery-includes.patch

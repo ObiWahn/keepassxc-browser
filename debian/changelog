@@ -1,8 +1,11 @@
-keepassxc-browser (1.7.9.1+repack1-3) UNRELEASED; urgency=medium
+keepassxc-browser (1.7.10+repack1-1) unstable; urgency=medium
 
+  * New upstream release
+    + Refreshed chromium-extension-key.patch
+    + Removed 00-never-check-for-updates-by-default.patch; applied upstream
   * Declare compliance with standards version 4.6.0. No changes required.
 
- -- Bruno Kleinert <fuddl@debian.org>  Thu, 14 Oct 2021 17:09:20 +0200
+ -- Bruno Kleinert <fuddl@debian.org>  Tue, 16 Nov 2021 19:22:58 +0100
 
 keepassxc-browser (1.7.9.1+repack1-2) unstable; urgency=medium
 
