@@ -60,6 +60,12 @@ class Autocomplete {
 
     async showList(inputField) {
         this.closeList();
+
+        // Return if there are no credentials
+        if (this.elements.length === 0) {
+            return;
+        }
+
         this.input = inputField;
         this.input.select();
 
@@ -91,6 +97,9 @@ class Autocomplete {
             // These events prevent the double hover effect if both keyboard and mouse are used
             item.addEventListener('mouseover', ev => this.mouseOver(ev, div, item));
             item.addEventListener('mouseout', ev => this.mouseOut(ev, item));
+
+            item.addEventListener('mousedown', ev => ev.stopPropagation());
+            item.addEventListener('mouseup', ev => ev.stopPropagation());
 
             div.appendChild(item);
         }
@@ -197,6 +206,11 @@ class Autocomplete {
                 this.closeList();
             }
         } else if (e.key === 'Tab') {
+            // Return if the list is not open
+            if (items.length === 0) {
+                return;
+            }
+
             // Return if value is not in the list
             if (inputField.value !== '' && !this.elements.some(c => c.value === inputField.value)) {
                 this.closeList();

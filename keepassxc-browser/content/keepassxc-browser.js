@@ -419,6 +419,7 @@ kpxcFields.getSegmentedTOTPFields = function(inputs, combinations) {
         // Use the form's elements
         addTotpFieldsToCombination(form.elements);
     } else if (inputs.length === 6 && inputs.every(i => (i.inputMode === 'numeric' && i.pattern.includes('0-9'))
+                || (i.type === 'text' && i.maxLength == 1)
                 || i.type === 'tel')) {
         // No form is found, but input fields are possibly segmented TOTP fields
         addTotpFieldsToCombination(inputs);
@@ -2107,12 +2108,16 @@ browser.runtime.onMessage.addListener(async function(req, sender) {
             kpxc.inputs = [];
             kpxc.combinations = [];
             kpxc.initCredentialFields();
+        } else if (req.action === 'reload_extension') {
+            sendMessage('reconnect');
         } else if (req.action === 'save_credentials') {
             kpxc.rememberCredentialsFromContextMenu();
         } else if (req.action === 'retrive_credentials_forced') {
             await kpxc.retrieveCredentials(true);
         } else if (req.action === 'show_password_generator') {
             kpxcPasswordDialog.trigger();
+        } else if (req.action === 'request_autotype') {
+            sendMessage('request_autotype', [ window.location.hostname ]);
         }
     }
 });

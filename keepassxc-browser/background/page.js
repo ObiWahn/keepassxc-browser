@@ -8,7 +8,7 @@ const defaultSettings = {
     autoReconnect: false,
     autoRetrieveCredentials: true,
     autoSubmit: false,
-    checkUpdateKeePassXC: 3,
+    checkUpdateKeePassXC: CHECK_UPDATE_NEVER,
     clearCredentialsTimeout: 10,
     colorTheme: 'system',
     credentialSorting: SORT_BY_GROUP_AND_TITLE,
@@ -187,7 +187,10 @@ page.switchTab = async function(tab) {
     browser.contextMenus.update('fill_attribute', { visible: false });
 
     // Clears all logins from other tabs after a timeout
-    clearTimeout(page.clearCredentialsTimeout);
+    if (page.clearCredentialsTimeout) {
+        clearTimeout(page.clearCredentialsTimeout);
+    }
+
     page.clearCredentialsTimeout = setTimeout(() => {
         for (const pageTabId of Object.keys(page.tabs)) {
             if (tab.id !== Number(pageTabId)) {

@@ -75,6 +75,8 @@ options.initGeneralSettings = function() {
 
     $('#tab-general-settings select#colorTheme').change(async function() {
         options.settings['colorTheme'] = $(this).val();
+        // The theme is also stored in localStorage to prevent a white flash when the settings are first opened
+        localStorage.setItem('colorTheme', options.settings['colorTheme']);
         await options.saveSettings();
         location.reload();
     });
@@ -92,6 +94,11 @@ options.initGeneralSettings = function() {
             $('#defaultGroupButtonReset').prop('disabled', true);
         }
     });
+
+    $('#tab-general-settings input[type=radio]#checkUpdateThreeDays').val(CHECK_UPDATE_THREE_DAYS);
+    $('#tab-general-settings input[type=radio]#checkUpdateOneWeek').val(CHECK_UPDATE_ONE_WEEK);
+    $('#tab-general-settings input[type=radio]#checkUpdateOneMonth').val(CHECK_UPDATE_ONE_MONTH);
+    $('#tab-general-settings input[type=radio]#checkUpdateNever').val(CHECK_UPDATE_NEVER);
 
     $('#tab-general-settings input[type=range]').val(options.settings['redirectAllowance']);
     $('#redirectAllowanceLabel').text(tr('optionsRedirectAllowance',
@@ -602,6 +609,11 @@ options.initTheme = function() {
         document.body.removeAttribute('data-color-theme');
     } else {
         document.body.setAttribute('data-color-theme', options.settings['colorTheme']);
+    }
+    // Sync localStorage setting
+    let localStorageTheme = localStorage.getItem('colorTheme');
+    if (localStorageTheme !== options.settings['colorTheme']) {
+        localStorage.setItem('colorTheme', options.settings['colorTheme']);
     }
 };
 

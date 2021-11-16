@@ -91,18 +91,19 @@ UsernameFieldIcon.prototype.createIcon = function(field) {
             return;
         }
 
-        e.preventDefault();
+        e.stopPropagation();
         iconClicked(field, icon);
     });
+
+    icon.addEventListener('mousedown', ev => ev.stopPropagation());
+    icon.addEventListener('mouseup', ev => ev.stopPropagation());
 
     kpxcUI.setIconPosition(icon, field, this.rtl);
     this.icon = icon;
 
-    const styleSheet = document.createElement('link');
-    styleSheet.setAttribute('rel', 'stylesheet');
-    styleSheet.setAttribute('href', browser.runtime.getURL('css/username.css'));
-
+    const styleSheet = createStylesheet('css/username.css');
     const wrapper = document.createElement('div');
+
     this.shadowRoot = wrapper.attachShadow({ mode: 'closed' });
     this.shadowRoot.append(styleSheet);
     this.shadowRoot.append(icon);

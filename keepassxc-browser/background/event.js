@@ -135,7 +135,7 @@ kpxcEvent.onCheckUpdateKeePassXC = async function() {
 };
 
 kpxcEvent.onUpdateAvailableKeePassXC = async function() {
-    return (page.settings.checkUpdateKeePassXC > 0) ? keepass.keePassXCUpdateAvailable() : false;
+    return (page.settings.checkUpdateKeePassXC != CHECK_UPDATE_NEVER) ? keepass.keePassXCUpdateAvailable() : false;
 };
 
 kpxcEvent.onRemoveCredentialsFromTabInformation = async function(tab) {
@@ -236,6 +236,7 @@ kpxcEvent.messageHandlers = {
     'popup_login': kpxcEvent.onLoginPopup,
     'reconnect': kpxcEvent.onReconnect,
     'remove_credentials_from_tab_information': kpxcEvent.onRemoveCredentialsFromTabInformation,
+    'request_autotype': keepass.requestAutotype,
     'retrieve_credentials': page.retrieveCredentials,
     'show_default_browseraction': browserAction.showDefault,
     'update_credentials': keepass.updateCredentials,
