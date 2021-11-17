@@ -3,8 +3,7 @@
 # NOTE: Run in debian/ directory!
 mkdir -p missing-sources
 
-# keepassxc-browser-1.6.0/keepassxc-browser/browser-polyfill.min.js
-# webextension-polyfill v.0.3.1
+# keepassxc-browser/browser-polyfill.min.js
 # (https://github.com/mozilla/webextension-polyfill)
 curl 'https://unpkg.com/webextension-polyfill@0.7.0/dist/browser-polyfill.js' \
   > missing-sources/browser-polyfill.js
