@@ -1,3 +1,11 @@
+keepassxc-browser (1.7.11+repack1-1) unstable; urgency=medium
+
+  * New upstream release
+    + Refreshed debian/patches/chromium-extension-key.patch
+  * Reverted watch file, as it was not actually fixed.
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sun, 12 Dec 2021 09:09:25 +0100
+
 keepassxc-browser (1.7.10.1+repack1-1) unstable; urgency=medium
 
   * New upstream release
