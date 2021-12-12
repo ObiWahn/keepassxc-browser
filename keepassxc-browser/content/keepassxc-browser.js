@@ -160,23 +160,10 @@ kpxcForm.getFormSubmitButton = function(form) {
 
     const action = kpxc.submitUrl || form.action;
 
-    // Special handling for accounts.google.com. The submit button is outside the form.
-    if (form.action.startsWith(kpxcSites.googleUrl)) {
-        const findDiv = $('#identifierNext, #passwordNext');
-        if (!findDiv) {
-            return undefined;
-        }
-
-        const buttons = findDiv.getElementsByTagName('button');
-        kpxcSites.savedForm = form;
-        return buttons.length > 0 ? buttons[0] : undefined;
-    } else if (form.action.startsWith(kpxcSites.ebayUrl)) {
-        // For eBay we must return the first button.
-        for (const i of form.elements) {
-            if (i.type === 'button') {
-                return i;
-            }
-        }
+    // Check if the site needs a special handling for retrieving the form submit button
+    const exceptionButton = kpxcSites.formSubmitButtonExceptionFound(form);
+    if (exceptionButton) {
+        return exceptionButton;
     }
 
     if (action.includes(document.location.origin + document.location.pathname)) {
@@ -1553,6 +1540,10 @@ kpxc.rememberCredentialsFromContextMenu = async function() {
 
     const type = el.getAttribute('type');
     const combination = await kpxcFields.getCombination(el, (type === 'password' ? type : 'username'));
+    if (!combination) {
+        return;
+    }
+
     const usernameValue = combination.username ? combination.username.value : '';
     const passwordValue = combination.password ? combination.password.value : '';
 
