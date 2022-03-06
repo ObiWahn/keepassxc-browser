@@ -18,7 +18,7 @@ Copyright: 2017-2021, KeePassXC team <team@keepassxc.org>
 License: GPL-3
 
 Files: debian/*
-Copyright: 2018-2021, Bruno Kleinert <fuddl@debian.org>
+Copyright: 2018-2022, Bruno Kleinert <fuddl@debian.org>
 License: GPL-3
 
 Files: debian/missing-sources/browser-polyfill.js
