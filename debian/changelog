@@ -1,3 +1,10 @@
+keepassxc-browser (1.7.12+repack1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Updated upstream copyright years in debian/copyright
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sun, 10 Apr 2022 17:55:32 +0200
+
 keepassxc-browser (1.7.11+repack1-2) unstable; urgency=medium
 
   [ Debian Janitor ]
