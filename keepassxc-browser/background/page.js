@@ -1,6 +1,8 @@
 'use strict';
 
 const defaultSettings = {
+    afterFillSorting: SORT_BY_MATCHING_CREDENTIALS_SETTING,
+    afterFillSortingTotp: SORT_BY_RELEVANT_ENTRY,
     autoCompleteUsernames: true,
     showGroupNameInAutocomplete: true,
     autoFillAndSend: false,
@@ -12,11 +14,14 @@ const defaultSettings = {
     clearCredentialsTimeout: 10,
     colorTheme: 'system',
     credentialSorting: SORT_BY_GROUP_AND_TITLE,
+    debugLogging: false,
     defaultGroup: '',
     defaultGroupAlwaysAsk: false,
     downloadFaviconAfterSave: false,
     redirectAllowance: 1,
     saveDomainOnly: true,
+    showGettingStartedGuideAlert: true,
+    showTroubleshootingGuideAlert: true,
     showLoginFormIcon: true,
     showLoginNotifications: true,
     showNotifications: true,
@@ -26,13 +31,15 @@ const defaultSettings = {
     usePasswordGeneratorIcons: false
 };
 
+const AUTO_SUBMIT_TIMEOUT = 5000;
+
 var page = {};
+page.autoSubmitPerformed = false;
 page.attributeMenuItemIds = [];
 page.blockedTabs = [];
 page.clearCredentialsTimeout = null;
 page.currentRequest = {};
 page.currentTabId = -1;
-page.loginId = -1;
 page.manualFill = ManualFill.NONE;
 page.passwordFilled = false;
 page.redirectCount = 0;
@@ -49,6 +56,15 @@ page.initSettings = async function() {
     try {
         const item = await browser.storage.local.get({ 'settings': {} });
         page.settings = item.settings;
+        page.settings.autoReconnect = false;
+
+        if (!('afterFillSorting' in page.settings)) {
+            page.settings.afterFillSorting = defaultSettings.afterFillSorting;
+        }
+
+        if (!('afterFillSortingTotp' in page.settings)) {
+            page.settings.afterFillSortingTotp = defaultSettings.afterFillSortingTotp;
+        }
 
         if (!('autoCompleteUsernames' in page.settings)) {
             page.settings.autoCompleteUsernames = defaultSettings.autoCompleteUsernames;
@@ -64,10 +80,6 @@ page.initSettings = async function() {
 
         if (!('autoFillSingleEntry' in page.settings)) {
             page.settings.autoFillSingleEntry = defaultSettings.autoFillSingleEntry;
-        }
-
-        if (!('autoReconnect' in page.settings)) {
-            page.settings.autoReconnect = defaultSettings.autoReconnect;
         }
 
         if (!('autoRetrieveCredentials' in page.settings)) {
@@ -94,6 +106,10 @@ page.initSettings = async function() {
             page.settings.credentialSorting = defaultSettings.credentialSorting;
         }
 
+        if (!('debugLogging' in page.settings)) {
+            page.settings.debugLogging = defaultSettings.debugLogging;
+        }
+
         if (!('defaultGroup' in page.settings)) {
             page.settings.defaultGroup = defaultSettings.defaultGroup;
         }
@@ -112,6 +128,14 @@ page.initSettings = async function() {
 
         if (!('saveDomainOnly' in page.settings)) {
             page.settings.saveDomainOnly = defaultSettings.saveDomainOnly;
+        }
+
+        if (!('showGettingStartedGuideAlert' in page.settings)) {
+            page.settings.showGettingStartedGuideAlert = defaultSettings.showGettingStartedGuideAlert;
+        }
+
+        if (!('showTroubleshootingGuideAlert' in page.settings)) {
+            page.settings.showTroubleshootingGuideAlert = defaultSettings.showTroubleshootingGuideAlert;
         }
 
         if (!('showLoginFormIcon' in page.settings)) {
@@ -149,7 +173,7 @@ page.initSettings = async function() {
         await browser.storage.local.set({ 'settings': page.settings });
         return page.settings;
     } catch (err) {
-        console.log('page.initSettings error: ' + err);
+        logError('page.initSettings error: ' + err);
         return Promise.reject();
     }
 };
@@ -170,7 +194,7 @@ page.initOpenedTabs = async function() {
         page.currentTabId = currentTabs[0].id;
         browserAction.showDefault(currentTabs[0]);
     } catch (err) {
-        console.log('page.initOpenedTabs error: ' + err);
+        logError('page.initOpenedTabs error: ' + err);
         return Promise.reject();
     }
 };
@@ -206,7 +230,7 @@ page.switchTab = async function(tab) {
 
     browserAction.showDefault(tab);
     browser.tabs.sendMessage(tab.id, { action: 'activated_tab' }).catch((e) => {
-        console.log('Cannot send activated_tab message: ', e);
+        logError('Cannot send activated_tab message: ' + e.message);
     });
 };
 
@@ -265,30 +289,12 @@ page.createTabEntry = function(tabId) {
     page.tabs[tabId] = {
         credentials: [],
         errorMessage: null,
-        loginList: []
+        loginList: [],
+        loginId: undefined
     };
 
     page.clearSubmittedCredentials();
     browser.contextMenus.update('fill_attribute', { visible: false });
-};
-
-page.removePageInformationFromNotExistingTabs = async function() {
-    const rand = Math.floor(Math.random() * 1001);
-    if (rand === 28) {
-        const tabs = await browser.tabs.query({});
-        const tabIds = [];
-        const infoIds = Object.keys(page.tabs);
-
-        for (const t of tabs) {
-            tabIds[t.id] = true;
-        }
-
-        for (const i of infoIds) {
-            if (!(i in tabIds)) {
-                delete page.tabs[i];
-            }
-        }
-    }
 };
 
 // Retrieves the credentials. Returns cached values when found.
@@ -314,18 +320,18 @@ page.retrieveCredentials = async function(tab, args = []) {
 };
 
 page.getLoginId = async function(tab) {
+    const currentTab = page.tabs[tab.id];
+
     // If there's only one credential available and loginId is not set
-    if (page.loginId < 0
-        && page.tabs[tab.id]
-        && page.tabs[tab.id].credentials.length === 1) {
-        return 0; // Index to the first credential
+    if (currentTab && !currentTab.loginId && currentTab.credentials.length === 1) {
+        return currentTab.credentials[0].uuid;
     }
 
-    return page.loginId;
+    return currentTab ? currentTab.loginId : undefined;
 };
 
 page.setLoginId = async function(tab, loginId) {
-    page.loginId = loginId;
+    page.tabs[tab.id].loginId = loginId;
 };
 
 page.getManualFill = async function(tab) {
@@ -348,6 +354,21 @@ page.getSubmitted = async function(tab) {
 page.setSubmitted = async function(tab, args = []) {
     const [ submitted, username, password, url, oldCredentials ] = args;
     page.setSubmittedCredentials(submitted, username, password, url, oldCredentials, tab.id);
+};
+
+page.getAutoSubmitPerformed = async function(tab) {
+    return page.autoSubmitPerformed;
+};
+
+// Set autoSubmitPerformed to false after 5 seconds, preventing possible endless loops
+page.setAutoSubmitPerformed = async function(tab) {
+    if (!page.autoSubmitPerformed) {
+        page.autoSubmitPerformed = true;
+
+        setTimeout(() => {
+            page.autoSubmitPerformed = false;
+        }, AUTO_SUBMIT_TIMEOUT);
+    }
 };
 
 // Update context menu for attribute filling
@@ -391,9 +412,15 @@ const createContextMenuItem = function({action, args, ...options}) {
                 action: action,
                 args: args
             }).catch((err) => {
-                console.log(err);
+                logError(err);
             });
         },
         ...options
     });
+};
+
+const logDebug = function(message, extra) {
+    if (page.settings.debugLogging) {
+        debugLogMessage(message, extra);
+    }
 };

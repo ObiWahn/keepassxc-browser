@@ -11,6 +11,7 @@ const acceptedOTPFields = [
     'code',
     'idvpin',
     'mfa',
+    'one_time_password',
     'otp',
     'token',
     'twofa',
@@ -30,8 +31,8 @@ kpxcTOTPIcons.newIcon = function(field, databaseState = DatabaseState.DISCONNECT
     kpxcTOTPIcons.icons.push(new TOTPFieldIcon(field, databaseState, segmented));
 };
 
-kpxcTOTPIcons.switchIcon = function(state) {
-    kpxcTOTPIcons.icons.forEach(u => u.switchIcon(state));
+kpxcTOTPIcons.switchIcon = function(state, uuid) {
+    kpxcTOTPIcons.icons.forEach(u => u.switchIcon(state, uuid));
 };
 
 kpxcTOTPIcons.deleteHiddenIcons = function() {
@@ -75,6 +76,7 @@ kpxcTOTPIcons.isValid = function(field, forced) {
             || field.placeholder.match(ignoreRegex)
             || field.readOnly
             || field.inputMode === 'email') {
+            logDebug('Error: TOTP field found but it is not valid:', field);
             return false;
         }
     } else {
@@ -125,6 +127,8 @@ TOTPFieldIcon.prototype.createIcon = function(field, segmented = false) {
 
     if (this.databaseState === DatabaseState.DISCONNECTED || this.databaseState === DatabaseState.LOCKED) {
         icon.style.filter = 'saturate(0%)';
+    } else {
+        icon.style.filter = 'saturate(100%)';
     }
 
     icon.addEventListener('click', async function(e) {
@@ -134,7 +138,7 @@ TOTPFieldIcon.prototype.createIcon = function(field, segmented = false) {
 
         e.stopPropagation();
         await kpxc.receiveCredentialsIfNecessary();
-        kpxc.fillFromTOTP(field);
+        kpxcFill.fillFromTOTP(field);
     });
 
     icon.addEventListener('mousedown', ev => ev.stopPropagation());

@@ -11,7 +11,7 @@
         await keepass.enableAutomaticReconnect();
         await keepass.updateDatabase();
     } catch (e) {
-        console.log('init.js failed');
+        logError('init.js failed');
     }
 })();
 
@@ -37,11 +37,16 @@ browser.tabs.onCreated.addListener((tab) => {
  * @param {integer} tabId
  * @param {object} removeInfo
  */
-browser.tabs.onRemoved.addListener((tabId, removeInfo) => {
-    delete page.tabs[tabId];
+browser.tabs.onRemoved.addListener(async function(tabId, removeInfo) {
     if (page.currentTabId === tabId) {
-        page.currentTabId = -1;
+        const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
+        if (activeTabs.length > 0) {
+            page.currentTabId = activeTabs[0].id;
+        } else {
+            page.currentTabId = -1;
+        }
     }
+    delete page.tabs[tabId];
 });
 
 /**
@@ -62,7 +67,7 @@ browser.tabs.onActivated.addListener(async function(activeInfo) {
             }
         }
     } catch (err) {
-        console.log('Error: ' + err.message);
+        logError(err.message);
     }
 });
 
@@ -135,7 +140,7 @@ for (const item of contextMenuItems) {
             browser.tabs.sendMessage(tab.id, {
                 action: item.action
             }).catch((err) => {
-                console.log(err);
+                logError(err);
             });
         }
     });
@@ -147,7 +152,7 @@ browser.commands.onCommand.addListener(async (command) => {
         || command === 'redetect_fields'
         || command === 'choose_credential_fields'
         || command === 'retrive_credentials_forced'
-        || command === 'reload_extension') {
+        || command === 'reload_extension') {
         const tabs = await browser.tabs.query({ active: true, currentWindow: true });
         if (tabs.length) {
             browser.tabs.sendMessage(tabs[0].id, { action: command });

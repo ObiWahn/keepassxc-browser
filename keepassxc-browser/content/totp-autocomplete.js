@@ -10,13 +10,13 @@ TOTPAutocomplete.prototype.click = async function(e, input) {
     this.showList(input, true);
 };
 
-TOTPAutocomplete.prototype.itemClick = async function(e, item, input, uuid) {
+TOTPAutocomplete.prototype.itemClick = async function(e, input, uuid) {
     if (!e.isTrusted) {
         return;
     }
 
     const index = Array.prototype.indexOf.call(e.currentTarget.parentElement.childNodes, e.currentTarget);
-    this.fillTotp(index, uuid);
+    await this.fillTotp(index, uuid, input);
 
     this.closeList();
     input.focus();
@@ -26,11 +26,14 @@ TOTPAutocomplete.prototype.itemEnter = async function(index, elements) {
     this.fillTotp(index, elements[index].uuid);
 };
 
-TOTPAutocomplete.prototype.fillTotp = async function(index, uuid) {
+TOTPAutocomplete.prototype.fillTotp = async function(index, uuid, currentInput) {
     const combination = await kpxcFields.getCombination(this.input, 'totp')
                      || await kpxcFields.getCombination(this.input, 'totpInputs');
-    combination.loginId = index;
-    kpxc.fillTOTPFromUuid(this.input, uuid);
+    if (combination) {
+        combination.loginId = index;
+    }
+
+    kpxcFill.fillTOTPFromUuid(this.input || currentInput, uuid);
 };
 
 const kpxcTOTPAutocomplete = new TOTPAutocomplete();

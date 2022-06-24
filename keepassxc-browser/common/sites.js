@@ -34,6 +34,7 @@ const PREDEFINED_SITELIST = [
     'https://idmsa.apple.com/*',
     'https://secure.soundcloud.com/*',
     'https://icloud.com/*',
+    'https://signin.benl.ebay.be/*',
     'https://signin.ebay.de/*',
     'https://signin.ebay.com/*',
     'https://signin.ebay.com.au/*',
@@ -68,6 +69,20 @@ const googleUrl = 'https://accounts.google.com';
 const kpxcSites = {};
 kpxcSites.googlePasswordFormUrl = 'https://accounts.google.com/signin/v2/challenge/password';
 kpxcSites.savedForm = undefined;
+
+/**
+ * Tries to detect a username from the page.
+ * @returns {string}   Returns the detected username if there is one, undefined otherwise.
+ */
+kpxcSites.detectUsernameFromPage = function() {
+    if (document.location.origin === googleUrl) {
+        const profileIdentifier = document.querySelector('[data-profile-identifier]');
+        if (profileIdentifier) {
+            return profileIdentifier.textContent.trim();
+        }
+    }
+    return undefined;
+};
 
 /**
  * Handles a few exceptions for certain sites where password form is inside a div
@@ -158,6 +173,34 @@ kpxcSites.formSubmitButtonExceptionFound = function(form) {
         if (button) {
             return button;
         }
+    }
+
+    return undefined;
+};
+
+/**
+ * Handles a few exceptions for certain sites where popup fill is not working properly.
+ * @param {object} form     Form element
+ * @returns {boolean}       True if exception found
+ */
+kpxcSites.popupExceptionFound = function(combinations) {
+    if (combinations.length > 1 && combinations[0].form && combinations[0].form.action.startsWith(googleUrl)) {
+        return true;
+    }
+
+    return false;
+};
+
+/**
+ * Handles a few exceptions for certain sites where Username Icon is not placed properly.
+ * @param {number} left     Absolute left position of the icon
+ * @param {number} top      Absolute top position of the icon
+ * @param {number} iconSize Size of the icon
+ * @returns {array}         New left and top values as an Array
+ */
+kpxcSites.iconOffset = function(left, top, iconSize) {
+    if (document.location.hostname.includes('idmsa.apple.com')) {
+        return [ left - (iconSize + 10), top + 3 ];
     }
 
     return undefined;

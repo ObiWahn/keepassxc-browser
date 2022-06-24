@@ -1,5 +1,7 @@
 'use strict';
 
+const EXTENSION_NAME = 'KeePassXC-Browser';
+
 // Site Preferences ignore options
 const IGNORE_NOTHING = 'ignoreNothing';
 const IGNORE_NORMAL = 'ignoreNormal';
@@ -11,6 +13,8 @@ const SORT_BY_TITLE = 'sortByTitle';
 const SORT_BY_USERNAME = 'sortByUsername';
 const SORT_BY_GROUP_AND_TITLE = 'sortByGroupAndTitle';
 const SORT_BY_GROUP_AND_USERNAME = 'sortByGroupAndUsername';
+const SORT_BY_MATCHING_CREDENTIALS_SETTING = 'sortByMatchingCredentials';
+const SORT_BY_RELEVANT_ENTRY = 'sortByRelevantEntry';
 
 // Update check intervals
 const CHECK_UPDATE_NEVER = 0;
@@ -160,4 +164,33 @@ function tr(key, params) {
 // Removes everything after '?' from URL
 const trimURL = function(url) {
     return url.indexOf('?') !== -1 ? url.split('?')[0] : url;
+};
+
+const debugLogMessage = function(message, extra) {
+    console.log(`[Debug ${getFileAndLine()}] ${EXTENSION_NAME} - ${message}`);
+
+    if (extra) {
+        console.log(extra);
+    }
+};
+
+const logError = function(message) {
+    console.log(`[Error ${getFileAndLine()}] ${EXTENSION_NAME} - ${message}`);
+};
+
+// Returns file name and line number from error stack
+const getFileAndLine = function() {
+    const err = new Error().stack.split('\n');
+    const line = err[4] ?? err[err.length - 1];
+    const result = line.substring(line.lastIndexOf('/') + 1, line.lastIndexOf(':'));
+
+    return result;
+};
+
+HTMLElement.prototype.show = function() {
+    this.style.display = 'block';
+};
+
+HTMLElement.prototype.hide = function() {
+    this.style.display = 'none';
 };
