@@ -6,12 +6,14 @@ keepassxc-browser (1.8.0+repack1-1) unstable; urgency=medium
     + fix-browser-polyfill-includex.patch
     + fix-fork-awesome-css-includes.patch
     + fix-nacl-includes.patch
-  * Upstream removed jQuery dependenc
+  * Upstream removed jQuery dependency
     + Removed fix-jquery-includes.patch
     + Removed build dependency on node-jquery
     + Removed jquery-3.4.1.min.js from Files-Excluded
+    + Added remove-obsolete-jquery-includes.patch to remove two obsolete
+      includes
 
- -- Bruno Kleinert <fuddl@debian.org>  Fri, 24 Jun 2022 17:13:23 +0200
+ -- Bruno Kleinert <fuddl@debian.org>  Fri, 24 Jun 2022 17:24:31 +0200
 
 keepassxc-browser (1.7.12+repack1-1) unstable; urgency=medium
 
