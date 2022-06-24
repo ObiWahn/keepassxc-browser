@@ -1,4 +1,11 @@
 # Those copies are intentional as Firefox does not follow symbolic links outside
 # extensions' directories.
-embedded-javascript-library usr/share/webext/keepassxc-browser/bootstrap/bootstrap.js please use libjs-bootstrap
-embedded-javascript-library usr/share/webext/keepassxc-browser/bootstrap/jquery.js please use libjs-jquery
+embedded-javascript-library please use libjs-bootstrap [usr/share/webext/keepassxc-browser/bootstrap/bootstrap.js]
+font-in-non-font-package [usr/share/webext/keepassxc-browser/fonts/forkawesome-webfont.woff2]
+font-outside-font-dir [usr/share/webext/keepassxc-browser/fonts/forkawesome-webfont.woff2]
+
+# False positives, as those belong to the WebExtension
+package-contains-documentation-outside-usr-share-doc [usr/share/webext/keepassxc-browser/options/shortcuts.html]
+package-contains-documentation-outside-usr-share-doc [usr/share/webext/keepassxc-browser/popups/popup.html]
+package-contains-documentation-outside-usr-share-doc [usr/share/webext/keepassxc-browser/popups/popup_httpauth.html]
+package-contains-documentation-outside-usr-share-doc [usr/share/webext/keepassxc-browser/popups/popup_login.html]

@@ -12,8 +12,9 @@ keepassxc-browser (1.8.0+repack1-1) unstable; urgency=medium
     + Removed jquery-3.4.1.min.js from Files-Excluded
     + Added remove-obsolete-jquery-includes.patch to remove two obsolete
       includes
+  * Updated and extended lintian overrides
 
- -- Bruno Kleinert <fuddl@debian.org>  Fri, 24 Jun 2022 17:24:31 +0200
+ -- Bruno Kleinert <fuddl@debian.org>  Fri, 24 Jun 2022 18:07:16 +0200
 
 keepassxc-browser (1.7.12+repack1-1) unstable; urgency=medium
 
