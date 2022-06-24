@@ -1,7 +1,7 @@
 Index: keepassxc-browser/keepassxc-browser/manifest.json
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/manifest.json	2020-11-03 11:36:49.635919660 +0100
-+++ keepassxc-browser/keepassxc-browser/manifest.json	2020-11-03 11:40:48.928224936 +0100
+--- keepassxc-browser.orig/keepassxc-browser/manifest.json	2022-06-24 16:31:26.519667339 +0200
++++ keepassxc-browser/keepassxc-browser/manifest.json	2022-06-24 16:32:04.007832163 +0200
 @@ -34,8 +34,8 @@
              "common/browser-polyfill.min.js",
              "common/global.js",
@@ -10,6 +10,6 @@ Index: keepassxc-browser/keepassxc-browser/manifest.json
 -            "background/nacl-util.min.js",
 +            "background/nacl.js",
 +            "background/nacl-util.js",
+             "background/client.js",
              "background/keepass.js",
              "background/httpauth.js",
-             "background/browserAction.js",

@@ -1,7 +1,7 @@
 Index: keepassxc-browser/keepassxc-browser/manifest.json
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/manifest.json	2020-11-03 13:11:20.350036704 +0100
-+++ keepassxc-browser/keepassxc-browser/manifest.json	2020-11-03 13:11:20.346036765 +0100
+--- keepassxc-browser.orig/keepassxc-browser/manifest.json	2022-06-24 16:38:51.922599887 +0200
++++ keepassxc-browser/keepassxc-browser/manifest.json	2022-06-24 16:38:51.922599887 +0200
 @@ -31,7 +31,7 @@
      },
      "background": {
@@ -11,7 +11,7 @@ Index: keepassxc-browser/keepassxc-browser/manifest.json
              "common/global.js",
              "common/sites.js",
              "background/nacl.js",
-@@ -50,7 +50,7 @@
+@@ -51,7 +51,7 @@
                  "<all_urls>"
              ],
              "js": [
@@ -22,8 +22,8 @@ Index: keepassxc-browser/keepassxc-browser/manifest.json
                  "content/ui.js",
 Index: keepassxc-browser/keepassxc-browser/options/options.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/options.html	2020-11-03 13:11:20.350036704 +0100
-+++ keepassxc-browser/keepassxc-browser/options/options.html	2020-11-03 13:11:20.346036765 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/options.html	2022-06-24 16:38:51.922599887 +0200
++++ keepassxc-browser/keepassxc-browser/options/options.html	2022-06-24 16:38:51.922599887 +0200
 @@ -11,7 +11,7 @@
      <link rel="icon" type="image/png" href="../icons/keepassxc_32x32.png" sizes="32x32">
      <link rel="icon" type="image/png" href="../icons/keepassxc_64x64.png" sizes="64x64">
@@ -32,24 +32,24 @@ Index: keepassxc-browser/keepassxc-browser/options/options.html
 +    <script src="../common/browser-polyfill.js"></script>
      <script src="../common/global.js"></script>
      <script src="../common/sites.js"></script>
-     <script src="../bootstrap/jquery.js"></script>
+     <script src="../bootstrap/bootstrap.js"></script>
 Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2020-11-03 13:11:20.350036704 +0100
-+++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2020-11-03 13:11:57.081468538 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2022-06-24 16:38:51.922599887 +0200
++++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2022-06-24 16:40:04.757193867 +0200
 @@ -10,7 +10,7 @@
      <link rel="icon" type="image/png" href="../icons/keepassxc_32x32.png" sizes="32x32">
      <link rel="icon" type="image/png" href="../icons/keepassxc_64x64.png" sizes="64x64">
      <link rel="icon" type="image/png" href="../icons/keepassxc_96x96.png" sizes="96x96">
 -    <script src="../common/browser-polyfill.min.js"></script>
 +    <script src="../common/browser-polyfill.js"></script>
-     <script src="../bootstrap/jquery.js"></script>
+     <script src="../bootstrap/jquery-3.4.1.min.js"></script>
      <script src="../bootstrap/bootstrap.js"></script>
      <script defer src="shortcuts.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2020-11-03 13:11:20.350036704 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup.html	2020-11-03 13:11:20.350036704 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2022-06-24 16:38:51.922599887 +0200
++++ keepassxc-browser/keepassxc-browser/popups/popup.html	2022-06-24 16:38:51.922599887 +0200
 @@ -7,7 +7,7 @@
      <link rel="stylesheet" href="popup.css" />
      <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
@@ -57,12 +57,12 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup.html
 -    <script src="../common/browser-polyfill.min.js"></script>
 +    <script src="../common/browser-polyfill.js"></script>
      <script src="../common/global.js"></script>
-     <script src="../bootstrap/jquery.js"></script>
      <script src="../bootstrap/bootstrap.js"></script>
+     <script src="popup_functions.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2020-11-03 13:11:20.350036704 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2020-11-03 13:11:20.350036704 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2022-06-24 16:38:51.922599887 +0200
++++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2022-06-24 16:38:51.922599887 +0200
 @@ -7,7 +7,7 @@
      <link rel="stylesheet" href="popup.css" />
      <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
@@ -70,12 +70,12 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
 -    <script src="../common/browser-polyfill.min.js"></script>
 +    <script src="../common/browser-polyfill.js"></script>
      <script src="../common/global.js"></script>
-     <script src="../bootstrap/jquery.js"></script>
+     <script src="../bootstrap/jquery-3.4.1.min.js"></script>
      <script src="../bootstrap/bootstrap.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_login.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2020-11-03 13:11:20.350036704 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2020-11-03 13:11:20.350036704 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2022-06-24 16:38:51.922599887 +0200
++++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2022-06-24 16:38:51.922599887 +0200
 @@ -7,7 +7,7 @@
      <link rel="stylesheet" href="popup.css" />
      <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
@@ -83,5 +83,5 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup_login.html
 -    <script src="../common/browser-polyfill.min.js"></script>
 +    <script src="../common/browser-polyfill.js"></script>
      <script src="../common/global.js"></script>
-     <script src="../bootstrap/jquery.js"></script>
      <script src="../bootstrap/bootstrap.js"></script>
+     <script src="popup_functions.js"></script>

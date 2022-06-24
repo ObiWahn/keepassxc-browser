@@ -1,6 +1,5 @@
 fix-nacl-includes.patch
 fix-bootstrap-includes.patch
-fix-jquery-includes.patch
 fix-browser-polyfill-includex.patch
 fix-fork-awesome-css-includes.patch
 chromium-extension-key.patch
