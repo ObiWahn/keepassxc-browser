@@ -7,14 +7,14 @@ const MIN_INPUT_FIELD_OFFSET_WIDTH = 60;
 const MIN_OPACITY = 0.7;
 const MAX_OPACITY = 1;
 
-let notificationWrapper;
-let notificationTimeout;
-
 const DatabaseState = {
     DISCONNECTED: 0,
     LOCKED: 1,
     UNLOCKED: 2
 };
+
+let notificationWrapper;
+let notificationTimeout;
 
 // jQuery style wrapper for querySelector()
 const $ = function(elem) {
@@ -40,17 +40,17 @@ class Icon {
                 kpxcUI.updateFromIntersectionObserver(this, entries);
             });
         } catch (err) {
-            console.log(err);
+            logError(err);
         }
     }
 
-    switchIcon(state) {
+    switchIcon(state, uuid) {
         if (!this.icon) {
             return;
         }
 
         if (state === DatabaseState.UNLOCKED) {
-            this.icon.style.filter = 'saturate(100%)';
+            this.icon.style.filter = kpxc.credentials.length === 0 && !uuid ? 'saturate(0%)' : 'saturate(100%)';
         } else {
             this.icon.style.filter = 'saturate(0%)';
         }
@@ -122,12 +122,19 @@ kpxcUI.setIconPosition = function(icon, field, rtl = false, segmented = false) {
     const rect = field.getBoundingClientRect();
     const size = Number(icon.getAttribute('size'));
     const offset = kpxcUI.calculateIconOffset(field, size);
-    let left = kpxcUI.bodyStyle.position.toLowerCase() === 'relative' ? rect.left - kpxcUI.bodyRect.left : rect.left;
-    const top = kpxcUI.bodyStyle.position.toLowerCase() === 'relative' ? rect.top - kpxcUI.bodyRect.top : rect.top;
+    let left = kpxcUI.getRelativeLeftPosition(rect);
+    let top = kpxcUI.getRelativeTopPosition(rect);
 
     // Add more space for the icon to show it at the right side of the field if TOTP fields are segmented
     if (segmented) {
         left += size + 10;
+    }
+
+    // Adjusts the icon offset for certain sites
+    const iconOffset = kpxcSites.iconOffset(left, top, size);
+    if (iconOffset) {
+        left = iconOffset[0];
+        top = iconOffset[1];
     }
 
     const scrollTop = document.scrollingElement ? document.scrollingElement.scrollTop : 0;
@@ -136,6 +143,14 @@ kpxcUI.setIconPosition = function(icon, field, rtl = false, segmented = false) {
     icon.style.left = rtl
                     ? Pixels((left + scrollLeft) + offset)
                     : Pixels(left + scrollLeft + field.offsetWidth - size - offset);
+};
+
+kpxcUI.getRelativeLeftPosition = function(rect) {
+    return kpxcUI.bodyStyle.position.toLowerCase() === 'relative' ? rect.left - kpxcUI.bodyRect.left : rect.left;
+};
+
+kpxcUI.getRelativeTopPosition = function(rect) {
+    return kpxcUI.bodyStyle.position.toLowerCase() === 'relative' ? rect.top - kpxcUI.bodyRect.top : rect.top;
 };
 
 kpxcUI.deleteHiddenIcons = function(iconList, attr) {
@@ -210,6 +225,8 @@ kpxcUI.createNotification = function(type, message) {
         return;
     }
 
+    logDebug(message);
+
     const notification = kpxcUI.createElement('div', 'kpxc-notification kpxc-notification-' + type, {});
     type = type.charAt(0).toUpperCase() + type.slice(1) + '!';
 
@@ -251,6 +268,12 @@ kpxcUI.createNotification = function(type, message) {
     }, 5000);
 };
 
+kpxcUI.createButton = function(color, textContent, callback) {
+    const button = kpxcUI.createElement('button', color, {}, textContent);
+    button.addEventListener('click', callback);
+    return button;
+};
+
 const DOMRectToArray = function(domRect) {
     return [ domRect.bottom, domRect.height, domRect.left, domRect.right, domRect.top, domRect.width, domRect.x, domRect.y ];
 };
@@ -258,8 +281,11 @@ const DOMRectToArray = function(domRect) {
 const initColorTheme = function(elem) {
     const colorTheme = kpxc.settings['colorTheme'];
 
-    if (colorTheme === undefined || colorTheme === 'system') {
+    if (colorTheme === undefined) {
         elem.removeAttribute('data-color-theme');
+    } else if (colorTheme === 'system') {
+        const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        elem.setAttribute('data-color-theme', theme);
     } else {
         elem.setAttribute('data-color-theme', colorTheme);
     }
@@ -270,6 +296,12 @@ const createStylesheet = function(file) {
     stylesheet.setAttribute('rel', 'stylesheet');
     stylesheet.setAttribute('href', browser.runtime.getURL(file));
     return stylesheet;
+};
+
+const logDebug = function(message, extra) {
+    if (kpxc.settings.debugLogging) {
+        debugLogMessage(message, extra);
+    }
 };
 
 // Enables dragging
@@ -285,16 +317,6 @@ document.addEventListener('mousemove', function(e) {
         if (kpxcPasswordDialog.selected !== null) {
             kpxcPasswordDialog.dialog.style.left = Pixels(xPos);
             kpxcPasswordDialog.dialog.style.top = Pixels(yPos);
-        }
-    }
-
-    if (kpxcDefine.selected === kpxcDefine.dialog) {
-        const xPos = e.clientX - kpxcDefine.diffX;
-        const yPos = e.clientY - kpxcDefine.diffY;
-
-        if (kpxcDefine.selected && kpxcDefine.dialog) {
-            kpxcDefine.dialog.style.left = Pixels(xPos);
-            kpxcDefine.dialog.style.top = Pixels(yPos);
         }
     }
 });
@@ -313,7 +335,6 @@ document.addEventListener('mouseup', function(e) {
     }
 
     kpxcPasswordDialog.selected = null;
-    kpxcDefine.selected = null;
     kpxcUI.mouseDown = false;
 });
 
@@ -332,7 +353,7 @@ Element.prototype.attachShadow = function () {
     try {
         return this._attachShadow({ mode: 'closed' });
     } catch (e) {
-        console.log('Error: ', e);
+        logError(e);
     }
 };
 

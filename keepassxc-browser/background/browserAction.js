@@ -10,7 +10,6 @@ browserAction.show = function(tab, popupData) {
     page.popupData = popupData;
 
     browser.browserAction.setIcon({
-        tabId: tab.id,
         path: browserAction.generateIconName(popupData.iconType)
     });
 
@@ -29,7 +28,7 @@ browserAction.showDefault = async function(tab) {
     };
 
     const response = await keepass.isConfigured().catch((err) => {
-        console.log('Error: Cannot show default popup: ' + err);
+        logError('Cannot show default popup: ' + err);
     });
 
     if (!response && !keepass.isKeePassXCAvailable) {

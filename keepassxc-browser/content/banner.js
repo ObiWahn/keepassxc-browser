@@ -126,7 +126,6 @@ kpxcBanner.create = async function(credentials = {}) {
     const colorStyleSheet = createStylesheet('css/colors.css');
 
     const wrapper = document.createElement('div');
-    wrapper.setAttribute('id', 'kpxc-banner');
     this.shadowRoot = wrapper.attachShadow({ mode: 'closed' });
     this.shadowRoot.append(colorStyleSheet);
     this.shadowRoot.append(styleSheet);
@@ -149,7 +148,7 @@ kpxcBanner.saveNewCredentials = async function(credentials = {}) {
 
     const result = await sendMessage('get_database_groups');
     if (!result || !result.groups) {
-        console.log('Error: Empty result from get_database_groups');
+        logError('Empty result from get_database_groups');
         await saveToDefaultGroup(credentials);
         return;
     }
