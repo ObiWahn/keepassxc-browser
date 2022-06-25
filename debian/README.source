@@ -12,8 +12,7 @@ keepassxc-browser/background/nacl-util.min.js     | d/missing-sources/nacl-utils
 keepassxc-browser/background/nacl.min.js          | node-tweetnacl
 keepassxc-browser/bootstrap/bootstrap.min.css     | libjs-bootstrap4
 keepassxc-browser/bootstrap/bootstrap.min.js      | libjs-bootstrap4
-keepassxc-browser/bootstrap/jquery-3.4.1.min.js   | node-jquery
-keepassxc-browser/common/browser-polyfill.min.js  | d/missing-sources/browser-polyfill.js
+keepassxc-browser/common/browser-polyfill.min.js  | node-cross-fetch
 keepassxc-browser/fonts/fork-awesome.min.css      | fonts-fork-awesome
 keepassxc-browser/fonts/forkawesome-webfont.woff2 | fonts-fork-awesome
 
