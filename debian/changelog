@@ -1,3 +1,10 @@
+keepassxc-browser (1.8.0+repack1-2) unstable; urgency=medium
+
+  * Build-depend on node-cross-fetch package to pull in browser-polyfill.js
+    from it.
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sat, 25 Jun 2022 06:20:44 +0200
+
 keepassxc-browser (1.8.0+repack1-1) unstable; urgency=medium
 
   * New upstream release
