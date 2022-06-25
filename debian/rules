@@ -20,9 +20,10 @@ override_dh_install:
 	install /usr/share/fonts-fork-awesome/fonts/forkawesome-webfont.woff2 debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/fonts/
 	install /usr/share/nodejs/bootstrap/dist/css/bootstrap.css debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/bootstrap/
 	install /usr/share/nodejs/bootstrap/dist/js/bootstrap.js   debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/bootstrap/
+	install /usr/share/nodejs/cross-fetch/dist/browser-polyfill.js debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/common/
 	#install /usr/share/nodejs/jquery/dist/jquery.js            debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/bootstrap/
 	install /usr/share/nodejs/tweetnacl/nacl.js                debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/background/
 
 # Keep in sync with Build-depends!
 override_dh_gencontrol:
-	dh_gencontrol -- -Vmy:Built-Using="$(shell dpkg-query --show -f '$${source:Package} (=$${source:Version}),' fonts-fork-awesome node-tweetnacl libjs-bootstrap4)"
+	dh_gencontrol -- -Vmy:Built-Using="$(shell dpkg-query --show -f '$${source:Package} (=$${source:Version}),' node-cross-fetch fonts-fork-awesome node-tweetnacl libjs-bootstrap4)"

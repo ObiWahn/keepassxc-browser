@@ -2,7 +2,6 @@ keepassxc-browser/background        usr/share/webext/keepassxc-browser/
 debian/missing-sources/nacl-util.js usr/share/webext/keepassxc-browser/background/
 
 keepassxc-browser/common                   usr/share/webext/keepassxc-browser/
-debian/missing-sources/browser-polyfill.js usr/share/webext/keepassxc-browser/common/
 
 keepassxc-browser/content usr/share/webext/keepassxc-browser/
 keepassxc-browser/css     usr/share/webext/keepassxc-browser/

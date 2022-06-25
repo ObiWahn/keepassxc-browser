@@ -3,11 +3,6 @@
 # NOTE: Run in debian/ directory!
 mkdir -p missing-sources
 
-# keepassxc-browser/browser-polyfill.min.js
-# (https://github.com/mozilla/webextension-polyfill)
-curl 'https://unpkg.com/webextension-polyfill@0.7.0/dist/browser-polyfill.js' \
-  > missing-sources/browser-polyfill.js
-
 # NaCl util library
 # https://github.com/dchest/tweetnacl-util-js/releases
 rm -rf tweetnacl-util-js-0.15.0
