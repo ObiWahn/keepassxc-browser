@@ -22,7 +22,8 @@ override_dh_install:
 	install /usr/share/nodejs/bootstrap/dist/js/bootstrap.js   debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/bootstrap/
 	install /usr/share/nodejs/cross-fetch/dist/browser-polyfill.js debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/common/
 	install /usr/share/nodejs/tweetnacl/nacl.js                debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/background/
+	install /usr/share/javascript/jquery/jquery.js             debian/webext-keepassxc-browser/usr/share/webext/keepassxc-browser/bootstrap/
 
 # Keep in sync with Build-depends!
 override_dh_gencontrol:
-	dh_gencontrol -- -Vmy:Built-Using="$(shell dpkg-query --show -f '$${source:Package} (=$${source:Version}),' node-cross-fetch fonts-fork-awesome node-tweetnacl libjs-bootstrap4)"
+	dh_gencontrol -- -Vmy:Built-Using="$(shell dpkg-query --show -f '$${source:Package} (=$${source:Version}),' node-cross-fetch fonts-fork-awesome node-tweetnacl libjs-bootstrap4 libjs-jquery)"
