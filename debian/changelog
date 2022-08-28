@@ -1,4 +1,4 @@
-keepassxc-browser (1.8.1+repack1-1) UNRELEASED; urgency=medium
+keepassxc-browser (1.8.1+repack1-1) unstable; urgency=medium
 
   * New upstream release
     + Drop debian/patches/remove-obsolete-jquery-includes.patch
@@ -9,7 +9,7 @@ keepassxc-browser (1.8.1+repack1-1) UNRELEASED; urgency=medium
     + Fixed permanently empty list of connected databases
   * Declare compliance with standards version 4.6.1. No changes.
 
- -- Bruno Kleinert <fuddl@debian.org>  Sun, 28 Aug 2022 07:27:08 +0200
+ -- Bruno Kleinert <fuddl@debian.org>  Sun, 28 Aug 2022 08:48:33 +0200
 
 keepassxc-browser (1.8.0+repack1-2) unstable; urgency=medium
 
