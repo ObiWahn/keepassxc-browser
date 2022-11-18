@@ -24,6 +24,10 @@ Files: debian/missing-sources/nacl-util.js
 Copyright: 2017-2020, TweetNaCl-Util-js contributors, https://github.com/dchest/tweetnacl-util-js/
 License: public-domain
 
+Files: keepassxc-browser/options/shortcuts.js
+Copyright: 2017-2022, KeePassXC team <team@keepassxc.org>
+License: MPL-2.0
+
 License: GPL-3
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

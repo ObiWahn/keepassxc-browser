@@ -1,10 +1,15 @@
-keepassxc-browser (1.8.1+repack1-2) UNRELEASED; urgency=medium
+keepassxc-browser (1.8.1+repack1-3) unstable; urgency=medium
 
+  [ Debian Janitor ]
   * Remove constraints unnecessary since buster:
     + webext-keepassxc-browser: Drop versioned constraint on chromium and
       firefox-esr in Recommends.
 
- -- Debian Janitor <janitor@jelmer.uk>  Sun, 28 Aug 2022 07:47:16 -0000
+  [ Bruno Kleinert ]
+  * Corrected copyright information on one file. Thanks to the Janitor Bot for
+    pointing to this by a false positive.
+
+ -- Bruno Kleinert <fuddl@debian.org>  Fri, 18 Nov 2022 19:26:48 +0100
 
 keepassxc-browser (1.8.1+repack1-1) unstable; urgency=medium
 
