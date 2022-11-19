@@ -1,5 +1,7 @@
 'use strict';
 
+const DEFAULT_SEGMENTED_TOTP_FIELDS = 6;
+
 /**
  * @Object kpxcFields
  * Provides methods for input field handling.
@@ -92,9 +94,12 @@ kpxcFields.getSegmentedTOTPFields = function(inputs, combinations) {
     if (!kpxc.settings.showOTPIcon) {
         return;
     }
-    const addTotpFieldsToCombination = function(inputFields) {
-        const totpInputs = Array.from(inputFields).filter(e => e.nodeName === 'INPUT' && e.type !== 'password');
-        if (totpInputs.length === 6) {
+
+    let exceptionFound = false;
+
+    const addTotpFieldsToCombination = function(inputFields, ignoreLength = false) {
+        const totpInputs = Array.from(inputFields).filter(e => e.nodeName === 'INPUT' && e.type !== 'password' && e.type !== 'hidden');
+        if (totpInputs.length === DEFAULT_SEGMENTED_TOTP_FIELDS || ignoreLength) {
             const combination = {
                 form: form,
                 totpInputs: totpInputs,
@@ -115,14 +120,40 @@ kpxcFields.getSegmentedTOTPFields = function(inputs, combinations) {
         }
     };
 
+    const formLengthMatches = function(currentForm) {
+        if (!currentForm) {
+            return false;
+        }
+
+        // Accept 6 inputs directly
+        if (currentForm.length === DEFAULT_SEGMENTED_TOTP_FIELDS) {
+            return true;
+        }
+
+        // 7 inputs with a button as the last one (e.g. PayPal uses this)
+        if (currentForm.length === 7
+            && (currentForm.lastChild.nodeName === 'BUTTON'
+                || (currentForm.lastChild.nodeName === 'INPUT' && currentForm.lastChild.type === 'button'))) {
+            return true;
+        }
+
+        // Accept any other site-specific exceptions
+        if (kpxcSites.segmentedTotpExceptionFound(currentForm)) {
+            exceptionFound = true;
+            return true;
+        }
+
+        return false;
+    };
+
     const form = inputs.length > 0 ? inputs[0].form : undefined;
     if (form && (acceptedOTPFields.some(f => (form.className && form.className.includes(f))
         || (form.id && typeof(form.id) === 'string' && form.id.includes(f))
         || (form.name && typeof(form.name) === 'string' && form.name.includes(f))
-        || form.length === 6))) {
+        || formLengthMatches(form)))) {
         // Use the form's elements
-        addTotpFieldsToCombination(form.elements);
-    } else if (inputs.length === 6 && inputs.every(i => (i.inputMode === 'numeric' && i.pattern.includes('0-9'))
+        addTotpFieldsToCombination(form.elements, exceptionFound);
+    } else if (inputs.length === DEFAULT_SEGMENTED_TOTP_FIELDS && inputs.every(i => (i.inputMode === 'numeric' && i.pattern.includes('0-9'))
                 || (i.type === 'text' && i.maxLength === 1)
                 || i.type === 'tel')) {
         // No form is found, but input fields are possibly segmented TOTP fields

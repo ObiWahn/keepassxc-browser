@@ -10,6 +10,7 @@ const PREDEFINED_SITELIST = [
     'https://login.live.com/*',
     'https://odc.officeapps.live.com/*',
     'https://login.microsoftonline.com/*',
+    'https://login.microsoftonline.us/*',
     'https://www.amazon.ae/ap/*',
     'https://www.amazon.ca/ap/*',
     'https://www.amazon.cn/ap/*',
@@ -139,6 +140,23 @@ kpxcSites.totpExceptionFound = function(field) {
     return false;
 };
 
+/**
+ * Handles a few exceptions for certain sites where segmented 2FA fields are not regognized properly.
+ * @param {object} form     Form Element
+ * @returns {boolean}       True if an Element has a match with the needed indentfifiers and document location
+ */
+kpxcSites.segmentedTotpExceptionFound = function(form) {
+    if (!form || form.nodeName !== 'FORM') {
+        return false;
+    }
+
+    if (document.location.href.startsWith('https://store.steampowered.com') && form.length === 5) {
+        return true;
+    }
+
+    return false;
+};
+
 kpxcSites.expectedTOTPMaxLength = function() {
     if (document.location.origin.startsWith('https://www.amazon')
         && document.location.href.includes('/ap/mfa')) {
@@ -175,6 +193,18 @@ kpxcSites.formSubmitButtonExceptionFound = function(form) {
         const button = $('#signin_button');
         if (button) {
             return button;
+        }
+    } else if (
+        [
+            'outlook.live.com',
+            'login.live.com',
+            'odc.officeapps.live.com',
+            'login.microsoftonline.com',
+            'login.microsoftonline.us',
+        ].some(u => form.action.includes(u))) {
+        const buttons = Array.from(form.querySelectorAll(kpxcForm.formButtonQuery));
+        if (buttons && buttons.length > 1) {
+            return buttons[1];
         }
     }
 
