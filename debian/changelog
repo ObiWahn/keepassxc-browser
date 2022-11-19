@@ -1,5 +1,6 @@
-keepassxc-browser (1.8.1+repack1-4) UNRELEASED; urgency=medium
+keepassxc-browser (1.8.3.1+repack1-1) UNRELEASED; urgency=medium
 
+  * New upstream release
   * Updated URL in debian/watch for GitHub to fix uscan
 
  -- Bruno Kleinert <fuddl@debian.org>  Sat, 19 Nov 2022 05:13:08 +0100
