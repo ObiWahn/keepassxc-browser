@@ -1,3 +1,9 @@
+keepassxc-browser (1.8.1+repack1-4) UNRELEASED; urgency=medium
+
+  * Updated URL in debian/watch for GitHub to fix uscan
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sat, 19 Nov 2022 05:13:08 +0100
+
 keepassxc-browser (1.8.1+repack1-3) unstable; urgency=medium
 
   [ Debian Janitor ]
