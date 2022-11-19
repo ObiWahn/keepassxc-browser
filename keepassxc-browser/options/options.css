@@ -56,6 +56,7 @@ input[disabled] {
 }
 
 footer {
+    display: none;
     bottom: 1rem;
 }
 
@@ -100,6 +101,10 @@ tbody {
     background-color: var(--kpxc-card-background-color) !important;
     border-color: var(--kpxc-input-main-border-color) !important;
     color: var(--kpxc-text-color) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) .form-check-input:checked {
+    background-color: var(--kpxc-checkbox-background-color) !important;
 }
 
 .table tbody td {
@@ -200,10 +205,18 @@ table td:last-of-type {
     .sidebar {
         height: auto;
     }
+
+    footer {
+        display: block;
+    }
 }
 
 @media (min-width: 1440px) {
     .sidebar {
         width: 240px;
+    }
+
+    footer {
+        display: block;
     }
 }

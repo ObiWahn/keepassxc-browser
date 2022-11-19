@@ -92,7 +92,7 @@ kpxcFill.fillFromAutofill = async function() {
 
 // Fill requested by selecting credentials from the popup
 kpxcFill.fillFromPopup = async function(id, uuid) {
-    if (!kpxc.credentials.length === 0 || !kpxc.credentials[id] || kpxc.combinations.length === 0) {
+    if (kpxc.credentials.length === 0 || !kpxc.credentials[id] || kpxc.combinations.length === 0) {
         logDebug('Error: Credential list is empty.');
         return;
     }
@@ -169,13 +169,13 @@ kpxcFill.fillTOTPFromUuid = async function(el, uuid) {
 
 // Set normal or segmented TOTP value
 kpxcFill.setTOTPValue = function(elem, val) {
-    if (kpxc.combinations.length === 0) {
+    if (kpxc.credentials.length === 0) {
         logDebug('Error: Credential list is empty.');
         return;
     }
 
     for (const comb of kpxc.combinations) {
-        if (comb.totpInputs && comb.totpInputs.length === 6) {
+        if (comb.totpInputs && comb.totpInputs.length > 0) {
             kpxcFill.fillSegmentedTotp(elem, val, comb.totpInputs);
             return;
         }
@@ -186,11 +186,11 @@ kpxcFill.setTOTPValue = function(elem, val) {
 
 // Fill TOTP in parts
 kpxcFill.fillSegmentedTotp = function(elem, val, totpInputs) {
-    if (!totpInputs.includes(elem)) {
+    if (!totpInputs.includes(elem) || val.length < totpInputs.length) {
         return;
     }
 
-    for (let i = 0; i < 6; ++i) {
+    for (let i = 0; i < totpInputs.length; ++i) {
         kpxc.setValue(totpInputs[i], val[i]);
     }
 };
@@ -304,13 +304,17 @@ kpxcFill.fillInStringFields = function(fields, stringFields) {
 
 // Performs Auto-Submit. If filling single credentials is enabled, a 5 second timeout will be needed for fill
 kpxcFill.performAutoSubmit = async function(combination, skipAutoSubmit) {
+    if (!kpxc.settings.autoSubmit) {
+        return;
+    }
+
     const isAutoSubmitPerformed = await sendMessage('page_get_autosubmit_performed');
     if (isAutoSubmitPerformed && kpxc.settings.autoFillSingleEntry) {
         return;
     }
 
     const autoSubmitIgnoredForSite = await kpxc.siteIgnored(IGNORE_AUTOSUBMIT);
-    if (kpxc.settings.autoSubmit && !skipAutoSubmit && !autoSubmitIgnoredForSite) {
+    if (!skipAutoSubmit && !autoSubmitIgnoredForSite) {
         await sendMessage('page_set_autosubmit_performed');
 
         const submitButton = kpxcForm.getFormSubmitButton(combination.form);
