@@ -5,8 +5,7 @@ Maintainer: Bruno Kleinert <fuddl@debian.org>
 Build-Depends:
  debhelper-compat (= 13),
  fonts-fork-awesome,
- libjs-bootstrap4,
- libjs-jquery,
+ libjs-bootstrap5,
  node-cross-fetch,
  node-tweetnacl
 Standards-Version: 4.6.1

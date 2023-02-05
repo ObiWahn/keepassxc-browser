@@ -3,4 +3,3 @@ fix-bootstrap-includes.patch
 fix-browser-polyfill-includex.patch
 fix-fork-awesome-css-includes.patch
 chromium-extension-key.patch
-workaround-old-bootstrap.patch
