@@ -1,15 +1,15 @@
 Index: keepassxc-browser/keepassxc-browser/options/options.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/options.html	2022-08-28 07:31:53.950655474 +0200
-+++ keepassxc-browser/keepassxc-browser/options/options.html	2022-08-28 07:31:53.950655474 +0200
+--- keepassxc-browser.orig/keepassxc-browser/options/options.html	2023-02-05 11:05:22.120285962 +0100
++++ keepassxc-browser/keepassxc-browser/options/options.html	2023-02-05 13:10:33.525453364 +0100
 @@ -5,7 +5,7 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width,initial-scale=1">
-     <link rel="stylesheet" href="../css/colors.css" />
--    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
-+    <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
-     <link rel="stylesheet" href="../fonts/fork-awesome.min.css" />
-     <link rel="stylesheet" href="options.css" />
+     <link rel="stylesheet" href="../css/colors.css">
+-    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">
++    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+     <link rel="stylesheet" href="../fonts/fork-awesome.min.css">
+     <link rel="stylesheet" href="options.css">
      <link rel="icon" type="image/png" href="../icons/keepassxc_32x32.png" sizes="32x32">
 @@ -14,7 +14,7 @@
      <script src="../common/browser-polyfill.min.js"></script>
@@ -22,16 +22,16 @@ Index: keepassxc-browser/keepassxc-browser/options/options.html
    </head>
 Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2022-08-28 07:31:53.950655474 +0200
-+++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2022-08-28 07:33:35.101292660 +0200
+--- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2023-02-05 11:05:22.120285962 +0100
++++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2023-02-05 13:12:34.209204529 +0100
 @@ -4,14 +4,14 @@
      <title data-i18n="popupTitle"></title>
      <meta charset="UTF-8">
-     <link rel="stylesheet" href="../css/colors.css" />
--    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
-+    <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
-     <link rel="stylesheet" href="../fonts/fork-awesome.min.css" />
-     <link rel="stylesheet" href="shortcuts.css" />
+     <link rel="stylesheet" href="../css/colors.css">
+-    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">
++    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+     <link rel="stylesheet" href="../fonts/fork-awesome.min.css">
+     <link rel="stylesheet" href="shortcuts.css">
      <link rel="icon" type="image/png" href="../icons/keepassxc_32x32.png" sizes="32x32">
      <link rel="icon" type="image/png" href="../icons/keepassxc_64x64.png" sizes="64x64">
      <link rel="icon" type="image/png" href="../icons/keepassxc_96x96.png" sizes="96x96">
@@ -43,15 +43,15 @@ Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
      <script defer src="../common/translate.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2022-08-28 07:31:53.950655474 +0200
-+++ keepassxc-browser/keepassxc-browser/popups/popup.html	2022-08-28 07:31:53.950655474 +0200
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2023-02-05 11:05:22.120285962 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup.html	2023-02-05 13:13:05.877127230 +0100
 @@ -5,11 +5,11 @@
      <meta charset="UTF-8">
-     <link rel="stylesheet" href="../css/colors.css" />
-     <link rel="stylesheet" href="popup.css" />
--    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
-+    <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
-     <link rel="stylesheet" href="../fonts/fork-awesome.min.css" />
+     <link rel="stylesheet" href="../css/colors.css">
+     <link rel="stylesheet" href="popup.css">
+-    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">
++    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+     <link rel="stylesheet" href="../fonts/fork-awesome.min.css">
      <script src="../common/browser-polyfill.min.js"></script>
      <script src="../common/global.js"></script>
 -    <script src="../bootstrap/bootstrap.min.js"></script>
@@ -61,15 +61,15 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup.html
      <script defer src="../common/translate.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2022-08-28 07:31:53.950655474 +0200
-+++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2022-08-28 07:34:16.536736504 +0200
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2023-02-05 11:05:22.120285962 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2023-02-05 13:13:22.777084155 +0100
 @@ -5,11 +5,11 @@
      <meta charset="UTF-8">
-     <link rel="stylesheet" href="../css/colors.css" />
-     <link rel="stylesheet" href="popup.css" />
--    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
-+    <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
-     <link rel="stylesheet" href="../fonts/fork-awesome.min.css" />
+     <link rel="stylesheet" href="../css/colors.css">
+     <link rel="stylesheet" href="popup.css">
+-    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">
++    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+     <link rel="stylesheet" href="../fonts/fork-awesome.min.css">
      <script src="../common/browser-polyfill.min.js"></script>
      <script src="../common/global.js"></script>
 -    <script src="../bootstrap/bootstrap.min.js"></script>
@@ -79,15 +79,15 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
      <script defer src="../common/translate.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_login.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2022-08-28 07:31:53.950655474 +0200
-+++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2022-08-28 07:31:53.950655474 +0200
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2023-02-05 11:05:22.120285962 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2023-02-05 13:13:44.453027134 +0100
 @@ -5,11 +5,11 @@
      <meta charset="UTF-8">
-     <link rel="stylesheet" href="../css/colors.css" />
-     <link rel="stylesheet" href="popup.css" />
--    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
-+    <link rel="stylesheet" href="../bootstrap/bootstrap.css" />
-     <link rel="stylesheet" href="../fonts/fork-awesome.min.css" />
+     <link rel="stylesheet" href="../css/colors.css">
+     <link rel="stylesheet" href="popup.css">
+-    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">
++    <link rel="stylesheet" href="../bootstrap/bootstrap.css">
+     <link rel="stylesheet" href="../fonts/fork-awesome.min.css">
      <script src="../common/browser-polyfill.min.js"></script>
      <script src="../common/global.js"></script>
 -    <script src="../bootstrap/bootstrap.min.js"></script>
