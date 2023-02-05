@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('@npmcli/fs')
+const fs = require('@npmcli/fs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const zaf = require('zip-a-folder');
@@ -40,7 +40,11 @@ async function updateTranslations() {
 }
 
 (async() => {
-    await updateTranslations();
+    const params = process.argv.slice(2);
+    if (!params.includes('--skip-translations')) {
+        await updateTranslations();
+    }
+
     await fs.copyFile(`${DEST}/manifest.json`, `./${DEFAULT}`);
 
     for (const browser in BROWSERS) {

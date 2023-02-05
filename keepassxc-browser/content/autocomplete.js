@@ -2,6 +2,12 @@
 
 const MAX_AUTOCOMPLETE_NAME_LEN = 50;
 
+function cancelEvent(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+}
+
 class Autocomplete {
     constructor() {
         this.afterFillSort = SORT_BY_MATCHING_CREDENTIALS_SETTING;
@@ -80,6 +86,8 @@ class Autocomplete {
             const styleSheet = createStylesheet('css/autocomplete.css');
             const colorStyleSheet = createStylesheet('css/colors.css');
             this.wrapper = kpxcUI.createElement('div');
+            this.wrapper.style.display = 'none';
+            styleSheet.addEventListener('load', () => this.wrapper.style.display = 'block');
             this.container = kpxcUI.createElement('div', 'kpxcAutocomplete-container', { 'id': 'kpxcAutocomplete-container' });
 
             this.shadowRoot = this.wrapper.attachShadow({ mode: 'closed' });
@@ -87,7 +95,7 @@ class Autocomplete {
             this.shadowRoot.append(styleSheet);
 
             this.list = kpxcUI.createElement('div', 'kpxcAutocomplete-items', { 'id': 'kpxcAutocomplete-list' });
-            initColorTheme(this.list);
+            initColorTheme(this.container);
 
             this.container.append(this.list);
             this.shadowRoot.append(this.container);
@@ -147,7 +155,7 @@ class Autocomplete {
 
     deselectItem() {
         const items = this.list.querySelectorAll('div.kpxcAutocomplete-active');
-        items.forEach(item =>  item.classList.remove('kpxcAutocomplete-active'));
+        items.forEach(item => item.classList.remove('kpxcAutocomplete-active'));
     }
 
     closeList() {
@@ -177,7 +185,7 @@ class Autocomplete {
 
         const inputField = e.target;
         if (e.key === 'ArrowDown') {
-            e.preventDefault();
+            cancelEvent(e);
             // If the list is not visible, show it
             if (!this.input) {
                 await this.showList(inputField);
@@ -193,18 +201,14 @@ class Autocomplete {
                 this.selectItem();
             }
         } else if (e.key === 'ArrowUp' && this.list) {
-            e.preventDefault();
+            cancelEvent(e);
             const items = this.getAllItems();
             this.index = (this.index > 0 ? this.index : items.length) - 1;
             this.selectItem();
         } else if (e.key === 'Enter' && this.input) {
-            if (inputField.value === '') {
-                e.preventDefault();
-            }
-
             const items = this.getAllItems();
             if (this.index >= 0 && items[this.index] !== undefined) {
-                e.preventDefault();
+                cancelEvent(e);
 
                 await this.itemEnter(this.index, this.elements);
                 this.closeList();
