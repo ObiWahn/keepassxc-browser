@@ -128,15 +128,17 @@ kpxcCustomLoginFieldsBanner.create = async function() {
 
     initColorTheme(banner);
 
-    const bannerStyleSheet = createStylesheet('css/banner.css');
+    const styleSheet = createStylesheet('css/banner.css');
     const defineStyleSheet = createStylesheet('css/define.css');
     const buttonStyleSheet = createStylesheet('css/button.css');
     const colorStyleSheet = createStylesheet('css/colors.css');
 
     const wrapper = document.createElement('div');
+    wrapper.style.display = 'none';
+    styleSheet.addEventListener('load', () => wrapper.style.display = 'block');
     this.shadowRoot = wrapper.attachShadow({ mode: 'closed' });
     this.shadowRoot.append(colorStyleSheet);
-    this.shadowRoot.append(bannerStyleSheet);
+    this.shadowRoot.append(styleSheet);
     this.shadowRoot.append(defineStyleSheet);
     this.shadowRoot.append(buttonStyleSheet);
 
@@ -669,7 +671,7 @@ const dataStepToString = function() {
     } else if (kpxcCustomLoginFieldsBanner.dataStep === STEP_SELECT_STRING_FIELDS) {
         return tr('defineStringField');
     }
-}
+};
 
 //--------------------------------------------------------------------------
 // IFrame support
@@ -764,4 +766,4 @@ const sendMessageToParent = function(message, selection) {
     if (window.self !== window.top) {
         window.top.postMessage({ message, selection }, '*');
     }
-}
+};
