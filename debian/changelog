@@ -3,8 +3,9 @@ keepassxc-browser (1.8.4+repack1-2) experimental; urgency=medium
   * Updated build-dependency from libjs-bootstrap4 to libjs-bootstrap5
     + Removed obsolete build-dependency on jQuery
     + Removed obsolete workaround-old-bootstrap.patch
+    + Updated Built-Using logic in debian/rules
 
- -- Bruno Kleinert <fuddl@debian.org>  Sun, 05 Feb 2023 19:56:48 +0100
+ -- Bruno Kleinert <fuddl@debian.org>  Mon, 06 Feb 2023 05:38:04 +0100
 
 keepassxc-browser (1.8.4+repack1-1) unstable; urgency=medium
 
