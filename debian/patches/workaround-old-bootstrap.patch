@@ -1,7 +1,7 @@
 Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2023-02-05 13:30:01.533282372 +0100
-+++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2023-02-05 13:30:01.529282389 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2023-02-07 19:47:24.355689541 +0100
++++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2023-02-07 19:47:24.351689602 +0100
 @@ -10,6 +10,7 @@
      <link rel="icon" type="image/png" href="../icons/keepassxc_32x32.png" sizes="32x32">
      <link rel="icon" type="image/png" href="../icons/keepassxc_64x64.png" sizes="64x64">
@@ -12,20 +12,20 @@ Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
      <script defer src="../common/global.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2023-02-05 13:30:01.533282372 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup.html	2023-02-05 13:33:50.428248938 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2023-02-07 19:47:24.355689541 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup.html	2023-02-07 19:48:27.122743268 +0100
 @@ -7,6 +7,7 @@
      <link rel="stylesheet" href="popup.css">
      <link rel="stylesheet" href="../bootstrap/bootstrap.css">
      <link rel="stylesheet" href="../fonts/fork-awesome.css">
-+    <script src="../bootstrap/jquery.js"></script>"
++    <script src="../bootstrap/jquery.js"></script>
      <script src="../common/browser-polyfill.js"></script>
      <script src="../common/global.js"></script>
      <script src="../bootstrap/bootstrap.js"></script>
 Index: keepassxc-browser/keepassxc-browser/options/options.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/options.html	2023-02-05 13:30:01.533282372 +0100
-+++ keepassxc-browser/keepassxc-browser/options/options.html	2023-02-05 13:30:01.533282372 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/options.html	2023-02-07 19:47:24.355689541 +0100
++++ keepassxc-browser/keepassxc-browser/options/options.html	2023-02-07 19:47:24.355689541 +0100
 @@ -11,6 +11,7 @@
      <link rel="icon" type="image/png" href="../icons/keepassxc_32x32.png" sizes="32x32">
      <link rel="icon" type="image/png" href="../icons/keepassxc_64x64.png" sizes="64x64">
@@ -36,8 +36,8 @@ Index: keepassxc-browser/keepassxc-browser/options/options.html
      <script src="../common/sites.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2023-02-05 13:30:01.533282372 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2023-02-05 13:34:51.171970862 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2023-02-07 19:47:24.355689541 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2023-02-07 19:47:24.355689541 +0100
 @@ -7,6 +7,7 @@
      <link rel="stylesheet" href="popup.css">
      <link rel="stylesheet" href="../bootstrap/bootstrap.css">
@@ -48,8 +48,8 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
      <script src="../bootstrap/bootstrap.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_login.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2023-02-05 13:30:01.533282372 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2023-02-05 13:35:28.547799158 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2023-02-07 19:47:24.355689541 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2023-02-07 19:47:24.355689541 +0100
 @@ -7,6 +7,7 @@
      <link rel="stylesheet" href="popup.css">
      <link rel="stylesheet" href="../bootstrap/bootstrap.css">
