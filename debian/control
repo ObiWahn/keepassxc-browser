@@ -7,7 +7,6 @@ Build-Depends:
  fonts-fork-awesome,
  libjs-bootstrap4,
  libjs-jquery,
- node-cross-fetch,
  node-tweetnacl
 Standards-Version: 4.6.1
 Homepage: https://github.com/keepassxreboot/keepassxc-browser

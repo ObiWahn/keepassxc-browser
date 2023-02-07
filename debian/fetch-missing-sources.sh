@@ -12,3 +12,8 @@ curl --location \
 tar -xzf tweetnacl-util-js-0.15.0.tar.gz && \
   cp -a tweetnacl-util-js-0.15.0/nacl-util.js missing-sources/
 rm -rf tweetnacl-util-js-0.15.0 tweetnacl-util-js-0.15.0.tar.gz
+
+# webextension-polyfill
+curl --location \
+	'https://unpkg.com/webextension-polyfill@0.10.0/dist/browser-polyfill.js' \
+	> missing-sources/browser-polyfill.js

@@ -1,3 +1,14 @@
+keepassxc-browser (1.8.4+repack1-3) unstable; urgency=medium
+
+  * Fixed loading in Chromium. Many thanks to Guillem Jover for pointing me to
+    the root cause. (Closes: #1013876)
+    + Replaced faulty browser-poliyfill.js from wrong build-dependency
+      node-cross-fetch by code copy
+      debian/missing-sources/browser-polyfill.js and updated debian/copyright
+      accordingly.
+
+ -- Bruno Kleinert <fuddl@debian.org>  Tue, 07 Feb 2023 19:28:47 +0100
+
 keepassxc-browser (1.8.4+repack1-1) unstable; urgency=medium
 
   * New upstream release (Closes: #1027813)

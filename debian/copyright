@@ -20,6 +20,10 @@ Files: debian/*
 Copyright: 2018-2023, Bruno Kleinert <fuddl@debian.org>
 License: GPL-3
 
+Files: debian/missing-sources/browser-polyfill.js
+Copyright: 2017-2022, Mozilla Foundation, https://github.com/mozilla/webextension-polyfill
+License: MPL-2.0
+
 Files: debian/missing-sources/nacl-util.js
 Copyright: 2017-2020, TweetNaCl-Util-js contributors, https://github.com/dchest/tweetnacl-util-js/
 License: public-domain
