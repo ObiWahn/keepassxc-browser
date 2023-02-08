@@ -1,8 +1,9 @@
 keepassxc-browser (1.8.4+repack1-5) unstable; urgency=medium
 
   * Declare compliance to Standards Version 4.6.2. No changes.
+  * Added lintian override for false positive detection of jQuery.
 
- -- Bruno Kleinert <fuddl@debian.org>  Wed, 08 Feb 2023 05:10:59 +0100
+ -- Bruno Kleinert <fuddl@debian.org>  Wed, 08 Feb 2023 05:17:35 +0100
 
 keepassxc-browser (1.8.4+repack1-4) unstable; urgency=medium
 

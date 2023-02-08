@@ -1,6 +1,7 @@
 # Those copies are intentional as Firefox does not follow symbolic links outside
 # extensions' directories.
 embedded-javascript-library please use libjs-bootstrap [usr/share/webext/keepassxc-browser/bootstrap/bootstrap.js]
+embedded-javascript-library please use libjs-jquery [usr/share/webext/keepassxc-browser/bootstrap/jquery.js]
 font-in-non-font-package [usr/share/webext/keepassxc-browser/fonts/forkawesome-webfont.woff2]
 font-outside-font-dir [usr/share/webext/keepassxc-browser/fonts/forkawesome-webfont.woff2]
 
