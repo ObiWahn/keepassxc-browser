@@ -1,9 +1,14 @@
 keepassxc-browser (1.8.4+repack1-7) unstable; urgency=medium
 
   * Upload to sid for testing/bookworm as libjs-bootstrap5 migrated to
-    testing/bookworm
+    testing/bookworm. This allows the following for bookworm:
+    + Avoid a code copy of the jQuery library which was required for the
+      previous libjs-bootstrap4 build-dependency.
+    + The upstream extension included a code copy of Bootstrap 5, while the
+      Debian package has been replacing it by a packaged Bootstrap. Using the
+      same Bootstrap version like upstream lowers compatibility issues.
 
- -- Bruno Kleinert <fuddl@debian.org>  Mon, 13 Feb 2023 08:11:16 +0100
+ -- Bruno Kleinert <fuddl@debian.org>  Mon, 13 Feb 2023 10:38:17 +0100
 
 keepassxc-browser (1.8.4+repack1-6) experimental; urgency=medium
 
