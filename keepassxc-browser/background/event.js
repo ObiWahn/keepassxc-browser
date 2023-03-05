@@ -137,7 +137,7 @@ kpxcEvent.onCheckUpdateKeePassXC = async function() {
 };
 
 kpxcEvent.onUpdateAvailableKeePassXC = async function() {
-    return (page.settings.checkUpdateKeePassXC !== CHECK_UPDATE_NEVER) ? keepass.keePassXCUpdateAvailable() : false;
+    return (Number(page.settings.checkUpdateKeePassXC) !== CHECK_UPDATE_NEVER) ? keepass.keePassXCUpdateAvailable() : false;
 };
 
 kpxcEvent.onRemoveCredentialsFromTabInformation = async function(tab) {
@@ -228,12 +228,14 @@ kpxcEvent.messageHandlers = {
     'create_new_group': keepass.createNewGroup,
     'enable_automatic_reconnect': keepass.enableAutomaticReconnect,
     'disable_automatic_reconnect': keepass.disableAutomaticReconnect,
+    'fill_http_auth': page.fillHttpAuth,
     'generate_password': keepass.generatePassword,
     'get_color_theme': kpxcEvent.getColorTheme,
     'get_connected_database': kpxcEvent.onGetConnectedDatabase,
     'get_database_hash': keepass.getDatabaseHash,
     'get_database_groups': keepass.getDatabaseGroups,
     'get_keepassxc_versions': kpxcEvent.onGetKeePassXCVersions,
+    'get_login_list': page.getLoginList,
     'get_status': kpxcEvent.onGetStatus,
     'get_tab_information': kpxcEvent.onGetTabInformation,
     'get_totp': keepass.getTotp,
