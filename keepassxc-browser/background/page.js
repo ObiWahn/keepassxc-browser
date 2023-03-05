@@ -18,7 +18,7 @@ const defaultSettings = {
     defaultGroup: '',
     defaultGroupAlwaysAsk: false,
     downloadFaviconAfterSave: false,
-    redirectAllowance: 1,
+    redirectAllowance: 3,
     saveDomainOnly: true,
     showGettingStartedGuideAlert: true,
     showTroubleshootingGuideAlert: true,
@@ -368,6 +368,25 @@ page.setAutoSubmitPerformed = async function(tab) {
         setTimeout(() => {
             page.autoSubmitPerformed = false;
         }, AUTO_SUBMIT_TIMEOUT);
+    }
+};
+
+page.getLoginList = async function(tab) {
+    if (page.tabs[tab.id]) {
+        return page.tabs[tab.id].loginList;
+    }
+
+    return [];
+};
+
+page.fillHttpAuth = async function(tab, credentials) {
+    if (page.tabs[tab.id] && page.tabs[tab.id].loginList.resolve) {
+        page.tabs[tab.id].loginList.resolve({
+            authCredentials: {
+                username: credentials.login,
+                password: credentials.password
+            }
+        });
     }
 };
 

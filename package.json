@@ -1,13 +1,11 @@
 {
   "name": "KeePassXC-Browser",
-  "version": "1.8.4",
+  "version": "1.8.5.1",
   "description": "KeePassXC-Browser",
   "main": "build.js",
   "devDependencies": {
     "@playwright/test": "^1.22.0",
-    "eslint": "^8.18.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint": "^8.31.0"
   },
   "dependencies": {
     "@npmcli/fs": "^2.1.0",

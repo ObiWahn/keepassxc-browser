@@ -1,11 +1,5 @@
 'use strict';
 
-const getLoginData = async () => {
-    const global = await browser.runtime.getBackgroundPage();
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    return global.page.tabs[tabs[0].id].loginList;
-};
-
 (async () => {
     resizePopup();
     await initColorTheme();
@@ -25,16 +19,12 @@ const getLoginData = async () => {
                 return;
             }
 
-            if (data.resolve) {
-                const id = e.target.id;
-                const creds = data.logins[Number(id)];
-                data.resolve({
-                    authCredentials: {
-                        username: creds.login,
-                        password: creds.password
-                    }
-                });
-            }
+            const credentials = data.logins[Number(e.target.id)];
+            browser.runtime.sendMessage({
+                action: 'fill_http_auth',
+                args: credentials
+            });
+
             close();
         });
         ll.appendChild(a);
@@ -53,16 +43,12 @@ const getLoginData = async () => {
     });
 
     $('#btn-dismiss').addEventListener('click', async () => {
-        const loginData = await getLoginData();
-        // Using reject won't work with every browser. So return empty credentials instead.
-        if (loginData.resolve) {
-            loginData.resolve({
-                authCredentials: {
-                    username: '',
-                    password: ''
-                }
-            });
-        }
+        // Return empty credentials
+        browser.runtime.sendMessage({
+            action: 'fill_http_auth',
+            args: { login: '', password: '' }
+        });
+
         close();
     });
 })();

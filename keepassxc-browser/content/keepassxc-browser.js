@@ -103,7 +103,7 @@ kpxc.detectDatabaseChange = async function(response) {
     kpxcIcons.switchIcons();
 
     if (document.visibilityState !== 'hidden') {
-        if (response.hash.new !== '' && response.hash.new !== response.hash.old) {
+        if (response.hash.new !== '') {
             _called.retrieveCredentials = false;
             const settings = await sendMessage('load_settings');
             kpxc.settings = settings;
@@ -115,7 +115,7 @@ kpxc.detectDatabaseChange = async function(response) {
             // If user has requested a manual fill through context menu the actual credential filling
             // is handled here when the opened database has been regognized. It's not a pretty hack.
             const manualFill = await sendMessage('page_get_manual_fill');
-            if (manualFill !== ManualFill.NONE) {
+            if (manualFill !== ManualFill.NONE && kpxc.combinations.length > 0) {
                 await kpxcFill.fillInFromActiveElement(manualFill === ManualFill.PASSWORD);
                 await sendMessage('page_set_manual_fill', ManualFill.NONE);
             }
@@ -643,7 +643,7 @@ kpxc.setPasswordFilled = async function(state) {
 };
 
 // Special handling for settings value to select element
-kpxc.setValue = function(field, value) {
+kpxc.setValue = function(field, value, forced = false) {
     if (field.matches('select')) {
         value = value.toLowerCase().trim();
         const options = field.querySelectorAll('option');
@@ -658,11 +658,15 @@ kpxc.setValue = function(field, value) {
         return;
     }
 
-    kpxc.setValueWithChange(field, value);
+    kpxc.setValueWithChange(field, value, forced);
 };
 
 // Sets a new value to input field and triggers necessary events
-kpxc.setValueWithChange = function(field, value) {
+kpxc.setValueWithChange = function(field, value, forced = false) {
+    if (!forced && field.readOnly) {
+        return;
+    }
+
     field.value = value;
     field.dispatchEvent(new Event('input', { bubbles: true }));
     field.dispatchEvent(new Event('change', { bubbles: true }));

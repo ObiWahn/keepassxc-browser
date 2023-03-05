@@ -800,10 +800,11 @@ keepass.setcurrentKeePassXCVersion = function(version) {
 };
 
 keepass.keePassXCUpdateAvailable = function() {
-    if (page.settings.checkUpdateKeePassXC && page.settings.checkUpdateKeePassXC !== CHECK_UPDATE_NEVER) {
+    const checkUpdate = Number(page.settings.checkUpdateKeePassXC);
+    if (checkUpdate !== CHECK_UPDATE_NEVER) {
         const lastChecked = (keepass.latestKeePassXC.lastChecked) ? new Date(keepass.latestKeePassXC.lastChecked) : new Date(1986, 11, 21);
         const daysSinceLastCheck = Math.floor(((new Date()).getTime() - lastChecked.getTime()) / 86400000);
-        if (daysSinceLastCheck >= page.settings.checkUpdateKeePassXC) {
+        if (daysSinceLastCheck >= checkUpdate) {
             keepass.checkForNewKeePassXCVersion();
         }
 
@@ -855,9 +856,9 @@ keepass.handleError = function(tab, errorCode, errorMessage = '') {
     }
 };
 
-keepass.updatePopup = function(iconType) {
+keepass.updatePopup = function() {
     if (page && page.tabs.length > 0) {
-        browserAction.updateIcon(undefined, iconType);
+        browserAction.showDefault();
     }
 };
 
@@ -868,9 +869,8 @@ keepass.updateDatabase = async function() {
     page.clearAllLogins();
 
     await keepass.testAssociation(null, [ true ]);
-    const configured = await keepass.isConfigured();
 
-    keepass.updatePopup(configured ? 'normal' : 'locked');
+    keepass.updatePopup();
     keepass.updateDatabaseHashToContent();
 };
 
