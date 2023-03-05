@@ -13,7 +13,7 @@ Files-Excluded: .github
   keepassxc-browser/fonts/forkawesome-webfont.woff2
 
 Files: *
-Copyright: 2017-2022, KeePassXC team <team@keepassxc.org>
+Copyright: 2017-2023, KeePassXC team <team@keepassxc.org>
 License: GPL-3
 
 Files: debian/*

@@ -1,3 +1,10 @@
+keepassxc-browser (1.8.5.1+repack1-1) experimental; urgency=medium
+
+  * New upstream release
+    + Updated KeePassXC Team copyright years up to 2023
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sun, 05 Mar 2023 06:16:32 +0100
+
 keepassxc-browser (1.8.4+repack1-7) unstable; urgency=medium
 
   * Upload to sid for testing/bookworm as libjs-bootstrap5 migrated to
