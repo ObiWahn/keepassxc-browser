@@ -66,7 +66,7 @@ kpxcSites.exceptionFound = function(identifier) {
 
     if (document.location.origin === 'https://idmsa.apple.com'
         && ((typeof identifier === 'string' && identifier === 'password_text_field')
-        || [ 'password', 'form-row', 'show-password' ].every(c => identifier.contains(c)))) {
+        || (typeof identifier === 'object' && [ 'password', 'form-row', 'show-password' ].every(c => identifier.contains(c))))) {
         return true;
     } else if (document.location.origin.startsWith('https://signin.ebay.')
                && (identifier === 'null' || identifier.value === 'null' || identifier === 'pass')) {
@@ -172,7 +172,7 @@ kpxcSites.formSubmitButtonExceptionFound = function(form) {
             'login.microsoftonline.us',
         ].some(u => form.action.includes(u))) {
         const buttons = Array.from(form.querySelectorAll(kpxcForm.formButtonQuery));
-        if (buttons && buttons.length > 1) {
+        if (buttons?.length > 1) {
             return buttons[1];
         }
     }
@@ -186,7 +186,7 @@ kpxcSites.formSubmitButtonExceptionFound = function(form) {
  * @returns {boolean}       True if exception found
  */
 kpxcSites.popupExceptionFound = function(combinations) {
-    if (combinations.length > 1 && combinations[0].form && combinations[0].form.action.startsWith(googleUrl)) {
+    if (combinations?.[0].form?.action.startsWith(googleUrl)) {
         return true;
     }
 

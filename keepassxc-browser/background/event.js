@@ -4,7 +4,7 @@ const kpxcEvent = {};
 
 kpxcEvent.onMessage = async function(request, sender) {
     if (request.action in kpxcEvent.messageHandlers) {
-        if (!sender.hasOwnProperty('tab') || sender.tab.id < 1) {
+        if (!Object.hasOwn(sender, 'tab') || sender.tab.id < 1) {
             sender.tab = {};
             sender.tab.id = page.currentTabId;
         }
@@ -23,7 +23,9 @@ kpxcEvent.showStatus = async function(tab, configured, internalPoll) {
         browserAction.showDefault(tab);
     }
 
-    const errorMessage = page.tabs[tab.id].errorMessage;
+    const errorMessage = page.tabs[tab.id]?.errorMessage ?? undefined;
+    const usernameFieldDetected = page.tabs[tab.id]?.usernameFieldDetected ?? false;
+
     return {
         identifier: keyId,
         configured: configured,
@@ -31,8 +33,8 @@ kpxcEvent.showStatus = async function(tab, configured, internalPoll) {
         keePassXCAvailable: keepass.isKeePassXCAvailable,
         encryptionKeyUnrecognized: keepass.isEncryptionKeyUnrecognized,
         associated: keepass.isAssociated(),
-        error: errorMessage || null,
-        usernameFieldDetected: page.tabs[tab.id].usernameFieldDetected,
+        error: errorMessage,
+        usernameFieldDetected: usernameFieldDetected,
         showGettingStartedGuideAlert: page.settings.showGettingStartedGuideAlert,
         showTroubleshootingGuideAlert: page.settings.showTroubleshootingGuideAlert
     };
@@ -54,8 +56,8 @@ kpxcEvent.onLoadKeyRing = async function() {
     keepass.keyRing = item.keyRing;
     if (keepass.isAssociated() && !keepass.keyRing[keepass.associated.hash]) {
         keepass.associated = {
-            'value': false,
-            'hash': null
+            value: false,
+            hash: null
         };
     }
 
@@ -111,7 +113,7 @@ kpxcEvent.lockDatabase = async function(tab) {
 };
 
 kpxcEvent.onGetTabInformation = async function(tab) {
-    const id = tab.id || page.currentTabId;
+    const id = tab?.id || page.currentTabId;
     return page.tabs[id];
 };
 
@@ -141,7 +143,7 @@ kpxcEvent.onUpdateAvailableKeePassXC = async function() {
 };
 
 kpxcEvent.onRemoveCredentialsFromTabInformation = async function(tab) {
-    const id = tab.id || page.currentTabId;
+    const id = tab?.id || page.currentTabId;
     page.clearCredentials(id);
     page.clearSubmittedCredentials();
 };
@@ -218,6 +220,11 @@ kpxcEvent.hideTroubleshootingGuideAlert = async function(tab) {
     await kpxcEvent.onSaveSettings(tab, settings);
 };
 
+// Bounce message back to all frames
+kpxcEvent.sendBackToTabs = async function(tab, args = []) {
+    await browser.tabs.sendMessage(tab.id, { action: 'frame_message', args: args });
+};
+
 // All methods named in this object have to be declared BEFORE this!
 kpxcEvent.messageHandlers = {
     'add_credentials': keepass.addCredentials,
@@ -229,6 +236,7 @@ kpxcEvent.messageHandlers = {
     'enable_automatic_reconnect': keepass.enableAutomaticReconnect,
     'disable_automatic_reconnect': keepass.disableAutomaticReconnect,
     'fill_http_auth': page.fillHttpAuth,
+    'frame_message': kpxcEvent.sendBackToTabs,
     'generate_password': keepass.generatePassword,
     'get_color_theme': kpxcEvent.getColorTheme,
     'get_connected_database': kpxcEvent.onGetConnectedDatabase,

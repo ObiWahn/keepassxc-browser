@@ -3,10 +3,7 @@
 const browserAction = {};
 
 browserAction.show = function(tab, popupData) {
-    if (!popupData) {
-        popupData = page.popupData;
-    }
-
+    popupData ??= page.popupData;
     page.popupData = popupData;
 
     browser.browserAction.setIcon({
@@ -38,16 +35,12 @@ browserAction.showDefault = async function(tab) {
     }
 
     // Get the current tab if no tab given
+    tab ??= await getCurrentTab();
     if (!tab) {
-        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-        if (tabs.length === 0) {
-            return;
-        }
-
-        tab = tabs[0];
+        return;
     }
 
-    if (page.tabs[tab.id] && page.tabs[tab.id].loginList.length > 0) {
+    if (page.tabs[tab.id]?.loginList.length > 0) {
         popupData.iconType = 'questionmark';
         popupData.popup = 'popup_login';
     }
@@ -65,10 +58,7 @@ browserAction.generateIconName = function(iconType) {
 
 browserAction.ignoreSite = async function(url) {
     await browser.windows.getCurrent();
-
-    // Get current active window
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    const tab = tabs[0];
+    const tab = await getCurrentTab();
 
     // Send the message to the current tab's content script
     await browser.runtime.getBackgroundPage();

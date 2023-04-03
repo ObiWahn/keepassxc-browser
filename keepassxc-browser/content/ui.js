@@ -7,6 +7,12 @@ const MIN_INPUT_FIELD_OFFSET_WIDTH = 60;
 const MIN_OPACITY = 0.7;
 const MAX_OPACITY = 1;
 
+const BLUE_BUTTON = 'kpxc-button kpxc-blue-button';
+const GREEN_BUTTON = 'kpxc-button kpxc-green-button';
+const ORANGE_BUTTON = 'kpxc-button kpxc-orange-button';
+const RED_BUTTON = 'kpxc-button kpxc-red-button';
+const GRAY_BUTTON_CLASS = 'kpxc-gray-button';
+
 const DatabaseState = {
     DISCONNECTED: 0,
     LOCKED: 1,
@@ -107,7 +113,7 @@ kpxcUI.monitorIconPosition = function(iconClass) {
     });
 
     window.addEventListener('transitionend', function(e) {
-        if (e.target && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
+        if (e.target?.nodeName === 'INPUT' || e.target?.nodeName === 'TEXTAREA') {
             kpxcUI.updateIconPosition(iconClass);
         }
     });
@@ -143,12 +149,20 @@ kpxcUI.setIconPosition = function(icon, field, rtl = false, segmented = false) {
         top = iconOffset[1];
     }
 
-    const scrollTop = document.scrollingElement ? document.scrollingElement.scrollTop : 0;
-    const scrollLeft = document.scrollingElement ? document.scrollingElement.scrollLeft : 0;
+    const scrollTop = kpxcUI.getScrollTop();
+    const scrollLeft = kpxcUI.getScrollLeft();
     icon.style.top = Pixels(top + scrollTop + offset + 1);
     icon.style.left = rtl
                     ? Pixels((left + scrollLeft) + offset)
                     : Pixels(left + scrollLeft + field.offsetWidth - size - offset);
+};
+
+kpxcUI.getScrollTop = function() {
+    return document.defaultView?.scrollY ?? document.scrollingElement?.scrollTop ?? 0;
+};
+
+kpxcUI.getScrollLeft = function() {
+    return document.defaultView?.scrollX ?? document.scrollingElement?.scrollLeft ?? 0;
 };
 
 kpxcUI.getRelativeLeftPosition = function(rect) {
