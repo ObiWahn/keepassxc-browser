@@ -1,9 +1,9 @@
 Index: keepassxc-browser/keepassxc-browser/manifest.json
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/manifest.json	2023-04-03 16:14:55.736587502 +0200
-+++ keepassxc-browser/keepassxc-browser/manifest.json	2023-04-03 16:14:55.732587438 +0200
-@@ -161,5 +161,6 @@
-             "strict_min_version": "91.0"
+--- keepassxc-browser.orig/keepassxc-browser/manifest.json	2023-06-24 05:47:19.867920985 +0200
++++ keepassxc-browser/keepassxc-browser/manifest.json	2023-06-24 05:47:19.863921020 +0200
+@@ -162,5 +162,6 @@
+             "strict_min_version": "93.0"
          }
      },
 -    "default_locale": "en"

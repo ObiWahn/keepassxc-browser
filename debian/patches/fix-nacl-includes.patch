@@ -1,8 +1,8 @@
 Index: keepassxc-browser/keepassxc-browser/manifest.json
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/manifest.json	2022-06-24 16:31:26.519667339 +0200
-+++ keepassxc-browser/keepassxc-browser/manifest.json	2022-06-24 16:32:04.007832163 +0200
-@@ -34,8 +34,8 @@
+--- keepassxc-browser.orig/keepassxc-browser/manifest.json	2023-06-24 05:47:02.552041567 +0200
++++ keepassxc-browser/keepassxc-browser/manifest.json	2023-06-24 05:47:02.548041587 +0200
+@@ -35,8 +35,8 @@
              "common/browser-polyfill.min.js",
              "common/global.js",
              "common/sites.js",
