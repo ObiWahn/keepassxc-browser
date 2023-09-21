@@ -20,7 +20,7 @@ Depends:
  ${misc:Depends},
  keepassxc
 Recommends:
- firefox (>= 67) | firefox-esr | chromium
+ firefox | firefox-esr | chromium
 Description: Web browser extension to organize web site credentials in KeePassXC
  KeePassXC-Browser is a web browser extension for Firefox and Chromium that
  allows users to easily store and load credentials for web sites in/from
