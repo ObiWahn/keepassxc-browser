@@ -262,8 +262,8 @@ kpxc.initCombinations = async function(inputs = []) {
     }
 
     const combinations = isCustomLoginFieldsUsed
-                       ? await kpxcFields.useCustomLoginFields()
-                       : await kpxcFields.getAllCombinations(inputs);
+        ? await kpxcFields.useCustomLoginFields()
+        : await kpxcFields.getAllCombinations(inputs);
     if (!combinations || combinations.length === 0) {
         if (isCustomLoginFieldsUsed) {
             kpxcUI.createNotification('warning', tr('optionsCustomFieldsNotFound'));
@@ -343,8 +343,8 @@ kpxc.initLoginPopup = function() {
     // Returns a login item with additional information for sorting
     const getLoginItem = function(credential, withGroup, loginId) {
         const title = credential.name.length < MAX_AUTOCOMPLETE_NAME_LEN
-                   ? credential.name
-                   : credential.name.substr(0, MAX_AUTOCOMPLETE_NAME_LEN) + '…';
+            ? credential.name
+            : credential.name.substr(0, MAX_AUTOCOMPLETE_NAME_LEN) + '…';
         const group = (withGroup && credential.group) ? `[${credential.group}] ` : '';
         const visibleLogin = (credential.login.length > 0) ? credential.login : tr('credentialsNoUsername');
         let text = `${group}${title} (${visibleLogin})`;
@@ -546,22 +546,27 @@ kpxc.rememberCredentials = async function(usernameValue, passwordValue, urlValue
 
 // Save credentials triggered fron the context menu
 kpxc.rememberCredentialsFromContextMenu = async function() {
+    if (kpxc.databaseState === DatabaseState.LOCKED) {
+        kpxcUI.createNotification('error', tr('rememberErrorDatabaseClosed'));
+        return;
+    }
+
     const el = document.activeElement;
     if (el.nodeName !== 'INPUT') {
         return;
     }
 
-    const type = el.getAttribute('type');
-    const combination = await kpxcFields.getCombination(el, (type === 'password' ? type : 'username'));
+    const combination = await kpxcFields.getCombination(el);
     if (!combination) {
         logDebug('Error: No combination found.');
         return;
     }
 
-    const usernameValue = combination.username ? combination.username.value : '';
-    const passwordValue = combination.password ? combination.password.value : '';
+    const usernameValue = combination.username?.value ?? '';
+    const passwordValue = combination.password?.value ?? '';
 
-    const result = await kpxc.rememberCredentials(usernameValue, passwordValue, undefined, undefined, kpxc.settings.showLoginNotifications);
+    const result = await kpxc.rememberCredentials(usernameValue, passwordValue, undefined, undefined,
+        kpxc.settings.showLoginNotifications);
     if (result === undefined) {
         kpxcUI.createNotification('error', tr('rememberNoPassword'));
         return;
@@ -667,12 +672,23 @@ kpxc.setValueWithChange = function(field, value, forced = false) {
         return;
     }
 
+    const dispatchLegacyEvent = function(elem, eventName) {
+        const legacyEvent = elem.ownerDocument.createEvent('Event');
+        legacyEvent.initEvent(eventName, true, false);
+        elem.dispatchEvent(legacyEvent);
+    };
+
+    field.focus();
+    field.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: false }));
+    field.dispatchEvent(new KeyboardEvent('keypress', { bubbles: true, cancelable: false }));
+    field.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: false }));
+    field.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
+    field.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
     field.value = value;
-    field.dispatchEvent(new Event('input', { bubbles: true }));
-    field.dispatchEvent(new Event('change', { bubbles: true }));
-    field.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: false, key: '', char: '' }));
-    field.dispatchEvent(new KeyboardEvent('keypress', { bubbles: true, cancelable: false, key: '', char: '' }));
-    field.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: false, key: '', char: '' }));
+
+    // Some pages will not accept the value change without dispatching events directly to the document
+    dispatchLegacyEvent(field, 'input');
+    dispatchLegacyEvent(field, 'change');
 };
 
 // Returns true if site is ignored

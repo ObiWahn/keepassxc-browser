@@ -30,6 +30,8 @@ browserAction.showDefault = async function(tab) {
 
     if (!response && !keepass.isKeePassXCAvailable) {
         popupData.iconType = 'cross';
+    } else if (!keepass.isAssociated() && !keepass.isDatabaseClosed) {
+        popupData.iconType = 'bang';
     } else if (keepass.isKeePassXCAvailable && keepass.isDatabaseClosed) {
         popupData.iconType = 'locked';
     }
@@ -53,7 +55,16 @@ browserAction.generateIconName = function(iconType) {
     name += (keepass.keePassXCUpdateAvailable()) ? 'new_' : '';
     name += (!iconType || iconType === 'normal') ? 'normal' : iconType;
 
-    return `/icons/toolbar/${name}.png`;
+    let style = 'colored';
+    if (page.settings.useMonochromeToolbarIcon) {
+        if (page.settings.colorTheme === 'system') {
+            style = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        } else {
+            style = page.settings.colorTheme;
+        }
+    }
+    const filetype = (isFirefox() ? 'svg' : 'png');
+    return `/icons/toolbar/${style}/${name}.${filetype}`;
 };
 
 browserAction.ignoreSite = async function(url) {

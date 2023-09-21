@@ -25,6 +25,7 @@ const defaultSettings = {
     showLoginFormIcon: true,
     showLoginNotifications: true,
     showNotifications: true,
+    useMonochromeToolbarIcon: false,
     showOTPIcon: true,
     useObserver: true,
     usePredefinedSites: true,
@@ -33,7 +34,7 @@ const defaultSettings = {
 
 const AUTO_SUBMIT_TIMEOUT = 5000;
 
-var page = {};
+const page = {};
 page.autoSubmitPerformed = false;
 page.attributeMenuItemIds = [];
 page.blockedTabs = [];
@@ -196,17 +197,25 @@ page.createTabEntry = function(tabId) {
 // Page reload or tab switch clears the cache.
 // If the retrieval is forced (from Credential Banner), get new credentials normally.
 page.retrieveCredentials = async function(tab, args = []) {
+    if (!tab?.active) {
+        return [];
+    }
+
     const [ url, submitUrl, force ] = args;
     if (page.tabs[tab.id]?.credentials.length > 0 && !force) {
         return page.tabs[tab.id].credentials;
     }
 
-    // Ignore duplicate requests
-    if (page.currentRequest.url === url && page.currentRequest.submitUrl === submitUrl && !force) {
+    // Ignore duplicate requests from the same tab
+    if (page.currentRequest.url === url
+        && page.currentRequest.submitUrl === submitUrl
+        && page.currentRequest.tabId === tab.id
+        && !force) {
         return [];
     } else {
         page.currentRequest.url = url;
         page.currentRequest.submitUrl = submitUrl;
+        page.currentRequest.tabId = tab.id;
     }
 
     const credentials = await keepass.retrieveCredentials(tab, args);
@@ -301,8 +310,8 @@ page.updateContextMenu = async function(tab, credentials) {
             // Show username inside [] if there are KPH attributes inside multiple credentials
             const attributeName = Object.keys(attribute)[0].slice(5);
             const finalName = credentials.length > 1
-                            ? `[${cred.login}] ${attributeName}`
-                            : attributeName;
+                ? `[${cred.login}] ${attributeName}`
+                : attributeName;
 
             page.attributeMenuItemIds.push(createContextMenuItem({
                 action: 'fill_attribute',
@@ -312,6 +321,10 @@ page.updateContextMenu = async function(tab, credentials) {
             }));
         }
     }
+};
+
+page.updatePopup = function(tab) {
+    browserAction.showDefault(tab);
 };
 
 const createContextMenuItem = function({ action, args, ...options }) {

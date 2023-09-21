@@ -168,18 +168,18 @@ keepass.retrieveCredentials = async function(tab, args = []) {
 
 keepass.generatePassword = async function(tab) {
     if (!keepass.isConnected) {
-        return [];
+        return undefined;
     }
 
     try {
         const taResponse = await keepass.testAssociation(tab);
         if (!taResponse) {
             browserAction.showDefault(tab);
-            return [];
+            return '';
         }
 
         if (!keepass.compareVersion(keepass.requiredKeePassXC, keepass.currentKeePassXC)) {
-            return [];
+            return '';
         }
 
         let password;
@@ -204,7 +204,7 @@ keepass.generatePassword = async function(tab) {
         return password;
     } catch (err) {
         logError(`generatePassword failed: ${err}`);
-        return [];
+        return undefined;
     }
 };
 
@@ -241,7 +241,7 @@ keepass.associate = async function(tab) {
             keepass.associated.value = true;
             keepass.associated.hash = response.hash || 0;
 
-            browserAction.show(tab);
+            browserAction.showDefault(tab);
             return AssociatedAction.NEW_ASSOCIATION;
         }
 

@@ -30,28 +30,28 @@ kpxcFill.fillInFromActiveElement = async function(passOnly = false) {
         return;
     }
 
-    if (kpxc.combinations.length > 0 && kpxc.settings.autoCompleteUsernames) {
-        if (await kpxcFill.fillFromCombination(passOnly)) {
+    const elem = document.activeElement;
+    if (kpxc.combinations.length > 0) {
+        if (await kpxcFill.fillFromCombination(elem, passOnly)) {
             // Combination found and filled
             return;
         }
     }
 
     // No previous combinations detected. Create a new one from active element
-    const el = document.activeElement;
-    const combination = await kpxc.createCombination(el, passOnly);
+    const combination = await kpxc.createCombination(elem, passOnly);
 
     await sendMessage('page_set_login_id', kpxc.credentials[0].uuid);
     kpxcFill.fillInCredentials(combination, kpxc.credentials[0].login, kpxc.credentials[0].uuid, passOnly);
 };
 
 // Fill from combination, if found
-kpxcFill.fillFromCombination = async function(passOnly) {
+kpxcFill.fillFromCombination = async function(elem, passOnly) {
     const combination = passOnly
-        ? kpxc.combinations.find(c => c.password)
-        : kpxc.combinations.find(c => c.username);
+        ? kpxc.combinations.find(c => c.password === elem) ?? kpxc.combinations.find(c => c.password)
+        : kpxc.combinations.find(c => c.username === elem) ?? kpxc.combinations.find(c => c.username);
     if (!combination) {
-        logDebug('Error: No combination found.');
+        logDebug('Error: No username/password field combination found.');
         return false;
     }
 
@@ -64,7 +64,7 @@ kpxcFill.fillFromCombination = async function(passOnly) {
     // Set focus to the input field
     field.focus();
 
-    if (kpxc.credentials.length > 1) {
+    if (kpxc.credentials.length > 1 && kpxc.settings.autoCompleteUsernames) {
         // More than one credential -> show autocomplete list
         kpxcUserAutocomplete.showList(field);
     } else {
@@ -115,7 +115,7 @@ kpxcFill.fillFromTOTP = async function(target) {
     const el = target || document.activeElement;
     const credentialList = await kpxc.updateTOTPList();
 
-    if (credentialList?.length === 0) {
+    if (!credentialList || credentialList?.length === 0) {
         kpxcUI.createNotification('warning', tr('credentialsNoTOTPFound'));
         return;
     }
