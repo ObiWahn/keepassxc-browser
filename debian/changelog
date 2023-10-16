@@ -1,3 +1,10 @@
+keepassxc-browser (1.8.9+repack1-1) unstable; urgency=medium
+
+  * New upstream release
+    + Refreshed chromium-extension-key.patch
+
+ -- Bruno Kleinert <fuddl@debian.org>  Mon, 16 Oct 2023 19:22:26 +0200
+
 keepassxc-browser (1.8.8.1+repack1-1) unstable; urgency=medium
 
   * New upstream release
