@@ -15,7 +15,8 @@ kpxcEvent.onMessage = async function(request, sender) {
 
 kpxcEvent.showStatus = async function(tab, configured, internalPoll) {
     let keyId = null;
-    if (configured && keepass.databaseHash !== '') {
+    if (configured && keepass.databaseHash !== ''
+        && Object.hasOwn(keepass.databaseHash, keepass.databaseHash)) {
         keyId = keepass.keyRing[keepass.databaseHash].id;
     }
 
@@ -91,7 +92,7 @@ kpxcEvent.onGetStatus = async function(tab, args = []) {
 kpxcEvent.onReconnect = async function(tab) {
     const configured = await keepass.reconnect(tab);
     if (configured) {
-        browser.tabs.sendMessage(tab.id, {
+        browser.tabs.sendMessage(tab?.id, {
             action: 'redetect_fields'
         }).catch((err) => {
             logError(err);
@@ -242,6 +243,7 @@ kpxcEvent.messageHandlers = {
     'get_connected_database': kpxcEvent.onGetConnectedDatabase,
     'get_database_hash': keepass.getDatabaseHash,
     'get_database_groups': keepass.getDatabaseGroups,
+    'get_error_message': keepass.getErrorMessage,
     'get_keepassxc_versions': kpxcEvent.onGetKeePassXCVersions,
     'get_login_list': page.getLoginList,
     'get_status': kpxcEvent.onGetStatus,
@@ -265,6 +267,8 @@ kpxcEvent.messageHandlers = {
     'page_set_login_id': page.setLoginId,
     'page_set_manual_fill': page.setManualFill,
     'page_set_submitted': page.setSubmitted,
+    'passkeys_get': keepass.passkeysGet,
+    'passkeys_register': keepass.passkeysRegister,
     'password_get_filled': kpxcEvent.passwordGetFilled,
     'password_set_filled': kpxcEvent.passwordSetFilled,
     'popup_login': kpxcEvent.onLoginPopup,

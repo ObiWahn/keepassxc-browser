@@ -327,6 +327,16 @@ options.showKeePassXCVersions = async function(response) {
     if (!version270Result) {
         $('#tab-general-settings #downloadFaviconAfterSaveFormGroup').hide();
     }
+
+    // Hide certain options with older KeePassXC versions than 2.8.0
+    const version280Result = await browser.runtime.sendMessage({
+        action: 'compare_version',
+        args: [ '2.8.0', response.current ]
+    });
+
+    if (!version280Result) {
+        $('#tab-general-settings #passkeysOptionsCard').hide();
+    }
 };
 
 options.getPartiallyHiddenKey = function(key) {
@@ -370,7 +380,11 @@ options.initConnectedDatabases = function() {
         const closestTr = this.closest('tr');
         $('#dialogDeleteConnectedDatabase').setAttribute('hash', closestTr.getAttribute('hash'));
         $('#dialogDeleteConnectedDatabase').setAttribute('tr-id', closestTr.getAttribute('id'));
-        $('#dialogDeleteConnectedDatabase .modal-body strong').textContent = closestTr.children[0].textContent;
+
+        const identifier = $('#dialogDeleteConnectedDatabase .modal-body strong');
+        if (identifier) {
+            identifier.textContent = closestTr.children[0].textContent;
+        }
 
         dialogDeleteConnectedDatabaseModal.show();
         $('#dialogDeleteConnectedDatabase').addEventListener('shown.bs.modal', function(modalEvent) {
