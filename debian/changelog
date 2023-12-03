@@ -1,3 +1,9 @@
+keepassxc-browser (1.8.10+repack1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Bruno Kleinert <fuddl@debian.org>  Sun, 03 Dec 2023 07:21:19 +0100
+
 keepassxc-browser (1.8.9+repack1-1) unstable; urgency=medium
 
   * New upstream release
