@@ -1,7 +1,7 @@
 Index: keepassxc-browser/keepassxc-browser/options/options.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/options.html	2023-02-05 11:05:22.120285962 +0100
-+++ keepassxc-browser/keepassxc-browser/options/options.html	2023-02-05 13:10:33.525453364 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/options.html	2024-01-09 17:34:03.514811502 +0100
++++ keepassxc-browser/keepassxc-browser/options/options.html	2024-01-09 17:34:03.510811474 +0100
 @@ -5,7 +5,7 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -19,11 +19,11 @@ Index: keepassxc-browser/keepassxc-browser/options/options.html
 +    <script src="../bootstrap/bootstrap.js"></script>
      <script src="options.js"></script>
      <script src="../common/translate.js" defer></script>
-   </head>
+     <script>
 Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2023-02-05 11:05:22.120285962 +0100
-+++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2023-02-05 13:12:34.209204529 +0100
+--- keepassxc-browser.orig/keepassxc-browser/options/shortcuts.html	2024-01-09 17:34:03.514811502 +0100
++++ keepassxc-browser/keepassxc-browser/options/shortcuts.html	2024-01-09 17:34:03.510811474 +0100
 @@ -4,14 +4,14 @@
      <title data-i18n="popupTitle"></title>
      <meta charset="UTF-8">
@@ -43,8 +43,8 @@ Index: keepassxc-browser/keepassxc-browser/options/shortcuts.html
      <script defer src="../common/translate.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2023-02-05 11:05:22.120285962 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup.html	2023-02-05 13:13:05.877127230 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup.html	2024-01-09 17:34:03.514811502 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup.html	2024-01-09 17:34:03.510811474 +0100
 @@ -5,11 +5,11 @@
      <meta charset="UTF-8">
      <link rel="stylesheet" href="../css/colors.css">
@@ -61,8 +61,8 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup.html
      <script defer src="../common/translate.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2023-02-05 11:05:22.120285962 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2023-02-05 13:13:22.777084155 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_httpauth.html	2024-01-09 17:34:03.514811502 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html	2024-01-09 17:34:03.510811474 +0100
 @@ -5,11 +5,11 @@
      <meta charset="UTF-8">
      <link rel="stylesheet" href="../css/colors.css">
@@ -79,8 +79,8 @@ Index: keepassxc-browser/keepassxc-browser/popups/popup_httpauth.html
      <script defer src="../common/translate.js"></script>
 Index: keepassxc-browser/keepassxc-browser/popups/popup_login.html
 ===================================================================
---- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2023-02-05 11:05:22.120285962 +0100
-+++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2023-02-05 13:13:44.453027134 +0100
+--- keepassxc-browser.orig/keepassxc-browser/popups/popup_login.html	2024-01-09 17:34:03.514811502 +0100
++++ keepassxc-browser/keepassxc-browser/popups/popup_login.html	2024-01-09 17:34:03.510811474 +0100
 @@ -5,11 +5,11 @@
      <meta charset="UTF-8">
      <link rel="stylesheet" href="../css/colors.css">

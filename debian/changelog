@@ -1,3 +1,10 @@
+keepassxc-browser (1.8.11+repack1-1) unstable; urgency=medium
+
+  * New upstream release 
+    + Refreshed fix-bootstrap-includes.patch
+
+ -- Bruno Kleinert <fuddl@debian.org>  Tue, 09 Jan 2024 17:30:24 +0100
+
 keepassxc-browser (1.8.10+repack1-1) unstable; urgency=medium
 
   * New upstream release
