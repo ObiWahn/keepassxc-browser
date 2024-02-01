@@ -13,11 +13,11 @@ Files-Excluded: .github
   keepassxc-browser/fonts/forkawesome-webfont.woff2
 
 Files: *
-Copyright: 2017-2023, KeePassXC team <team@keepassxc.org>
+Copyright: 2017-2024, KeePassXC team <team@keepassxc.org>
 License: GPL-3
 
 Files: debian/*
-Copyright: 2018-2023, Bruno Kleinert <fuddl@debian.org>
+Copyright: 2018-2024, Bruno Kleinert <fuddl@debian.org>
 License: GPL-3
 
 Files: debian/missing-sources/browser-polyfill.js
@@ -29,7 +29,7 @@ Copyright: 2017-2020, TweetNaCl-Util-js contributors, https://github.com/dchest/
 License: public-domain
 
 Files: keepassxc-browser/options/shortcuts.js
-Copyright: 2017-2022, KeePassXC team <team@keepassxc.org>
+Copyright: 2017-2024, KeePassXC team <team@keepassxc.org>
 License: MPL-2.0
 
 License: GPL-3
